@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui'
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router'
 import { createClient } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -18,10 +18,8 @@ const ProjectById = () => {
 
   useEffect(() => {
     // We only need to make a call to Contentful API if app context does
-    // not already contain this project's data.
-    const projectDataLoaded = projectsData.hasOwnProperty(id);
-
-    if (projectsMetadata && !projectDataLoaded) {
+    // not already contain this project's data
+    if (projectsMetadata && !projectsData.hasOwnProperty(id)) {
       const client = createClient({
         space: process.env.NEXT_PUBLIC_SPACE,
         accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
