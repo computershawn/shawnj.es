@@ -19,8 +19,8 @@ export default () => {
   useEffect(() => {
     // TODO: We should only call on Contentful if we don't have this project
     // stored in app context. Change this so that it checks first if the id
-    // is present in projectsData. If already present, we don't need make
-    // the API call
+    // is present in projectsData (from app context). If already present, we
+    // can grab it from there instead of making the API call
     if (projectsMetadata) {
       const client = createClient({
         space: process.env.NEXT_PUBLIC_SPACE,
