@@ -1,4 +1,4 @@
-export default () => (
+const Spinner = () => (
   <>
     <style jsx>{`
       .lds-ring {
@@ -46,3 +46,5 @@ export default () => (
     </div>
   </>
 );
+
+export default Spinner;

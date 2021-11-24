@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link'
 
-export default ({ project }) => {
+const CardIndexPage = ({ project }) => {
   const { id, thumbnail, title, summary } = project;
 
   const cardStyle = {
@@ -9,7 +9,7 @@ export default ({ project }) => {
   };
 
   const cardH4Style = {
-    margin: '0.5rem 0;',
+    margin: '0.5rem 0',
   };
 
   return (
@@ -26,3 +26,5 @@ export default ({ project }) => {
     </div>
   );
 };
+
+export default CardIndexPage;

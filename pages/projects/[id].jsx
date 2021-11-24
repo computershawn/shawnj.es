@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from 'theme-ui'
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import { createClient } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -9,7 +9,7 @@ import { BLOCKS } from "@contentful/rich-text-types";
 import Spinner from '../../src/components/Spinner';
 import { store } from '../../src/providers/store';
 
-export default () => {
+const ProjectById = () => {
   const router = useRouter()
   const { id } = router.query
 
@@ -17,11 +17,11 @@ export default () => {
   const { dispatch, state: { projectsData, projectsMetadata } } = globalState;
 
   useEffect(() => {
-    // TODO: We should only call on Contentful if we don't have this project
-    // stored in app context. Change this so that it checks first if the id
-    // is present in projectsData (from app context). If already present, we
-    // can grab it from there instead of making the API call
-    if (projectsMetadata) {
+    // We only need to make a call to Contentful API if app context does
+    // not already contain this project's data.
+    const projectDataLoaded = projectsData.hasOwnProperty(id);
+
+    if (projectsMetadata && !projectDataLoaded) {
       const client = createClient({
         space: process.env.NEXT_PUBLIC_SPACE,
         accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
@@ -35,11 +35,11 @@ export default () => {
               id,
               content: ent.fields.projectContent,
             },
-          });  
+          });
         })
         .catch(console.error);
     }
-  }, [projectsMetadata]);
+  }, [projectsData, projectsMetadata]);
 
   const renderOptions = {
     renderNode: {
@@ -70,3 +70,5 @@ export default () => {
 
   return <Spinner />
 }
+
+export default ProjectById;
