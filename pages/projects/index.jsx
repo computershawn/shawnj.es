@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx } from 'theme-ui'
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 
 import Card from '../../src/components/Card';
 import { store } from '../../src/providers/store';
@@ -15,7 +13,7 @@ const ProjectsIndexPage = () => {
   };
 
   return (
-    <div sx={{variant: 'containers.page'}}>
+    <div>
       <h1>werk</h1>
       <div style={gridWrapperStyle}>
         {projectsMetadata.map(proj => <Card key={proj.id} project={proj} />)}
