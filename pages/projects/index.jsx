@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
+import Link from 'next/link'
 
 import Card from '../../src/components/Card';
+import Grid from '../../src/components/Grid';
 import { store } from '../../src/providers/store';
 
 const ProjectsIndexPage = () => {
@@ -13,12 +15,17 @@ const ProjectsIndexPage = () => {
   };
 
   return (
-    <div>
-      <h1>werk</h1>
-      <div style={gridWrapperStyle}>
-        {projectsMetadata.map(proj => <Card key={proj.id} project={proj} />)}
-      </div>
-    </div>
+    <Grid>
+      {projectsMetadata.map(proj => (
+        <div key={proj.id}>
+          <Link key={proj.id} href="/projects/[proj.id]" as={`/projects/${proj.id}`}>
+            <a>
+              <img src={proj.thumbnail} alt={proj.title} />
+            </a>
+          </Link>
+        </div>
+      ))}
+    </Grid>
   )
 };
 

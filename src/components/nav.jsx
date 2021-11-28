@@ -16,7 +16,7 @@ const Nav = () => {
 
   if (process.env.NODE_ENV === 'development') {
     useEffect(() => {
-      console.log("Mocking project data temporarily so we don't need to call Contentful every page refresh");
+      console.log("[Mocking project data temporarily so we don't need to call Contentful every page refresh]");
       
       dispatch({
         type: 'SET_PROJECTS_METADATA',
@@ -82,8 +82,13 @@ const Nav = () => {
         <Link href="/projects">
           <a>Werk</a>
         </Link>
+
+        {" | "}
+
+        <Link href="/temp">
+          <a>Grid Example</a>
+        </Link>
       </nav>
-      <hr />
     </header>
   )}
 
