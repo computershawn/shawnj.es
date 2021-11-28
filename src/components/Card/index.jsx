@@ -5,7 +5,7 @@ const CardIndexPage = ({ project }) => {
   const { id, thumbnail, title, summary } = project;
 
   const cardStyle = {
-    width: '30%',
+    width: '360px',
   };
 
   const cardH4Style = {
@@ -17,10 +17,10 @@ const CardIndexPage = ({ project }) => {
       <Link key={id} href="/projects/[id]" as={`/projects/${id}`}>
         <a>
           <img src={thumbnail} alt={title} style={{ width: "100%" }} />
-          <div>
+          {/* <div>
             <h4 style={cardH4Style}>{title}</h4>
             <p>{summary}</p>
-          </div>
+          </div> */}
         </a>
       </Link>
     </div>

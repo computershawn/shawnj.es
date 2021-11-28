@@ -11,7 +11,7 @@ const ProjectsIndexPage = () => {
 
   const gridWrapperStyle = {
     display: 'flex',
-    justifyContent: 'center',
+    flexWrap: 'wrap',
   };
 
   return (

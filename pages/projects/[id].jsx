@@ -16,28 +16,31 @@ const ProjectById = () => {
   const globalState = useContext(store);
   const { dispatch, state: { projectsData, projectsMetadata } } = globalState;
 
-  useEffect(() => {
-    // We only need to make a call to Contentful API if app context does
-    // not already contain this project's data
-    if (projectsMetadata && !projectsData.hasOwnProperty(id)) {
-      const client = createClient({
-        space: process.env.NEXT_PUBLIC_SPACE,
-        accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
-      });
+  if (process.env.NODE_ENV !== 'development') {
+    useEffect(() => {
+      // We only need to make a call to Contentful API if app context does
+      // not already contain this project's data
+      if (projectsMetadata && !projectsData.hasOwnProperty(id)) {
+        console.log("Getting data for this project...");
+        const client = createClient({
+          space: process.env.NEXT_PUBLIC_SPACE,
+          accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
+        });
 
-      client.getEntry(id, { content_type: 'work', select: 'fields.projectContent' })
-        .then(ent => {
-          dispatch({
-            type: 'SET_PROJECTS_DATA',
-            payload: {
-              id,
-              content: ent.fields.projectContent,
-            },
-          });
-        })
-        .catch(console.error);
-    }
-  }, [projectsData, projectsMetadata]);
+        client.getEntry(id, { content_type: 'work', select: 'fields.projectContent' })
+          .then(ent => {
+            dispatch({
+              type: 'SET_PROJECTS_DATA',
+              payload: {
+                id,
+                content: ent.fields.projectContent,
+              },
+            });
+          })
+          .catch(console.error);
+      }
+    }, [projectsData, projectsMetadata]);
+  }
 
   const renderOptions = {
     renderNode: {
@@ -58,8 +61,9 @@ const ProjectById = () => {
 
   if (projectsData.hasOwnProperty(id)) {
     const projectTitle = projectsMetadata.find(p => p.id === id).title;
+
     return (
-        <div style={{ maxWidth: '960px' }}>
+        <div>
           <h1>{projectTitle}</h1>
           <div>{documentToReactComponents(projectsData[id], renderOptions)}</div>
         </div>
