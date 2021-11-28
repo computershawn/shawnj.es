@@ -1,5 +1,4 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
-// import theme from '../theme'
 import Nav from '../src/components/nav'
 import { StateProvider } from '../src/providers/store';
 

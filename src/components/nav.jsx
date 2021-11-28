@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import { store } from '../../src/providers/store';
 import { mockProjectsMetadata, mockProjectsData } from '../mocks/mockProjectData';
+import NavIcon from './NavIcon';
 
 const Nav = () => {
   const globalState = useContext(store);
@@ -66,28 +67,34 @@ const Nav = () => {
 
   return (
     <header style={{ width: '100%' }}>
-      <nav style={{ margin: '1rem' }}>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
+      <nav style={{ fontSize: '0.9rem', margin: '1rem' }}>
+        {/* <Link href="/">
+          <a>HOME</a>
+        </Link> */}
 
-        {" | "}
-
-        <Link href="/notes">
-          <a>Notes</a>
-        </Link>
-
-        {" | "}
+        {/* <Link href="/notes">
+          <a>NOTES</a>
+        </Link> */}
 
         <Link href="/projects">
-          <a>Werk</a>
+          <a>WERK</a>
         </Link>
+        
+        <a href="http://cargocollective.com/designcpu" target="_blank">
+          SJ×MDP
+        </a>
 
-        {" | "}
+        <a href="https://www.linkedin.com/in/shawnjdesign" target="_blank">
+          <NavIcon option="linkedin" />
+        </a>
 
-        <Link href="/temp">
-          <a>Grid Example</a>
-        </Link>
+        <a href="https://github.com/computershawn" target="_blank">
+          <NavIcon option="github" />
+        </a>
+
+        <a href="mailto:hello@shawnj.es?Subject=Hello">
+          <NavIcon option="email" />
+        </a>
       </nav>
     </header>
   )}

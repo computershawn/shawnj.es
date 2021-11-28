@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Link from 'next/link'
 
-import Card from '../../src/components/Card';
+// import Card from '../../src/components/Card';
 import Grid from '../../src/components/Grid';
 import { store } from '../../src/providers/store';
 
