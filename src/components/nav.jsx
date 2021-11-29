@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { createClient } from 'contentful';
-import Link from 'next/link'
+import Link from 'next/link';
+import styled from 'styled-components';
 
 import { store } from '../../src/providers/store';
 import { mockProjectsMetadata, mockProjectsData } from '../mocks/mockProjectData';
@@ -76,13 +77,13 @@ const Nav = () => {
           <a>NOTES</a>
         </Link> */}
 
-        <Link href="/projects">
+        {/* <Link href="/projects">
           <a>WERK</a>
-        </Link>
-        
-        <a href="http://cargocollective.com/designcpu" target="_blank">
-          SJ×MDP
-        </a>
+        </Link> */}
+
+        <NavTextLink text="WORK" href="/projects" />
+
+        <NavTextLink text="SJ×MDP" href="http://cargocollective.com/designcpu" newTab />
 
         <a href="https://www.linkedin.com/in/shawnjdesign" target="_blank">
           <NavIcon option="linkedin" />
@@ -92,6 +93,12 @@ const Nav = () => {
           <NavIcon option="github" />
         </a>
 
+        {/* <NavIcon
+          option="github"
+          href="https://github.com/computershawn"
+          target="_blank"
+        /> */}
+
         <a href="mailto:hello@shawnj.es?Subject=Hello">
           <NavIcon option="email" />
         </a>
@@ -100,3 +107,50 @@ const Nav = () => {
   )}
 
 export default Nav
+
+const NavTextLinkContainer = styled.div`
+  display: inline-block;
+  margin-right: 2rem;
+`;
+
+const NavTextLink = ({ text, href, newTab }) => {
+  const linkIsInternal = !href.startsWith('http');
+  const t = newTab ? '_blank' : null;
+  const linkContent = linkIsInternal ? (
+    <Link href={href}>
+      <a>{text}</a>
+    </Link>
+  ) : (
+    <a href={href} target={t}>{text}</a>
+  );
+
+  return (
+    <NavTextLinkContainer>
+      {linkContent}
+      {/* <Link href={href}>
+        <a>{text}</a>
+      </Link> */}
+    </NavTextLinkContainer>
+  );
+};
+
+const NavIconLink = ({ text, href, newTab }) => {
+  const linkIsInternal = !href.startsWith('http');
+  const t = newTab ? '_blank' : null;
+  const linkContent = linkIsInternal ? (
+    <Link href={href}>
+      <a>{text}</a>
+    </Link>
+  ) : (
+    <a href={href} target={t}>{text}</a>
+  );
+
+  return (
+    <NavTextLinkContainer>
+      {linkContent}
+      {/* <Link href={href}>
+        <a>{text}</a>
+      </Link> */}
+    </NavTextLinkContainer>
+  );
+};
