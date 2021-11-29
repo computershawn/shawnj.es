@@ -1,9 +1,26 @@
 import React, { useEffect, useContext } from 'react';
 import { createClient } from 'contentful';
-import Link from 'next/link'
+import styled from 'styled-components';
 
-import { store } from '../../src/providers/store';
-import { mockProjectsMetadata, mockProjectsData } from '../mocks/mockProjectData';
+import { store } from '../../providers/store';
+import { mockProjectsMetadata, mockProjectsData } from '../../mocks/mockProjectData';
+import NavIcon from '../NavIcon';
+import NavTextLink from '../NavTextLink';
+import ShawnjLogo from '../../assets/shawnj-logo.svg';
+
+const StyledNav = styled.nav`
+  style={{ fontSize: '0.9rem', margin: '1rem' }}
+    font-size: 0.9rem;
+    margin: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `;
+
+const logoContainer = {
+    width: '60px',
+    height: '60px',
+};
 
 const Nav = () => {
   const globalState = useContext(store);
@@ -16,7 +33,7 @@ const Nav = () => {
 
   if (process.env.NODE_ENV === 'development') {
     useEffect(() => {
-      console.log("Mocking project data temporarily so we don't need to call Contentful every page refresh");
+      console.info("[Mocking project data temporarily so we don't need to call Contentful every page refresh]");
       
       dispatch({
         type: 'SET_PROJECTS_METADATA',
@@ -66,24 +83,34 @@ const Nav = () => {
 
   return (
     <header style={{ width: '100%' }}>
-      <nav style={{ margin: '1rem' }}>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
+      <StyledNav>
+        <div>
+          <NavTextLink text="WORK" href="/projects" className="current" />
 
-        {" | "}
+          <NavTextLink text="SJ×MDP" href="http://cargocollective.com/designcpu" newTab />
 
-        <Link href="/notes">
-          <a>Notes</a>
-        </Link>
+          <NavIcon
+            icon="linkedin"
+            href="https://www.linkedin.com/in/shawnjdesign"
+            newTab
+          />
 
-        {" | "}
+          <NavIcon
+            icon="github"
+            href="https://github.com/computershawn"
+            newTab
+          />
 
-        <Link href="/projects">
-          <a>Werk</a>
-        </Link>
-      </nav>
-      <hr />
+          <NavIcon
+            icon="email"
+            href="mailto:hello@shawnj.es?Subject=Hello"
+          />
+        </div>
+
+        <div style={logoContainer}>
+          <ShawnjLogo />
+        </div>
+      </StyledNav>
     </header>
   )}
 

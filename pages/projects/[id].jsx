@@ -21,7 +21,7 @@ const ProjectById = () => {
       // We only need to make a call to Contentful API if app context does
       // not already contain this project's data
       if (projectsMetadata && !projectsData.hasOwnProperty(id)) {
-        console.log("Getting data for this project...");
+        console.info("Getting data for this project...");
         const client = createClient({
           space: process.env.NEXT_PUBLIC_SPACE,
           accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
