@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Linkedin from '../../assets/linkedin-brands.svg';
 import GitHub from '../../assets/github-brands.svg';
 import Email from '../../assets/envelope-regular.svg';
+import Unlink from '../../assets/unlink-solid.svg';
 
 const IconWrapper = styled.div`
     margin-right: 2rem;
@@ -13,10 +14,14 @@ const IconWrapper = styled.div`
     vertical-align: -0.2rem;
   `;
 
-const NavIcon = ({ option = null }) => {
+const NavIcon = ({
+  icon = null,
+  href = "http://www.example.com",
+  newTab = false,
+}) => {
   let iconToRender;
 
-  switch(option) {
+  switch(icon) {
     case 'linkedin':
       iconToRender = <Linkedin />;
       break;
@@ -27,15 +32,14 @@ const NavIcon = ({ option = null }) => {
       iconToRender = <Email />;
       break;
     default:
-      iconToRender = <Linkedin />;
+      iconToRender = <Unlink />;
   }
 
   return (
-    // <div style={{marginRight: '2rem', display: 'inline-block', width: '1rem', height: '1rem'}}>
-    //   {iconToRender}
-    // </div>
     <IconWrapper>
-      {iconToRender}
+      <a href={href} target={newTab ? '_blank' : null}>
+        {iconToRender}
+      </a>
     </IconWrapper>
   );
 }

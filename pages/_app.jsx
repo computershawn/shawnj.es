@@ -1,5 +1,5 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
-import Nav from '../src/components/nav'
+import Nav from '../src/components/Nav';
 import { StateProvider } from '../src/providers/store';
 
 const GlobalStyle = createGlobalStyle`

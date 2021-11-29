@@ -9,6 +9,7 @@
     "@contentful/rich-text-types": "^15.7.0",
     "@svgr/webpack": "^5.5.0",
     "@theme-ui/presets": "^0.3.0",
+    "babel-plugin-styled-components": "^2.0.2",
     "contentful": "^9.1.4",
     "next": "^9.5.0",
     "react": "^16.13.1",
