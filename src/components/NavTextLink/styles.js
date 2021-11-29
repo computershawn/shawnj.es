@@ -6,6 +6,19 @@ const NavTextLinkContainer = styled.div`
 
   & > a {
     text-decoration: none;
+    transition: color 200ms ease-in-out;
+
+    &:visited, active {
+      color: #8a8a8a;
+    }
+
+    &:hover, active {
+      color: #222;
+    }
+
+    &.current {
+      color: #222;
+    }
   }
 `;
 

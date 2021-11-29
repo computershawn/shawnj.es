@@ -1,10 +1,26 @@
 import React, { useEffect, useContext } from 'react';
 import { createClient } from 'contentful';
+import styled from 'styled-components';
 
 import { store } from '../../providers/store';
 import { mockProjectsMetadata, mockProjectsData } from '../../mocks/mockProjectData';
 import NavIcon from '../NavIcon';
 import NavTextLink from '../NavTextLink';
+import ShawnjLogo from '../../assets/shawnj-logo.svg';
+
+const StyledNav = styled.nav`
+  style={{ fontSize: '0.9rem', margin: '1rem' }}
+    font-size: 0.9rem;
+    margin: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `;
+
+const logoContainer = {
+    width: '60px',
+    height: '60px',
+};
 
 const Nav = () => {
   const globalState = useContext(store);
@@ -67,29 +83,34 @@ const Nav = () => {
 
   return (
     <header style={{ width: '100%' }}>
-      <nav style={{ fontSize: '0.9rem', margin: '1rem' }}>
-        <NavTextLink text="WORK" href="/projects" />
+      <StyledNav>
+        <div>
+          <NavTextLink text="WORK" href="/projects" className="current" />
 
-        <NavTextLink text="SJ×MDP" href="http://cargocollective.com/designcpu" newTab />
+          <NavTextLink text="SJ×MDP" href="http://cargocollective.com/designcpu" newTab />
 
-        <NavIcon
-          icon="linkedin"
-          href="https://www.linkedin.com/in/shawnjdesign"
-          newTab
-        />
+          <NavIcon
+            icon="linkedin"
+            href="https://www.linkedin.com/in/shawnjdesign"
+            newTab
+          />
 
-        <NavIcon
-          icon="github"
-          href="https://github.com/computershawn"
-          newTab
-        />
+          <NavIcon
+            icon="github"
+            href="https://github.com/computershawn"
+            newTab
+          />
 
-        <NavIcon
-          icon="email"
-          href="mailto:hello@shawnj.es?Subject=Hello"
-        />
+          <NavIcon
+            icon="email"
+            href="mailto:hello@shawnj.es?Subject=Hello"
+          />
+        </div>
 
-      </nav>
+        <div style={logoContainer}>
+          <ShawnjLogo />
+        </div>
+      </StyledNav>
     </header>
   )}
 

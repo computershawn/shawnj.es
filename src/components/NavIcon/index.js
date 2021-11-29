@@ -12,12 +12,22 @@ const IconWrapper = styled.div`
     width: 0.9rem;
     height: 0.9rem;
     vertical-align: -0.2rem;
+
+    & > a > svg {
+      fill: #8a8a8a;
+      transition: fill 200ms ease-in-out;
+  
+      &:hover {
+        fill: #222;
+      }
+    }
   `;
 
 const NavIcon = ({
   icon = null,
   href = "http://www.example.com",
   newTab = false,
+  className,
 }) => {
   let iconToRender;
 
@@ -37,7 +47,7 @@ const NavIcon = ({
 
   return (
     <IconWrapper>
-      <a href={href} target={newTab ? '_blank' : null}>
+      <a className={className} href={href} target={newTab ? '_blank' : null}>
         {iconToRender}
       </a>
     </IconWrapper>
