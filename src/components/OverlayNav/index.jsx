@@ -16,13 +16,19 @@ const StyledOverlay = styled.div`
   background-color: rgba(0,0,0, 0.9);
   overflow-x: hidden;
   transition: height 0.36s cubic-bezier(0.25, 1, 0.5, 1);
+  display: flex;
+  flex-direction: column;
 
   & > .overlay-content {
     position: relative;
-    top: 25%;
     width: 100%;
     text-align: center;
-    margin-top: 30px;
+    margin: auto 0;
+    bottom: 2rem;
+
+    & > div:not(:last-child) {
+      margin-bottom: 1rem;
+    }
   }
 
   & a {
@@ -67,10 +73,17 @@ const IconContainer = styled.div`
   }
 `;
 
-const Overlay = ({ toggle, isOpen }) => {
+const OverlayNav = ({ toggle, isOpen }) => {
   const handleToggle = () => {
     toggle(isOpen);
   }
+
+  const links = [
+    { url: "http://cargocollective.com/designcpu", text: 'SJ×MDP', newTab: true},
+    { url: "https://www.linkedin.com/in/shawnjdesign", text: 'LINKEDIN', newTab: true},
+    { url: "https://github.com/computershawn", text: 'GITHUB', newTab: true},
+    { url: "mailto:hello@shawnj.es?Subject=Hello", text: 'CONTACT', newTab: false},
+  ];
 
   return (
     <StyledOverlay isOpen={isOpen}>
@@ -83,31 +96,23 @@ const Overlay = ({ toggle, isOpen }) => {
       </div>
 
       <div className="overlay-content">
-        <Link href="/projects">
-          <a>WORK</a>
-        </Link>
+        <div>
+          <Link href="/projects">
+            <a onClick={handleToggle}>WORK</a>
+          </Link>
+        </div>
+        {links.map(link => {
+          const target = link.newTab ? '_blank' : null;
 
-        <a href="http://cargocollective.com/designcpu" target="_blank">SJ×MDP</a>
-
-        <NavIcon
-          icon="linkedin"
-          href="https://www.linkedin.com/in/shawnjdesign"
-          newTab
-        />
-
-        <NavIcon
-          icon="github"
-          href="https://github.com/computershawn"
-          newTab
-        />
-
-        <NavIcon
-          icon="email"
-          href="mailto:hello@shawnj.es?Subject=Hello"
-        />
+          return (
+            <div key={link.text}>
+              <a onClick={handleToggle} href={link.url} target={target}>{link.text}</a>
+            </div>
+          );
+        })}
       </div>
     </StyledOverlay>
   );
 };
 
-export default Overlay;
+export default OverlayNav;
