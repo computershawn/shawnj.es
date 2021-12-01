@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { createClient } from 'contentful';
 import styled from 'styled-components';
 
@@ -6,21 +6,45 @@ import { store } from '../../providers/store';
 import { mockProjectsMetadata, mockProjectsData } from '../../mocks/mockProjectData';
 import NavIcon from '../NavIcon';
 import NavTextLink from '../NavTextLink';
+import MenuButton from '../MenuButton';
+import OverlayNav from '../OverlayNav';
 import ShawnjLogo from '../../assets/shawnj-logo.svg';
 
 const StyledNav = styled.nav`
-  style={{ fontSize: '0.9rem', margin: '1rem' }}
     font-size: 0.9rem;
     margin: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    & .desktop-nav {
+      display: none;
+    }
+
+    & .mobile-menu-toggle {
+      display: block;
+    }
+    
+    @media screen and (min-width: 480px) {
+      & .desktop-nav {
+        display: block;
+      }
+
+      & .mobile-menu-toggle {
+        display: none;
+      }
+    }
   `;
 
-const logoContainer = {
-    width: '60px',
-    height: '60px',
-};
+const LogoContainer = styled.div`
+    width: 40px;
+    height: 40px;
+
+    @media screen and (min-width: 480px) {
+      width: 60px;
+      height: 60px;  
+    }
+  `;
 
 const Nav = () => {
   const globalState = useContext(store);
@@ -34,7 +58,7 @@ const Nav = () => {
   if (process.env.NODE_ENV === 'development') {
     useEffect(() => {
       console.info("[Mocking project data temporarily so we don't need to call Contentful every page refresh]");
-      
+
       dispatch({
         type: 'SET_PROJECTS_METADATA',
         payload: mockProjectsMetadata,
@@ -56,7 +80,7 @@ const Nav = () => {
   } else {
     useEffect(() => {
       // const fieldsToGet = 'fields.slug,fields.summary,fields.thumbnail,fields.title';
-      const fieldsToGet = ['slug','summary','thumbnail','title'];
+      const fieldsToGet = ['slug', 'summary', 'thumbnail', 'title'];
       client.getEntries({
         content_type: 'work',
         select: fieldsToGet.map(f => `fields.${f}`).join(',')
@@ -81,37 +105,59 @@ const Nav = () => {
     }, []);
   }
 
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+
+  const openMenu = () => {
+    setMenuIsOpen(true);
+  }
+
+  const dismissMenu = () => {
+    setMenuIsOpen(false);
+  }
+
+  const toggle = () => {
+    if (menuIsOpen) {
+      setMenuIsOpen(false);
+    } else {
+      setMenuIsOpen(true);
+    }
+  }
+
   return (
-    <header style={{ width: '100%' }}>
-      <StyledNav>
-        <div>
-          <NavTextLink text="WORK" href="/projects" className="current" />
-
-          <NavTextLink text="SJ×MDP" href="http://cargocollective.com/designcpu" newTab />
-
-          <NavIcon
-            icon="linkedin"
-            href="https://www.linkedin.com/in/shawnjdesign"
-            newTab
-          />
-
-          <NavIcon
-            icon="github"
-            href="https://github.com/computershawn"
-            newTab
-          />
-
-          <NavIcon
-            icon="email"
-            href="mailto:hello@shawnj.es?Subject=Hello"
-          />
-        </div>
-
-        <div style={logoContainer}>
-          <ShawnjLogo />
-        </div>
-      </StyledNav>
-    </header>
-  )}
+    <>
+      <header style={{ width: '100%' }}>
+        <StyledNav>
+          <div>
+            <div className="desktop-nav">
+              <NavTextLink text="WORK" href="/projects" className="current" />
+              <NavTextLink text="SJ×MDP" href="http://cargocollective.com/designcpu" newTab />
+              <NavIcon
+                icon="linkedin"
+                href="https://www.linkedin.com/in/shawnjdesign"
+                newTab
+              />
+              <NavIcon
+                icon="github"
+                href="https://github.com/computershawn"
+                newTab
+              />
+              <NavIcon
+                icon="email"
+                href="mailto:hello@shawnj.es?Subject=Hello"
+              />
+            </div>
+            <div className="mobile-menu-toggle">
+              <MenuButton onClick={toggle} />
+            </div>
+          </div>
+          <LogoContainer>
+            <ShawnjLogo />
+          </LogoContainer>
+        </StyledNav>
+      </header>
+      <OverlayNav toggle={toggle} isOpen={menuIsOpen} />
+    </>
+  )
+}
 
 export default Nav

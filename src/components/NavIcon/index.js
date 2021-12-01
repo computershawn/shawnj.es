@@ -28,6 +28,7 @@ const NavIcon = ({
   href = "http://www.example.com",
   newTab = false,
   className,
+  clickCallback,
 }) => {
   let iconToRender;
 
@@ -47,7 +48,7 @@ const NavIcon = ({
 
   return (
     <IconWrapper>
-      <a className={className} href={href} target={newTab ? '_blank' : null}>
+      <a onClick={clickCallback} className={className} href={href} target={newTab ? '_blank' : null}>
         {iconToRender}
       </a>
     </IconWrapper>
