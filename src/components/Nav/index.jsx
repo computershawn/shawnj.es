@@ -64,6 +64,16 @@ const Nav = () => {
         payload: mockProjectsMetadata,
       });
 
+      const idLookup = {};
+      mockProjectsMetadata.forEach(proj => {
+        idLookup[proj.slug] = proj.id;
+      });
+
+      dispatch({
+        type: 'SET_SLUG_IDS',
+        payload: idLookup,
+      });
+
       mockProjectsMetadata.forEach(pd => {
         const { id } = pd;
         const content = mockProjectsData[pd.id];
@@ -98,6 +108,16 @@ const Nav = () => {
             type: 'SET_PROJECTS_METADATA',
             payload: works,
           });
+
+          const idLookup = {};
+          works.forEach(proj => {
+            idLookup[proj.slug] = proj.id;
+          });
+    
+          dispatch({
+            type: 'SET_SLUG_IDS',
+            payload: idLookup,
+          });    
         })
         .catch((e) => {
           console.error(e);

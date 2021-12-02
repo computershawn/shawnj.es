@@ -1,16 +1,9 @@
 import React, { createContext, useReducer } from 'react';
 
 const initialState = {
-  // appData: {
-  //   rows: [1],
-  //   rowsData: [],
-  //   columns: [],
-  //   dataName: '',
-  // },
   projectsMetadata: [],
   projectsData: {},
-  // graphData: {},
-  // conversation: [],
+  idLookup: {},
 };
 
 const store = createContext(initialState);
@@ -22,19 +15,6 @@ const StateProvider = ({ children }) => {
     let updatedState;
 
     switch (action.type) {
-      case 'SET_APP_DATA':
-        updatedState = {
-          ...prevState,
-          appData: {
-            rows: action.payload.rows,
-            rowsData: action.payload.rowsData,
-            columns: action.payload.columns,
-            dataName: action.payload.dataName,
-          },
-        };
-
-        return updatedState;
-
       case 'SET_PROJECTS_METADATA':
         updatedState = {
           ...prevState,
@@ -56,28 +36,16 @@ const StateProvider = ({ children }) => {
 
         return updatedState;
 
-      case 'SET_GRAPH_DATA':
+      case 'SET_SLUG_IDS':
         updatedState = {
           ...prevState,
-          graphData: {
-            ...prevState.graphData,
-            [action.payload.id]: action.payload.data,
-          },
+          idLookup: action.payload,
         };
 
         return updatedState;
-
-      case 'SET_CONVERSATION':
-        updatedState = {
-          ...prevState,
-          conversation: action.payload.updatedConversation,
-        };
-
-        return updatedState;
-
+  
       case 'CLEAR_DATA':
         return initialState;
-
 
       default:
         throw new Error();
