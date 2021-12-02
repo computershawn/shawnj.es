@@ -15,11 +15,11 @@ const ProjectById = () => {
   const { slug } = router.query
 
   const globalState = useContext(store);
-  const { dispatch, state: { projectsData, projectsMetadata, idLookup } } = globalState;
+  const { dispatch, state: { projectsData, projectsMetadata, projectLookup } } = globalState;
 
   if (process.env.NODE_ENV !== 'development') {
     useEffect(() => {
-      const id = idLookup[slug];
+      const { id } = projectLookup[slug];
       // We only need to make a call to Contentful API if app context does
       // not already contain this project's data
       if (!isEmpty(projectsMetadata) && !projectsData.hasOwnProperty(id)) {
@@ -61,9 +61,7 @@ const ProjectById = () => {
   };
 
   if (!isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
-    const proj = projectsMetadata.find(p => p.slug === slug);
-    const id = idLookup[slug];
-    const { title } = proj;
+    const { id, title } = projectLookup[slug];
 
     return (
         <div>

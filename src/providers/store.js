@@ -3,7 +3,7 @@ import React, { createContext, useReducer } from 'react';
 const initialState = {
   projectsMetadata: [],
   projectsData: {},
-  idLookup: {},
+  projectLookup: {},
 };
 
 const store = createContext(initialState);
@@ -36,10 +36,10 @@ const StateProvider = ({ children }) => {
 
         return updatedState;
 
-      case 'SET_SLUG_IDS':
+      case 'SET_SLUG_INFO':
         updatedState = {
           ...prevState,
-          idLookup: action.payload,
+          projectLookup: action.payload,
         };
 
         return updatedState;

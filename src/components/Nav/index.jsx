@@ -64,14 +64,17 @@ const Nav = () => {
         payload: mockProjectsMetadata,
       });
 
-      const idLookup = {};
+      const projectLookup = {};
       mockProjectsMetadata.forEach(proj => {
-        idLookup[proj.slug] = proj.id;
+        projectLookup[proj.slug] = {
+          id: proj.id,
+          title: proj.title,
+        }
       });
 
       dispatch({
-        type: 'SET_SLUG_IDS',
-        payload: idLookup,
+        type: 'SET_SLUG_INFO',
+        payload: projectLookup,
       });
 
       mockProjectsMetadata.forEach(pd => {
@@ -109,14 +112,17 @@ const Nav = () => {
             payload: works,
           });
 
-          const idLookup = {};
+          const projectLookup = {};
           works.forEach(proj => {
-            idLookup[proj.slug] = proj.id;
+            projectLookup[proj.slug] = {
+              id: proj.id,
+              title: proj.title,
+            }
           });
     
           dispatch({
-            type: 'SET_SLUG_IDS',
-            payload: idLookup,
+            type: 'SET_SLUG_INFO',
+            payload: projectLookup,
           });    
         })
         .catch((e) => {
