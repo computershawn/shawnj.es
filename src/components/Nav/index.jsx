@@ -3,7 +3,6 @@ import { createClient } from 'contentful';
 import styled from 'styled-components';
 
 import { store } from '../../providers/store';
-import { mockProjectsMetadata, mockProjectsData } from '../../mocks/mockProjectData';
 import NavIcon from '../NavIcon';
 import NavTextLink from '../NavTextLink';
 import MenuButton from '../MenuButton';
@@ -48,88 +47,51 @@ const LogoContainer = styled.div`
 
 const Nav = () => {
   const globalState = useContext(store);
-  const { dispatch, state: { projectsMetadata } } = globalState;
+  const { dispatch } = globalState;
 
   const client = createClient({
     space: process.env.NEXT_PUBLIC_SPACE,
     accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
   });
 
-  if (process.env.NODE_ENV === 'development') {
-    useEffect(() => {
-      console.info("[Mocking project data in local development mode]");
-
-      dispatch({
-        type: 'SET_PROJECTS_METADATA',
-        payload: mockProjectsMetadata,
-      });
-
-      const projectLookup = {};
-      mockProjectsMetadata.forEach(proj => {
-        projectLookup[proj.slug] = {
-          id: proj.id,
-          title: proj.title,
-        }
-      });
-
-      dispatch({
-        type: 'SET_SLUG_INFO',
-        payload: projectLookup,
-      });
-
-      mockProjectsMetadata.forEach(pd => {
-        const { id } = pd;
-        const content = mockProjectsData[pd.id];
+  useEffect(() => {
+    // const fieldsToGet = 'fields.slug,fields.summary,fields.thumbnail,fields.title';
+    const fieldsToGet = ['slug', 'summary', 'thumbnail', 'title'];
+    client.getEntries({
+      content_type: 'work',
+      select: fieldsToGet.map(f => `fields.${f}`).join(',')
+    })
+      .then((data) => {
+        const works = data.items.map(item => ({
+          slug: item.fields.slug,
+          summary: item.fields.summary,
+          thumbnail: item.fields.thumbnail.fields.file.url,
+          title: item.fields.title,
+          id: item.sys.id,
+        }));
 
         dispatch({
-          type: 'SET_PROJECTS_DATA',
-          payload: {
-            id,
-            content,
-          },
+          type: 'SET_PROJECTS_METADATA',
+          payload: works,
         });
-      });
-    }, []);
-  } else {
-    useEffect(() => {
-      // const fieldsToGet = 'fields.slug,fields.summary,fields.thumbnail,fields.title';
-      const fieldsToGet = ['slug', 'summary', 'thumbnail', 'title'];
-      client.getEntries({
-        content_type: 'work',
-        select: fieldsToGet.map(f => `fields.${f}`).join(',')
+
+        const projectLookup = {};
+        works.forEach(proj => {
+          projectLookup[proj.slug] = {
+            id: proj.id,
+            title: proj.title,
+          }
+        });
+  
+        dispatch({
+          type: 'SET_SLUG_INFO',
+          payload: projectLookup,
+        });    
       })
-        .then((data) => {
-          const works = data.items.map(item => ({
-            slug: item.fields.slug,
-            summary: item.fields.summary,
-            thumbnail: item.fields.thumbnail.fields.file.url,
-            title: item.fields.title,
-            id: item.sys.id,
-          }));
-
-          dispatch({
-            type: 'SET_PROJECTS_METADATA',
-            payload: works,
-          });
-
-          const projectLookup = {};
-          works.forEach(proj => {
-            projectLookup[proj.slug] = {
-              id: proj.id,
-              title: proj.title,
-            }
-          });
-    
-          dispatch({
-            type: 'SET_SLUG_INFO',
-            payload: projectLookup,
-          });    
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    }, []);
-  }
+      .catch((e) => {
+        console.error(e);
+      });
+  }, []);
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
