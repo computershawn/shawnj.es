@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-const MainIndexPage = () => {
-  return <p>¯\_(ツ)_/¯</p>;
+import Grid from '../src/components/Grid';
+import Card from '../src/components/Card';
+import { store } from '../src/providers/store';
+
+const ProjectsIndexPage = () => {
+  const globalState = useContext(store);
+  const { state: { projectsMetadata } } = globalState;
+
+  return (
+    <Grid>
+      {
+        projectsMetadata.map(proj => {
+          return (<Card key={proj.id} proj={proj} />);
+        })
+      }
+    </Grid>
+  );
 };
 
-export default MainIndexPage;
+export default ProjectsIndexPage;

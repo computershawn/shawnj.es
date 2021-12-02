@@ -155,7 +155,7 @@ const Nav = () => {
         <StyledNav>
           <div>
             <div className="desktop-nav">
-              <NavTextLink text="WORK" href="/projects" className="current" />
+              <NavTextLink text="WORK" href="/" className="current" />
               <NavTextLink text="SJ×MDP" href="http://cargocollective.com/designcpu" newTab />
               <NavIcon
                 icon="linkedin"

@@ -7,8 +7,8 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS } from "@contentful/rich-text-types";
 import isEmpty from 'lodash/isEmpty';
 
-import Spinner from '../../src/components/Spinner';
-import { store } from '../../src/providers/store';
+import Spinner from '../src/components/Spinner';
+import { store } from '../src/providers/store';
 
 const ProjectById = () => {
   const router = useRouter()
