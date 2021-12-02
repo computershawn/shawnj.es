@@ -25,6 +25,9 @@ const StyledNav = styled.nav`
     }
     
     @media screen and (min-width: 480px) {
+      margin: 1rem auto;
+      max-width: 960px;
+
       & .desktop-nav {
         display: block;
       }

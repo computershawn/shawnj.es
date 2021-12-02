@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
-import NavIcon from '../NavIcon';
 import DismissIcon from '../../assets/dismiss-icon.svg';
 import ClearBtn from '../ClearBtn';
 

@@ -1,14 +1,42 @@
-/** @jsx jsx */
-import { jsx } from 'theme-ui'
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router'
 import { createClient } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from "@contentful/rich-text-types";
 import isEmpty from 'lodash/isEmpty';
+import styled from 'styled-components';
 
 import Spinner from '../src/components/Spinner';
+import FooterNav from '../src/components/FooterNav';
 import { store } from '../src/providers/store';
+
+const ProjectContent = styled.div`
+  & > h1 {
+    margin: 2rem 0.5rem;
+  }
+
+  & div > h3 {
+    font-weight: 400;
+  }
+
+  & > div {
+    margin: 0 0.5rem;
+  }
+
+
+  @media screen and (min-width: 480px) {
+    max-width: 960px;
+    margin: 0 auto;
+
+    & > div {
+      margin: 0;
+    }
+
+    & > h1 {
+      margin: 2rem 0;
+    }  
+  }
+`;
 
 const ProjectById = () => {
   const router = useRouter()
@@ -65,10 +93,11 @@ const ProjectById = () => {
     const { id, title } = projectLookup[slug];
 
     return (
-        <div>
+        <ProjectContent>
           <h1>{title}</h1>
           <div>{documentToReactComponents(projectsData[id], renderOptions)}</div>
-        </div>
+          <FooterNav />
+        </ProjectContent>
     );    
   }
 
