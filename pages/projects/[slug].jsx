@@ -5,23 +5,24 @@ import { useRouter } from 'next/router'
 import { createClient } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from "@contentful/rich-text-types";
+import isEmpty from 'lodash/isEmpty';
 
 import Spinner from '../../src/components/Spinner';
 import { store } from '../../src/providers/store';
 
 const ProjectById = () => {
   const router = useRouter()
-  const { id } = router.query
+  const { slug } = router.query
 
   const globalState = useContext(store);
-  const { dispatch, state: { projectsData, projectsMetadata } } = globalState;
+  const { dispatch, state: { projectsData, projectsMetadata, projectLookup } } = globalState;
 
   if (process.env.NODE_ENV !== 'development') {
     useEffect(() => {
+      const { id } = projectLookup[slug];
       // We only need to make a call to Contentful API if app context does
       // not already contain this project's data
-      if (projectsMetadata && !projectsData.hasOwnProperty(id)) {
-        console.info("Getting data for this project...");
+      if (!isEmpty(projectsMetadata) && !projectsData.hasOwnProperty(id)) {
         const client = createClient({
           space: process.env.NEXT_PUBLIC_SPACE,
           accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
@@ -59,15 +60,15 @@ const ProjectById = () => {
     },
   };
 
-  if (projectsData.hasOwnProperty(id)) {
-    const projectTitle = projectsMetadata.find(p => p.id === id).title;
+  if (!isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
+    const { id, title } = projectLookup[slug];
 
     return (
         <div>
-          <h1>{projectTitle}</h1>
+          <h1>{title}</h1>
           <div>{documentToReactComponents(projectsData[id], renderOptions)}</div>
         </div>
-    );
+    );    
   }
 
   return <Spinner />

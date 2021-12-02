@@ -57,11 +57,24 @@ const Nav = () => {
 
   if (process.env.NODE_ENV === 'development') {
     useEffect(() => {
-      console.info("[Mocking project data temporarily so we don't need to call Contentful every page refresh]");
+      console.info("[Mocking project data in local development mode]");
 
       dispatch({
         type: 'SET_PROJECTS_METADATA',
         payload: mockProjectsMetadata,
+      });
+
+      const projectLookup = {};
+      mockProjectsMetadata.forEach(proj => {
+        projectLookup[proj.slug] = {
+          id: proj.id,
+          title: proj.title,
+        }
+      });
+
+      dispatch({
+        type: 'SET_SLUG_INFO',
+        payload: projectLookup,
       });
 
       mockProjectsMetadata.forEach(pd => {
@@ -98,6 +111,19 @@ const Nav = () => {
             type: 'SET_PROJECTS_METADATA',
             payload: works,
           });
+
+          const projectLookup = {};
+          works.forEach(proj => {
+            projectLookup[proj.slug] = {
+              id: proj.id,
+              title: proj.title,
+            }
+          });
+    
+          dispatch({
+            type: 'SET_SLUG_INFO',
+            payload: projectLookup,
+          });    
         })
         .catch((e) => {
           console.error(e);
