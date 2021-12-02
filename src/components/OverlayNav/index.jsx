@@ -97,7 +97,7 @@ const OverlayNav = ({ toggle, isOpen }) => {
 
       <div className="overlay-content">
         <div>
-          <Link href="/projects">
+          <Link href="/">
             <a onClick={handleToggle}>WORK</a>
           </Link>
         </div>

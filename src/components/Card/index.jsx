@@ -6,7 +6,7 @@ const Card = ({ proj }) => {
 
   return (
     <div>
-      <Link href="/projects/[slug]" as={`/projects/${slug}`} passHref>
+      <Link href="[slug]" as={`${slug}`} passHref>
         <a>
           <img src={thumbnail} alt={title} />
         </a>

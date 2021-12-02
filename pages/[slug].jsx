@@ -7,27 +7,28 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS } from "@contentful/rich-text-types";
 import isEmpty from 'lodash/isEmpty';
 
-import Spinner from '../../src/components/Spinner';
-import { store } from '../../src/providers/store';
+import Spinner from '../src/components/Spinner';
+import { store } from '../src/providers/store';
 
 const ProjectById = () => {
   const router = useRouter()
   const { slug } = router.query
-
   const globalState = useContext(store);
   const { dispatch, state: { projectsData, projectsMetadata, projectLookup } } = globalState;
 
-  if (process.env.NODE_ENV !== 'development') {
-    useEffect(() => {
+  useEffect(() => {
+    // Only proceed if projectLookup contains values; If it has values,
+    // we'll be able to look up this project's ID based on its slug
+    if (!isEmpty(projectLookup)) {
       const { id } = projectLookup[slug];
       // We only need to make a call to Contentful API if app context does
       // not already contain this project's data
-      if (!isEmpty(projectsMetadata) && !projectsData.hasOwnProperty(id)) {
+      if (!projectsData.hasOwnProperty(id)) {
         const client = createClient({
           space: process.env.NEXT_PUBLIC_SPACE,
           accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
         });
-
+  
         client.getEntry(id, { content_type: 'work', select: 'fields.projectContent' })
           .then(ent => {
             dispatch({
@@ -40,8 +41,8 @@ const ProjectById = () => {
           })
           .catch(console.error);
       }
-    }, [projectsData, projectsMetadata]);
-  }
+    }
+  }, [projectLookup]);
 
   const renderOptions = {
     renderNode: {
