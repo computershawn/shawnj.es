@@ -57,7 +57,7 @@ const Nav = () => {
 
   if (process.env.NODE_ENV === 'development') {
     useEffect(() => {
-      console.info("[Mocking project data temporarily so we don't need to call Contentful every page refresh]");
+      console.info("[Mocking project data in local development mode]");
 
       dispatch({
         type: 'SET_PROJECTS_METADATA',

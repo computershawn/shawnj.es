@@ -16,19 +16,13 @@ const ProjectById = () => {
 
   const globalState = useContext(store);
   const { dispatch, state: { projectsData, projectsMetadata, idLookup } } = globalState;
-  // console.log(projectsMetadata);
-  // const { id } = projectsMetadata.find(p => p.slug === slug);
-  // const {id} = projectsMetadata.find(md => md.slug === slug) || null;
 
   if (process.env.NODE_ENV !== 'development') {
     useEffect(() => {
+      const id = idLookup[slug];
       // We only need to make a call to Contentful API if app context does
       // not already contain this project's data
-
-      const id = idLookup[slug];
-
       if (!isEmpty(projectsMetadata) && !projectsData.hasOwnProperty(id)) {
-        console.info("Getting data for this project...");
         const client = createClient({
           space: process.env.NEXT_PUBLIC_SPACE,
           accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
@@ -68,7 +62,8 @@ const ProjectById = () => {
 
   if (!isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
     const proj = projectsMetadata.find(p => p.slug === slug);
-    const { id, title } = proj;
+    const id = idLookup[slug];
+    const { title } = proj;
 
     return (
         <div>
