@@ -101,7 +101,11 @@ const ProjectById = () => {
     );    
   }
 
-  return <Spinner />
+  return (
+    <ProjectContent>
+      <Spinner />
+    </ProjectContent>
+  );
 }
 
 export default ProjectById;
