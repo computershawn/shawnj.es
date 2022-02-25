@@ -20,6 +20,24 @@ const ComingSoonContainer = styled.div`
   }
 `;
 
+const hiddenButtonStyle = {
+  display: 'none',
+};
+
+const doPickFile = async () => {
+  [fileHandle] = await window.showOpenFilePicker();
+
+  const file = await fileHandle.getFile();
+  const content = await file.text();
+
+  return content;
+};
+
+const handleClickPick = async () => {
+  const content = await doPickFile();
+  console.log('content is', content);
+}
+
 const ComingSoon = () => {
   return (
     <ComingSoonContainer>
@@ -27,6 +45,9 @@ const ComingSoon = () => {
         <h3>
           Please bear with me while I migrate projects from my original Squarespace site. Those projects are still viewable at <a href="https://designcpu.squarespace.com/" target="_blank">designcpu.squarespace.com</a>.
         </h3>
+        <div style={hiddenButtonStyle}>
+          <button onClick={handleClickPick}>pick file</button>
+        </div>
       </div>
     </ComingSoonContainer>
   );
