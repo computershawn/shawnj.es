@@ -8,7 +8,7 @@ import { store } from '../src/providers/store';
 const ProjectsIndexPage = () => {
   const globalState = useContext(store);
   const { state: { projectsMetadata } } = globalState;
-  const notReadyForTheWorld = true;
+  const notReadyForTheWorld = false; // true;
 
   if (notReadyForTheWorld) {
     return <ComingSoon />
