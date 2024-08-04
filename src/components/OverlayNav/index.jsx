@@ -97,7 +97,7 @@ const OverlayNav = ({ toggle, isOpen }) => {
       <div className="overlay-content">
         <div>
           <Link href="/">
-            <a onClick={handleToggle}>WORK</a>
+            <span onClick={handleToggle}>WORK</span>
           </Link>
         </div>
         {links.map(link => {

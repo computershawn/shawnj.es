@@ -7,9 +7,7 @@ const Card = ({ proj }) => {
   return (
     <div>
       <Link href="[slug]" as={`${slug}`} passHref>
-        <a>
-          <img src={thumbnail} alt={title} />
-        </a>
+        <img src={thumbnail} alt={title} />
       </Link>
     </div>
   );
