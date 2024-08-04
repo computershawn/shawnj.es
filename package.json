@@ -1,19 +1,20 @@
 {
-  "name": "app",
+  "name": "shawnj.es",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Scott Moss <willscottmoss@gmail.com>",
+  "author": "Shawn Jackson <shontek@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@contentful/rich-text-react-renderer": "^15.6.2",
-    "@contentful/rich-text-types": "^15.7.0",
+    "@contentful/rich-text-react-renderer": "^15.22.9",
+    "@contentful/rich-text-types": "^15.15.1",
     "@svgr/webpack": "^5.5.0",
     "babel-plugin-styled-components": "^2.0.2",
     "contentful": "^9.1.4",
+    "eslint-config-next": "^14.2.5",
     "lodash": "^4.17.21",
-    "next": "^9.5.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "next": "^14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "styled-components": "^5.3.3"
   },
   "scripts": {
