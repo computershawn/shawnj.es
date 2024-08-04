@@ -10,7 +10,7 @@ import Spinner from '../src/components/Spinner';
 import FooterNav from '../src/components/FooterNav';
 import { store } from '../src/providers/store';
 
-const ProjectContent = styled.div`
+const ProjectContent = styled.main`
   & > h1 {
     margin: 2rem 0.5rem;
   }
@@ -26,7 +26,8 @@ const ProjectContent = styled.div`
 
   @media screen and (min-width: 480px) {
     max-width: 960px;
-    margin: 0 auto;
+    margin: 6.5rem auto 0;
+    padding-bottom: 3rem;
 
     & > div {
       margin: 0;
@@ -96,7 +97,7 @@ const ProjectById = () => {
         <ProjectContent>
           <h1>{title}</h1>
           <div>{documentToReactComponents(projectsData[id], renderOptions)}</div>
-          <FooterNav />
+          {/* <FooterNav /> */}
         </ProjectContent>
     );    
   }
