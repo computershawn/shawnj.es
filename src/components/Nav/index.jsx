@@ -11,13 +11,14 @@ import ShawnjLogo from '../../assets/shawnj-logo.svg';
 
 const StyledNav = styled.nav`
     width: 100%;
-    height: 5rem;
+    height: 6rem;
     display: flex;
     position: fixed;
     top: 0;
     left: 0;
-    box-shadow: 0px 0.5px 1px #DDD;
-    background-color: #FBFBFB;
+    box-shadow: 0px 0.5px 1px #EEE;
+    background-color: #FCFCFC;
+    z-index: 1;
 `;
 
 const NavContent = styled.div`
@@ -27,6 +28,7 @@ const NavContent = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding: 2rem;
 
   & .desktop-nav {
     display: none;
@@ -38,7 +40,6 @@ const NavContent = styled.div`
 
   @media screen and (min-width: 480px) {
     margin: 0 auto;
-    max-width: 960px;
 
     & .desktop-nav {
       display: block;

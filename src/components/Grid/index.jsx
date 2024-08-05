@@ -2,10 +2,12 @@ import styled from 'styled-components';
 
 // Grid styling borrowed from https://css-tricks.com/a-grid-of-logos-in-squares/
 
-const Grid = styled.div`
+const Grid = styled.main`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   grid-gap: 0;
+  margin: 7.5rem auto 0;
+  padding-bottom: 3rem;
 
   & > div {
     // background: black;

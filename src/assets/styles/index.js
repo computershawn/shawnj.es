@@ -12,10 +12,6 @@ const GlobalStyle = createGlobalStyle`
   html {
     height: 100%;
   }
-
-  body {
-    min-height: 100vh;
-  }
 `
 
 export default GlobalStyle;
