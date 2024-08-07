@@ -16,7 +16,7 @@ const StyledCard = styled.div`
     height: 100%;
     z-index: 2;
     opacity: 0;
-    transition: opacity 400ms;
+    transition: opacity 300ms;
 
     &:hover {
       opacity: 1;
