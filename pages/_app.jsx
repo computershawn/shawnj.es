@@ -15,10 +15,10 @@ export default function App({ Component, pageProps }) {
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <StateProvider>
-          <main>
-            <Nav />
-            <Component {...pageProps} />
-          </main>
+          {/* <main> */}
+          <Nav />
+          <Component {...pageProps} />
+          {/* </main> */}
         </StateProvider>
       </ThemeProvider>
     </>

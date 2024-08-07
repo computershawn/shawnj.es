@@ -8,7 +8,7 @@ const StyledOverlay = styled.div`
   width: 100%;
   height: ${props => props.isOpen ? '100%' : '0%'};
   position: fixed;
-  z-index: 1;
+  z-index: 100;
   top: 0;
   left: 0;
   background-color: rgb(0,0,0);

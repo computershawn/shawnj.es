@@ -10,43 +10,56 @@ import OverlayNav from '../OverlayNav';
 import ShawnjLogo from '../../assets/shawnj-logo.svg';
 
 const StyledNav = styled.nav`
-    font-size: 0.9rem;
-    margin: 1rem;
+    width: 100%;
+    height: 6rem;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0px 0.5px 1px #EEE;
+    background-color: #FCFCFC;
+    z-index: 100;
+`;
+
+const NavContent = styled.div`
+  font-size: 0.9rem;
+  margin: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 2rem;
+
+  & .desktop-nav {
+    display: none;
+  }
+
+  & .mobile-menu-toggle {
+    display: block;
+  }
+
+  @media screen and (min-width: 480px) {
+    margin: 0 auto;
 
     & .desktop-nav {
-      display: none;
+      display: block;
     }
 
     & .mobile-menu-toggle {
-      display: block;
+      display: none;
     }
-    
-    @media screen and (min-width: 480px) {
-      margin: 1rem auto;
-      max-width: 960px;
-
-      & .desktop-nav {
-        display: block;
-      }
-
-      & .mobile-menu-toggle {
-        display: none;
-      }
-    }
-  `;
+  }
+`;
 
 const LogoContainer = styled.div`
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 
-    @media screen and (min-width: 480px) {
-      width: 60px;
-      height: 60px;  
-    }
-  `;
+  @media screen and (min-width: 480px) {
+    width: 60px;
+    height: 60px;
+  }
+`;
 
 const Nav = () => {
   const globalState = useContext(store);
@@ -60,12 +73,13 @@ const Nav = () => {
   useEffect(() => {
     // const fieldsToGet = 'fields.slug,fields.summary,fields.thumbnail,fields.title';
     const fieldsToGet = ['slug', 'summary', 'thumbnail', 'title'];
-    client.getEntries({
-      content_type: 'work',
-      select: fieldsToGet.map(f => `fields.${f}`).join(',')
-    })
+    client
+      .getEntries({
+        content_type: 'work',
+        select: fieldsToGet.map((f) => `fields.${f}`).join(','),
+      })
       .then((data) => {
-        const works = data.items.map(item => ({
+        const works = data.items.map((item) => ({
           slug: item.fields.slug,
           summary: item.fields.summary,
           thumbnail: item.fields.thumbnail.fields.file.url,
@@ -79,17 +93,17 @@ const Nav = () => {
         });
 
         const projectLookup = {};
-        works.forEach(proj => {
+        works.forEach((proj) => {
           projectLookup[proj.slug] = {
             id: proj.id,
             title: proj.title,
-          }
+          };
         });
-  
+
         dispatch({
           type: 'SET_SLUG_INFO',
           payload: projectLookup,
-        });    
+        });
       })
       .catch((e) => {
         console.error(e);
@@ -98,57 +112,53 @@ const Nav = () => {
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  const openMenu = () => {
-    setMenuIsOpen(true);
-  }
-
-  const dismissMenu = () => {
-    setMenuIsOpen(false);
-  }
-
-  const toggle = () => {
+  const toggleMenu = () => {
     if (menuIsOpen) {
       setMenuIsOpen(false);
     } else {
       setMenuIsOpen(true);
     }
-  }
+  };
 
   return (
     <>
-      <header style={{ width: '100%' }}>
-        <StyledNav>
+      <StyledNav>
+        <NavContent>
           <div>
-            <div className="desktop-nav">
-              <NavTextLink text="WORK" href="/" className="current" />
-              <NavTextLink text="SJ×MDP" href="http://cargocollective.com/designcpu" newTab />
-              <NavIcon
-                icon="linkedin"
-                href="https://www.linkedin.com/in/shawnjdesign"
+            <div className='desktop-nav'>
+              <NavTextLink text='WORK' href='/' className='current' />
+              <NavTextLink
+                text='SJ×MDP'
+                href='http://cargocollective.com/designcpu'
                 newTab
               />
               <NavIcon
-                icon="github"
-                href="https://github.com/computershawn"
+                icon='linkedin'
+                href='https://www.linkedin.com/in/shawnjdesign'
                 newTab
               />
               <NavIcon
-                icon="email"
-                href="mailto:hello@shawnj.es?Subject=Hello"
+                icon='github'
+                href='https://github.com/computershawn'
+                newTab
+              />
+              <NavIcon
+                icon='email'
+                href='mailto:hello@shawnj.es?Subject=Hello'
               />
             </div>
-            <div className="mobile-menu-toggle">
-              <MenuButton onClick={toggle} />
+            <div className='mobile-menu-toggle'>
+              <MenuButton onClick={toggleMenu} />
             </div>
           </div>
           <LogoContainer>
             <ShawnjLogo />
           </LogoContainer>
-        </StyledNav>
-      </header>
-      <OverlayNav toggle={toggle} isOpen={menuIsOpen} />
+        </NavContent>
+      </StyledNav>
+      <OverlayNav toggle={toggleMenu} isOpen={menuIsOpen} />
     </>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;
