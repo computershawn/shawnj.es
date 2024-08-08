@@ -4,40 +4,11 @@ import { createClient } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from "@contentful/rich-text-types";
 import isEmpty from 'lodash/isEmpty';
-import styled from 'styled-components';
 
 import Spinner from '../src/components/Spinner';
 import FooterNav from '../src/components/FooterNav';
 import { store } from '../src/providers/store';
-
-const ProjectContent = styled.main`
-  & > h1 {
-    margin: 2rem 0.5rem;
-  }
-
-  & div > h3 {
-    font-weight: 400;
-  }
-
-  & > div {
-    margin: 0 0.5rem;
-  }
-
-
-  @media screen and (min-width: 480px) {
-    max-width: 960px;
-    margin: 6rem auto 0;
-    padding-bottom: 3rem;
-
-    & > div {
-      margin: 0;
-    }
-
-    & > h1 {
-      margin: 2rem 0;
-    }  
-  }
-`;
+import { Box, Text } from '@chakra-ui/react';
 
 const ProjectById = () => {
   const router = useRouter()
@@ -57,7 +28,7 @@ const ProjectById = () => {
           space: process.env.NEXT_PUBLIC_SPACE,
           accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
         });
-  
+
         client.getEntry(id, { content_type: 'work', select: 'fields.projectContent' })
           .then(ent => {
             dispatch({
@@ -94,18 +65,23 @@ const ProjectById = () => {
     const { id, title } = projectLookup[slug];
 
     return (
-        <ProjectContent>
-          <h1>{title}</h1>
-          <div>{documentToReactComponents(projectsData[id], renderOptions)}</div>
-          {/* <FooterNav /> */}
-        </ProjectContent>
-    );    
+      <Box
+        as="main"
+        maxW={[null, 960]}
+        m='7.5rem auto 0'
+        pb={[null, '3rem']}
+      >
+        <Text as="h1" my="2rem" mx={["0.5rem", 0]}>{title}</Text>
+        <Box m={["0 1.5rem", 0]}>{documentToReactComponents(projectsData[id], renderOptions)}</Box>
+        {/* <FooterNav /> */}
+      </Box>
+    );
   }
 
   return (
-    <ProjectContent>
+    <Box as="main">
       <Spinner />
-    </ProjectContent>
+    </Box>
   );
 }
 
