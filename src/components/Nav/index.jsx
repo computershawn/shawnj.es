@@ -28,7 +28,6 @@ const NavContent = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 2rem;
 
   & .desktop-nav {
     display: none;

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
 import DismissIcon from '../../assets/dismiss-icon.svg';
-import ClearBtn from '../ClearBtn';
+import { Button } from '@chakra-ui/react';
 
 const StyledOverlay = styled.div`
   width: 100%;
@@ -78,20 +78,21 @@ const OverlayNav = ({ toggle, isOpen }) => {
   }
 
   const links = [
-    { url: "http://cargocollective.com/designcpu", text: 'SJ×MDP', newTab: true},
-    { url: "https://www.linkedin.com/in/shawnjdesign", text: 'LINKEDIN', newTab: true},
-    { url: "https://github.com/computershawn", text: 'GITHUB', newTab: true},
-    { url: "mailto:hello@shawnj.es?Subject=Hello", text: 'CONTACT', newTab: false},
+    { url: "http://cargocollective.com/designcpu", text: 'SJ×MDP', newTab: true },
+    { url: "https://www.linkedin.com/in/shawnjdesign", text: 'LINKEDIN', newTab: true },
+    { url: "https://github.com/computershawn", text: 'GITHUB', newTab: true },
+    { url: "mailto:hello@shawnj.es?Subject=Hello", text: 'CONTACT', newTab: false },
   ];
 
   return (
     <StyledOverlay isOpen={isOpen}>
       <div style={{ margin: '1rem' }}>
-        <ClearBtn onClick={handleToggle}>
+        {/* Consider making this an IconButton? */}
+        <Button variant="ghost" onClick={handleToggle}>
           <IconContainer>
             <DismissIcon />
           </IconContainer>
-        </ClearBtn>
+        </Button>
       </div>
 
       <div className="overlay-content">

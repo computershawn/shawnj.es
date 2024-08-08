@@ -71,7 +71,7 @@ const ProjectById = () => {
         m='7.5rem auto 0'
         pb={[null, '3rem']}
       >
-        <Text as="h1" my="2rem" mx={["0.5rem", 0]}>{title}</Text>
+        <Text as="h1" my="2rem" mx={["1.5rem", 0]}>{title}</Text>
         <Box m={["0 1.5rem", 0]}>{documentToReactComponents(projectsData[id], renderOptions)}</Box>
         {/* <FooterNav /> */}
       </Box>
