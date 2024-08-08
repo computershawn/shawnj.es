@@ -79,7 +79,7 @@ const ProjectById = () => {
   }
 
   return (
-    <Box as="main">
+    <Box as="main" m='7.5rem auto 0'>
       <Spinner />
     </Box>
   );

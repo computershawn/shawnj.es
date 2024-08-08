@@ -38,7 +38,7 @@ const NavContent = styled.div`
   }
 
   @media screen and (min-width: 480px) {
-    margin: 0 auto;
+    margin: 0 2rem;
 
     & .desktop-nav {
       display: block;
