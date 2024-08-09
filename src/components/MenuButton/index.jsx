@@ -1,13 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import MenuIcon from '../../assets/menu-icon.svg';
-import { Button } from '@chakra-ui/react';
-
-const IconContainer = styled.div`
-  width: 32px;
-  height: 32px;
-`;
+import { Box, Button } from '@chakra-ui/react';
 
 const MenuButton = ({ onClick }) => {  
   return  (
@@ -27,9 +21,12 @@ const MenuButton = ({ onClick }) => {
       //   outline: none;
       // }
     >
-      <IconContainer>
+      <Box
+        w="2rem"
+        h="2rem"
+      >
         <MenuIcon />
-      </IconContainer>
+      </Box>
     </Button>
   );
 };
