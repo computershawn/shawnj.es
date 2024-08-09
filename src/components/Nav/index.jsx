@@ -28,7 +28,6 @@ const NavContent = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 2rem;
 
   & .desktop-nav {
     display: none;
@@ -39,7 +38,7 @@ const NavContent = styled.div`
   }
 
   @media screen and (min-width: 480px) {
-    margin: 0 auto;
+    margin: 0 2rem;
 
     & .desktop-nav {
       display: block;

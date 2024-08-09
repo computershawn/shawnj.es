@@ -6,7 +6,7 @@ const Grid = styled.main`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   grid-gap: 0;
-  margin: 7.5rem auto 0;
+  margin: 6rem auto 0;
   padding-bottom: 3rem;
 
   & > div {
