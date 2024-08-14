@@ -1,8 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
-import Link from 'next/link';
+import NextLink from 'next/link'
+
+import { Link } from '@chakra-ui/react';
 
 import HomeIcon from '../../assets/home-icon.svg';
+import { Box } from '@chakra-ui/react';
 
 // `onClick`, `href`, and `ref` need to be passed
 // to the DOM element for proper handling
@@ -14,27 +16,23 @@ const HomeButton = React.forwardRef(({ onClick, href }, ref) => {
   );
 });
 
-const StyledFooterNav = styled.footer`
-  margin: 2rem 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  & > div {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-  `;
-
 const FooterNav = () => {
   return (
-    <StyledFooterNav>
-      <div>
-        <Link href="/" passHref>
+    <Box
+      margin="2rem 0"
+      display="flex"
+      justify="center"
+      align="center"
+    >
+      <Box
+        w="2.5rem"
+        h="2.5rem"
+      >
+        <Link as={NextLink} href="/" passHref>
           <HomeButton />
         </Link>
-      </div>
-    </StyledFooterNav>
+      </Box>
+    </Box>
   )
 }
 
