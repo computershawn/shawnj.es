@@ -1,65 +1,14 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { createClient } from 'contentful';
-import styled from 'styled-components';
 
+import { Box, Flex } from '@chakra-ui/react';
+
+import ShawnjLogo from '../../assets/shawnj-logo.svg';
 import { store } from '../../providers/store';
 import NavIcon from '../NavIcon';
 import NavTextLink from '../NavTextLink';
 import MenuButton from '../MenuButton';
 import OverlayNav from '../OverlayNav';
-import ShawnjLogo from '../../assets/shawnj-logo.svg';
-
-const StyledNav = styled.nav`
-    width: 100%;
-    height: 6rem;
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    box-shadow: 0px 0.5px 1px #EEE;
-    background-color: #FCFCFC;
-    z-index: 100;
-`;
-
-const NavContent = styled.div`
-  font-size: 0.9rem;
-  margin: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 2rem;
-
-  & .desktop-nav {
-    display: none;
-  }
-
-  & .mobile-menu-toggle {
-    display: block;
-  }
-
-  @media screen and (min-width: 480px) {
-    margin: 0 auto;
-
-    & .desktop-nav {
-      display: block;
-    }
-
-    & .mobile-menu-toggle {
-      display: none;
-    }
-  }
-`;
-
-const LogoContainer = styled.div`
-  width: 40px;
-  height: 40px;
-
-  @media screen and (min-width: 480px) {
-    width: 60px;
-    height: 60px;
-  }
-`;
 
 const Nav = () => {
   const globalState = useContext(store);
@@ -122,10 +71,25 @@ const Nav = () => {
 
   return (
     <>
-      <StyledNav>
-        <NavContent>
+      <Flex
+        width='100%'
+        height='6rem'
+        position='fixed'
+        top={0}
+        left={0}
+        boxShadow='0px 0.5px 1px #EEE'
+        backgroundColor='#FCFCFC'
+        zIndex={100}
+      >
+        <Flex
+          fontSize='0.9rem'
+          margin={['1rem', '0 2rem']}
+          justify='space-between'
+          align='center'
+          width='100%'
+        >
           <div>
-            <div className='desktop-nav'>
+            <Box display={['none', 'block']}>
               <NavTextLink text='WORK' href='/' className='current' />
               <NavTextLink
                 text='SJ×MDP'
@@ -146,16 +110,16 @@ const Nav = () => {
                 icon='email'
                 href='mailto:hello@shawnj.es?Subject=Hello'
               />
-            </div>
-            <div className='mobile-menu-toggle'>
+            </Box>
+            <Box display={['block', 'none']} className='mobile-menu-toggle'>
               <MenuButton onClick={toggleMenu} />
-            </div>
+            </Box>
           </div>
-          <LogoContainer>
+          <Box w='3.75rem' h='3.75rem'>
             <ShawnjLogo />
-          </LogoContainer>
-        </NavContent>
-      </StyledNav>
+          </Box>
+        </Flex>
+      </Flex>
       <OverlayNav toggle={toggleMenu} isOpen={menuIsOpen} />
     </>
   );

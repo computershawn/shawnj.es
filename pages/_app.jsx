@@ -1,26 +1,17 @@
-import { ThemeProvider } from 'styled-components'
-import Nav from '../src/components/Nav';
-import GlobalStyle from '../src/assets/styles';
-import { StateProvider } from '../src/providers/store';
+import { ChakraProvider } from '@chakra-ui/react'
 
-const theme = {
-  colors: {
-    primary: '#0070f3',
-  },
-}
+import Nav from '../src/components/Nav';
+import { StateProvider } from '../src/providers/store';
 
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <GlobalStyle />
-      <ThemeProvider theme={theme}>
+      <ChakraProvider>
         <StateProvider>
-          {/* <main> */}
           <Nav />
           <Component {...pageProps} />
-          {/* </main> */}
         </StateProvider>
-      </ThemeProvider>
+      </ChakraProvider>
     </>
   );
 }
