@@ -45,6 +45,7 @@ const Nav = () => {
         works.forEach((proj) => {
           projectLookup[proj.slug] = {
             id: proj.id,
+            summary: proj.summary,
             title: proj.title,
           };
         });

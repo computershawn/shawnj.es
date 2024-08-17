@@ -8,7 +8,7 @@ import isEmpty from 'lodash/isEmpty';
 import Spinner from '../src/components/Spinner';
 import FooterNav from '../src/components/FooterNav';
 import { store } from '../src/providers/store';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Heading, Text } from '@chakra-ui/react';
 
 const ProjectById = () => {
   const router = useRouter()
@@ -62,7 +62,7 @@ const ProjectById = () => {
   };
 
   if (!isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
-    const { id, title } = projectLookup[slug];
+    const { id, summary, title } = projectLookup[slug];
 
     return (
       <Box
@@ -71,7 +71,8 @@ const ProjectById = () => {
         m='7.5rem auto 0'
         pb={[null, '3rem']}
       >
-        <Text as="h1" my="2rem" mx={["1.5rem", 0]}>{title}</Text>
+        <Heading fontWeight={300}>{title}</Heading>
+        <Text as="h1" my="2rem" mx={["1.5rem", 0]}>{summary}</Text>
         <Box m={["0 1.5rem", 0]}>{documentToReactComponents(projectsData[id], renderOptions)}</Box>
         {/* <FooterNav /> */}
       </Box>
