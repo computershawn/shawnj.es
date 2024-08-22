@@ -8,7 +8,7 @@ import isEmpty from 'lodash/isEmpty';
 import Spinner from '../src/components/Spinner';
 // import FooterNav from '../src/components/FooterNav';
 import { store } from '../src/providers/store';
-import { Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import VimeoVideo from '../src/components/VimeoVideo';
 
 const ProjectById = () => {
@@ -56,24 +56,48 @@ const ProjectById = () => {
     renderNode: {
       [BLOCKS.EMBEDDED_ASSET]: (node, children) => {
         // render the EMBEDDED_ASSET as you need
+        const { file, description } = node.data.target.fields;
         return (
-          <img
-            src={`https:${node.data.target.fields.file.url}`}
-            width='100%'
-            // height={node.data.target.fields.file.details.image.height}
-            // width={node.data.target.fields.file.details.image.width}
-            alt={node.data.target.fields.description}
-          />
+          // TODO: Replace <img /> with a NextJS or Chakra Image
+          <Box as='figure'>
+            <img
+              src={`https:${file.url}`}
+              width='100%'
+              // height={node.data.target.fields.file.details.image.height}
+              // width={node.data.target.fields.file.details.image.width}
+              alt={description}
+            />
+            {description && (
+              <Text as='figcaption' fontSize='sm' mt='0.25rem'>
+                {description}
+              </Text>
+            )}
+          </Box>
         );
       },
       [BLOCKS.EMBEDDED_ENTRY]: (node) => {
+        if (node.data.target.sys.contentType.sys.id === 'imageCollection') {
+          // console.log('node', node);
+          console.log('images', node.data.target.fields.images);
+          // console.log('captions', node.data.target.fields.captions.text);
+          // const {images} = node.data.target.fields;
+          // const captions = node.data.target.fields.captions.text;
+
+          const carouselData = {
+            images: node.data.target.fields.images,
+            captions: node.data.target.fields.captions.text,
+          };
+
+          // return <span>image collection here</span>
+          return <Carousel data={carouselData} />;
+        }
+
         const { videoId, videoHash } = node.data.target.fields;
         if (!videoId || !videoHash) return null;
 
         return <VimeoVideo videoId={videoId} videoHash={videoHash} />;
       },
     },
-    renderText: (text) => text.replace('h6', 'h1'),
   };
 
   const headerHt = '7.5rem';
@@ -119,3 +143,30 @@ const ProjectById = () => {
 };
 
 export default ProjectById;
+
+const Carousel = ({ data }) => {
+  const { images, captions } = data;
+
+  return images.map((im, j) => {
+    const imageUrl = `https:${im.fields.file.url}`;
+    const imageCaption = captions?.[j];
+
+    return (
+      <Box as='figure'>
+        <img
+          src={imageUrl}
+          width='80px'
+          // height={node.data.target.fields.file.details.image.height}
+          // width={node.data.target.fields.file.details.image.width}
+          alt={im.fields.description}
+        />
+
+        {imageCaption && (
+          <Text as='figcaption' fontSize='sm' mt='0.25rem'>
+            {imageCaption}
+          </Text>
+        )}
+      </Box>
+    );
+  });
+};
