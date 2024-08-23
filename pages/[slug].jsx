@@ -10,6 +10,7 @@ import Spinner from '../src/components/Spinner';
 import { store } from '../src/providers/store';
 import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import VimeoVideo from '../src/components/VimeoVideo';
+import ImageCarousel from '../src/components/ImageCarousel';
 
 const ProjectById = () => {
   const router = useRouter();
@@ -76,22 +77,17 @@ const ProjectById = () => {
         );
       },
       [BLOCKS.EMBEDDED_ENTRY]: (node) => {
+        // Collection of images gets rendered as a carousel
         if (node.data.target.sys.contentType.sys.id === 'imageCollection') {
-          // console.log('node', node);
-          console.log('images', node.data.target.fields.images);
-          // console.log('captions', node.data.target.fields.captions.text);
-          // const {images} = node.data.target.fields;
-          // const captions = node.data.target.fields.captions.text;
-
           const carouselData = {
             images: node.data.target.fields.images,
             captions: node.data.target.fields.captions.text,
           };
 
-          // return <span>image collection here</span>
-          return <Carousel data={carouselData} />;
+          return <ImageCarousel data={carouselData} />;
         }
 
+        // If the entry fields contain videoId and videoHash, render a Vimeo video
         const { videoId, videoHash } = node.data.target.fields;
         if (!videoId || !videoHash) return null;
 
@@ -112,17 +108,29 @@ const ProjectById = () => {
         mt={headerHt}
         pb={[null, '3rem']}
         direction={['column', 'row']}
+        sx={{
+          h4: {
+            fontSize: '1.25rem',
+          },
+          hr: {
+            borderTop: '1px solid #dbdbdb',
+            width: '100%',
+          },
+        }}
       >
         <VStack
           w={['auto', '18.5rem']}
-          mx={['1.5rem', '3rem']}
+          ml={['1.5rem', '3rem']}
+          mr={['1.5rem', '1.5rem']}
           align='flex-start'
         >
           <Heading fontWeight={200}>{title}</Heading>
           <Text mt='0.5rem'>{summary}</Text>
         </VStack>
         <VStack
-          m={['0 1.5rem', 0]}
+          my={0}
+          ml={'1.5rem'}
+          mr={['1.5rem', '3rem']}
           spacing='1.5rem'
           maxW='1000px'
           align='flex-start'
@@ -143,30 +151,3 @@ const ProjectById = () => {
 };
 
 export default ProjectById;
-
-const Carousel = ({ data }) => {
-  const { images, captions } = data;
-
-  return images.map((im, j) => {
-    const imageUrl = `https:${im.fields.file.url}`;
-    const imageCaption = captions?.[j];
-
-    return (
-      <Box as='figure'>
-        <img
-          src={imageUrl}
-          width='80px'
-          // height={node.data.target.fields.file.details.image.height}
-          // width={node.data.target.fields.file.details.image.width}
-          alt={im.fields.description}
-        />
-
-        {imageCaption && (
-          <Text as='figcaption' fontSize='sm' mt='0.25rem'>
-            {imageCaption}
-          </Text>
-        )}
-      </Box>
-    );
-  });
-};
