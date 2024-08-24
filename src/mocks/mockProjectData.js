@@ -175,7 +175,5 @@ projectsMetadata.forEach(item => {
   projectsData[item.id] = { ...singleProject };
 });
 
-module.exports = {
-  mockProjectsData: projectsData,
-  mockProjectsMetadata: projectsMetadata
-};
+export const mockProjectsData = projectsData;
+export const mockProjectsMetadata = projectsMetadata;
