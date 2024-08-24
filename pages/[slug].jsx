@@ -81,7 +81,9 @@ const ProjectById = () => {
         if (node.data.target.sys.contentType.sys.id === 'imageCollection') {
           const carouselData = {
             images: node.data.target.fields.images,
-            captions: node.data.target.fields.captions.text,
+            captionType: node.data.target.fields.captionType,
+            multipleCaptions: node.data.target.fields.multipleCaptions.text,
+            singleCaption: node.data.target.fields.singleCaption,
           };
 
           return <ImageCarousel data={carouselData} />;

@@ -3,7 +3,8 @@ import { Box, Button, Flex, IconButton, Text } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 const ImageCarousel = ({ data }) => {
-  const { images, captions } = data;
+  const { images, captionType, multipleCaptions, singleCaption } =
+    data;
 
   const [currentFrame, setCurrentFrame] = useState(0);
 
@@ -22,20 +23,37 @@ const ImageCarousel = ({ data }) => {
       <Box>
         {images.map((im, j) => {
           const imageUrl = `https:${im.fields.file.url}`;
-          const imageCaption = captions?.[j];
+          const imageCaption = multipleCaptions?.[j];
+
           return (
-            <Box key={im.sys.id} display={j === currentFrame ? 'block' : 'none'} position="relative">
-              <Flex position="absolute" top="calc(50% - 2rem)" w="100%" justify="space-between">
-                <IconButton h="4rem" aria-label="previous image" icon={<ChevronLeftIcon />} onClick={prevFrame} />
-                <IconButton h="4rem" aria-label="next image" icon={<ChevronRightIcon />} onClick={nextFrame} />
+            <Box
+              key={im.sys.id}
+              display={j === currentFrame ? 'block' : 'none'}
+              position='relative'
+            >
+              <Flex
+                position='absolute'
+                top='calc(50% - 2rem)'
+                w='100%'
+                justify='space-between'
+              >
+                <IconButton
+                  h='4rem'
+                  aria-label='previous image'
+                  icon={<ChevronLeftIcon />}
+                  onClick={prevFrame}
+                />
+                <IconButton
+                  h='4rem'
+                  aria-label='next image'
+                  icon={<ChevronRightIcon />}
+                  onClick={nextFrame}
+                />
               </Flex>
               <Box as='figure'>
-                <img
-                  src={imageUrl}
-                  alt={im.fields.description}
-                />
+                <img src={imageUrl} alt={im.fields.description} />
 
-                {imageCaption && (
+                {imageCaption && captionType === 'multiple' && (
                   <Text as='figcaption' fontSize='sm' mt='0.25rem'>
                     {imageCaption}
                   </Text>
@@ -45,6 +63,11 @@ const ImageCarousel = ({ data }) => {
           );
         })}
       </Box>
+      {singleCaption && captionType === 'single' && (
+        <Text as='figcaption' fontSize='sm' mt='0.25rem'>
+          {singleCaption}
+        </Text>
+      )}
     </Box>
   );
 };
