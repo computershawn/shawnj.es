@@ -32,6 +32,7 @@ const Nav = () => {
           slug: item.fields.slug,
           summary: item.fields.summary,
           thumbnail: item.fields.thumbnail.fields.file.url,
+          description: item.fields.thumbnail.fields.description,
           title: item.fields.title,
           id: item.sys.id,
         }));
@@ -45,6 +46,7 @@ const Nav = () => {
         works.forEach((proj) => {
           projectLookup[proj.slug] = {
             id: proj.id,
+            summary: proj.summary,
             title: proj.title,
           };
         });
