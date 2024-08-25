@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { createClient } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS } from '@contentful/rich-text-types';
+import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import isEmpty from 'lodash/isEmpty';
 
 import Spinner from '../src/components/Spinner';
@@ -10,28 +11,46 @@ import { store } from '../src/providers/store';
 import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import VimeoVideo from '../src/components/VimeoVideo';
 import ImageCarousel from '../src/components/ImageCarousel';
-import { loadCurrentProject } from '../src/utils/data';
 
 const ProjectById = () => {
   const router = useRouter();
   const { slug } = router.query;
   const globalState = useContext(store);
   const {
+    dispatch,
     state: { projectsData, projectsMetadata, projectLookup },
   } = globalState;
 
   useEffect(() => {
-    // ! This data fetching operation probably needs to be reworked
-    // Only proceed if projectLookup contains values; If it has values,
-    // we'll be able to look up this project's ID based on its slug
-    // We only need to make a call to Contentful API if app context does not already contain this project's data
+    // Only proceed if projectLookup contains values and if app
+    // context does not already contain this project's data
+    // TODO: Maybe data fetching should be made into an external method
     if (
       !!slug &&
       !isEmpty(projectLookup) &&
       !!projectLookup[slug].id &&
       !projectsData.hasOwnProperty(projectLookup[slug].id)
     ) {
-      loadCurrentProject(projectLookup[slug].id);
+      const client = createClient({
+        space: process.env.NEXT_PUBLIC_SPACE,
+        accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
+      });
+      const { id } = projectLookup[slug];
+      client
+        .getEntry(id, {
+          content_type: 'work',
+          select: 'fields.projectContent',
+        })
+        .then((ent) => {
+          dispatch({
+            type: 'SET_PROJECTS_DATA',
+            payload: {
+              id,
+              content: ent.fields.projectContent,
+            },
+          });
+        })
+        .catch(console.error);
     }
   }, [projectLookup]);
 
