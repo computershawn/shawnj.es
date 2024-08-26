@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import Image from 'next/image';
 import Link from 'next/link';
 import { Box, Grid, GridItem } from '@chakra-ui/react';
 
@@ -24,6 +23,7 @@ import { Box, Grid, GridItem } from '@chakra-ui/react';
 //   paging?: InstagramPaging;
 // }
 
+// Instagram feed with the help of https://github.com/jrparente/nextjs-instagram
 export default function InstaFeed() {
   const [instagramFeed, setInstagramFeed] = useState(null);
   const [after, setAfter] = useState(null);

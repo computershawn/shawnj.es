@@ -79,31 +79,50 @@ const ProjectById = () => {
         );
       },
       [BLOCKS.EMBEDDED_ENTRY]: (node) => {
+        const { target } = node.data;
         // Collection of images gets rendered as a carousel
-        if (node.data.target.sys.contentType.sys.id === 'imageCollection') {
+        if (target.sys.contentType.sys.id === 'imageCollection') {
           const carouselData = {
-            images: node.data.target.fields.images,
-            captionType: node.data.target.fields.captionType,
-            multipleCaptions: node.data.target.fields.multipleCaptions.text,
-            singleCaption: node.data.target.fields.singleCaption,
+            images: target.fields.images,
+            captionType: target.fields.captionType,
+            multipleCaptions: target.fields.multipleCaptions.text,
+            singleCaption: target.fields.singleCaption,
           };
 
           return <ImageCarousel data={carouselData} />;
         }
 
         // If the entry fields contain videoId and videoHash, render a Vimeo video
-        const { videoId, videoHash } = node.data.target.fields;
-        if (!videoId || !videoHash) return null;
+        if (
+          target.fields.hasOwnProperty('videoId') &&
+          target.fields.hasOwnProperty('videoHash')
+        ) {
+          return (
+            <VimeoVideo
+              videoId={target.fields.videoId}
+              videoHash={target.fields.videoHash}
+            />
+          );
+        }
 
-        return <VimeoVideo videoId={videoId} videoHash={videoHash} />;
+        // If the entry fields contain 'code', render the item specified
+        if (
+          target.fields.hasOwnProperty('code') &&
+          target.fields.code?.item === 'instagram_feed'
+        ) {
+          return (
+            <Box>
+              <InstaFeed />
+            </Box>
+          );
+        }
       },
     },
   };
 
-  const headerHt = '7.5rem';
-
   if (!isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
     const { id, summary, title } = projectLookup[slug];
+    const headerHt = '7.5rem';
 
     return (
       <Flex
@@ -130,7 +149,9 @@ const ProjectById = () => {
           align='flex-start'
         >
           <Heading fontWeight={200}>{title}</Heading>
-          <Text mt='0.5rem' fontSize={["lg", "md"]}>{summary}</Text>
+          <Text mt='0.5rem' fontSize={['lg', 'md']}>
+            {summary}
+          </Text>
         </VStack>
         <VStack
           my={0}
@@ -142,9 +163,6 @@ const ProjectById = () => {
           sx={{ h3: { fontSize: '1.5rem', fontWeight: 300 } }}
         >
           {documentToReactComponents(projectsData[id], renderOptions)}
-          <Box>
-            <InstaFeed />
-          </Box>
         </VStack>
         {/* <FooterNav /> */}
       </Flex>
