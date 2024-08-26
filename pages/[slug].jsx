@@ -11,6 +11,7 @@ import { store } from '../src/providers/store';
 import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import VimeoVideo from '../src/components/VimeoVideo';
 import ImageCarousel from '../src/components/ImageCarousel';
+import InstaFeed from '../src/components/InstaFeed';
 
 const ProjectById = () => {
   const router = useRouter();
@@ -107,7 +108,6 @@ const ProjectById = () => {
     return (
       <Flex
         as='main'
-        // maxW={[null, 960]}
         mt={headerHt}
         pb={[null, '3rem']}
         direction={['column', 'row']}
@@ -123,23 +123,28 @@ const ProjectById = () => {
       >
         <VStack
           w={['auto', '18.5rem']}
-          ml={['1.5rem', '3rem']}
-          mr={['1.5rem', '1.5rem']}
+          minW={[null, '18.5rem']}
+          ml={[6, 12]}
+          mr={[6, 6]}
+          mb={4}
           align='flex-start'
         >
           <Heading fontWeight={200}>{title}</Heading>
-          <Text mt='0.5rem'>{summary}</Text>
+          <Text mt='0.5rem' fontSize={["lg", "md"]}>{summary}</Text>
         </VStack>
         <VStack
           my={0}
           ml={'1.5rem'}
           mr={['1.5rem', '3rem']}
-          spacing='1.5rem'
+          spacing={4}
           maxW='1000px'
           align='flex-start'
           sx={{ h3: { fontSize: '1.5rem', fontWeight: 300 } }}
         >
           {documentToReactComponents(projectsData[id], renderOptions)}
+          <Box>
+            <InstaFeed />
+          </Box>
         </VStack>
         {/* <FooterNav /> */}
       </Flex>
