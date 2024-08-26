@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Alert,
@@ -9,6 +9,7 @@ import {
   Grid,
   GridItem,
 } from '@chakra-ui/react';
+import { store } from '../../providers/store';
 
 // type InstagramPost = {
 //   id: string;
@@ -32,14 +33,22 @@ import {
 // }
 
 // Instagram feed with the help of https://github.com/jrparente/nextjs-instagram
+// !! TODO: Store instagrm data in application state
 export default function InstaFeed() {
-  const [instagramFeed, setInstagramFeed] = useState(null);
+  const [instagramFeed999, setInstagramFeed999] = useState(null);
   const [after, setAfter] = useState(null);
   const [error, setError] = useState(null);
 
+  const globalState = useContext(store);
+  const {
+    dispatch,
+    state: { instaData },
+  } = globalState;
+
   const fetchFeed = async (after) => {
+    const limit = 3;
     try {
-      let url = `https://graph.instagram.com/me/media?limit=12&fields=id,caption,media_url,media_type,timestamp,permalink&access_token=${process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN}`;
+      let url = `https://graph.instagram.com/me/media?limit=${limit}&fields=id,caption,media_url,media_type,timestamp,permalink&access_token=${process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN}`;
       if (after) {
         url += `&after=${after}`;
       }
@@ -51,7 +60,7 @@ export default function InstaFeed() {
 
       const feed = await data.json();
 
-      setInstagramFeed((prevFeed) => {
+      setInstagramFeed999((prevFeed) => {
         if (prevFeed && prevFeed.data.length > 0) {
           return {
             ...feed,
@@ -62,9 +71,48 @@ export default function InstaFeed() {
       });
       setAfter(feed.paging?.cursors.after);
       setError(null);
+      // const updatedFeed = {
+      //   ...instaData.feed,
+      //   ...(instaData.feed &&
+      //     instaData.feed.data.length > 0 && {
+      //       data: [...instaData.feed.data, ...feed.data],
+      //     }),
+      // };
+      // const updatedFeed = {
+      //   ...instaData.feed,
+      // ...(instaData.feed &&
+      //   instaData.feed.data.length > 0 && {
+      //     data: [...instaData.feed.data, ...feed.data],
+      //   }),
+      // };
+      // const updatedData =
+      //   instaData.feed && instaData.feed.data.length > 0
+      //     ? [instaData.feed.data, ...feed.data]
+      //     : feed.data;
+      // const feefee = {
+      //   ...instaData.feed,
+      //   data: updatedData,
+      // };
+      // console.log('instagramFeed', instagramFeed999);
+      // console.log('feed', feefee);
+      // console.log('updatedFeed', updatedFeed);
+
+      dispatch({
+        type: 'SET_INSTAGRAM_DATA',
+        payload: {
+          feed: feed,
+          after: feed.paging?.cursors.after,
+        },
+      });
     } catch (err) {
       console.error('Error fetching Instagram feed:', err.message);
       setError(err.message);
+      dispatch({
+        type: 'SET_INSTAGRAM_ERROR',
+        payload: {
+          error: err.message,
+        },
+      });
     }
   };
 
@@ -87,7 +135,7 @@ export default function InstaFeed() {
         </Alert>
       )}
 
-      {instagramFeed && (
+      {instagramFeed999 && (
         <Box mb={4}>
           <Grid
             templateColumns={{
@@ -98,7 +146,7 @@ export default function InstaFeed() {
             gap={2}
             pb={4}
           >
-            {instagramFeed.data.map((post) => (
+            {instagramFeed999.data.map((post) => (
               <GridItem
                 key={post.id}
                 aspectRatio='1'
