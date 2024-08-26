@@ -21,6 +21,7 @@ const ProjectById = () => {
     dispatch,
     state: { projectsData, projectsMetadata, projectLookup },
   } = globalState;
+  const headerHt = '7.5rem';
 
   useEffect(() => {
     // Only proceed if projectLookup contains values and if app
@@ -122,7 +123,6 @@ const ProjectById = () => {
 
   if (!isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
     const { id, summary, title } = projectLookup[slug];
-    const headerHt = '7.5rem';
 
     return (
       <Flex

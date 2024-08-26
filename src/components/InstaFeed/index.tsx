@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Box, Grid, GridItem } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Grid,
+  GridItem,
+} from '@chakra-ui/react';
 
 // type InstagramPost = {
 //   id: string;
@@ -53,6 +61,7 @@ export default function InstaFeed() {
         return feed;
       });
       setAfter(feed.paging?.cursors.after);
+      setError(null);
     } catch (err) {
       console.error('Error fetching Instagram feed:', err.message);
       setError(err.message);
@@ -70,7 +79,13 @@ export default function InstaFeed() {
 
   return (
     <>
-      {error && <p className='text-red-500'>{error}</p>}
+      {error && (
+        <Alert status='error'>
+          <AlertIcon />
+          <AlertTitle>Oopsies</AlertTitle>
+          <AlertDescription>Can't get Instagram feed</AlertDescription>
+        </Alert>
+      )}
 
       {instagramFeed && (
         <Box mb={4}>
