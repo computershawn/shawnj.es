@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { createClient } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS, INLINES } from '@contentful/rich-text-types';
+import { BLOCKS } from '@contentful/rich-text-types';
 import isEmpty from 'lodash/isEmpty';
 
 import Spinner from '../src/components/Spinner';
@@ -79,6 +79,11 @@ const ProjectById = () => {
           </Box>
         );
       },
+      [BLOCKS.PARAGRAPH]: (node, children) => {
+        if (children?.toString().trim() === '') return null;
+
+        return <p>{children}</p>;
+      },
       [BLOCKS.EMBEDDED_ENTRY]: (node) => {
         const { target } = node.data;
         // Collection of images gets rendered as a carousel
@@ -128,6 +133,7 @@ const ProjectById = () => {
       <Flex
         as='main'
         mt={headerHt}
+        pb={[8, 12]}
         direction={['column', 'row']}
         sx={{
           h4: {
@@ -147,7 +153,9 @@ const ProjectById = () => {
           mb={4}
           align='flex-start'
         >
-          <Heading fontWeight={200}>{title}</Heading>
+          <Heading fontWeight={200} letterSpacing='0.0625rem'>
+            {title}
+          </Heading>
           <Text mt='0.5rem' fontSize={['lg', 'md']}>
             {summary}
           </Text>

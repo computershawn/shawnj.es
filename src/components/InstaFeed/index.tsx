@@ -98,7 +98,7 @@ export default function InstaFeed() {
       )}
 
       {instaData.feed && (
-        <Box mb={4}>
+        <Box>
           <Grid
             templateColumns={{
               base: 'repeat(1, 1fr)',
