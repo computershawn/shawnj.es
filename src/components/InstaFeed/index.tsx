@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Alert,
@@ -33,24 +33,19 @@ import { store } from '../../providers/store';
 // }
 
 // Instagram feed with the help of https://github.com/jrparente/nextjs-instagram
-// !! TODO: Store instagrm data in application state
 export default function InstaFeed() {
-  const [instagramFeed999, setInstagramFeed999] = useState(null);
-  const [after, setAfter] = useState(null);
-  const [error, setError] = useState(null);
-
   const globalState = useContext(store);
   const {
     dispatch,
     state: { instaData },
   } = globalState;
 
-  const fetchFeed = async (after) => {
-    const limit = 3;
+  const fetchFeed = async (aft) => {
+    const limit = 12; // Number of Instagram posts to retrieve per fetch
     try {
       let url = `https://graph.instagram.com/me/media?limit=${limit}&fields=id,caption,media_url,media_type,timestamp,permalink&access_token=${process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN}`;
-      if (after) {
-        url += `&after=${after}`;
+      if (aft) {
+        url += `&after=${aft}`;
       }
       const data = await fetch(url);
 
@@ -59,44 +54,6 @@ export default function InstaFeed() {
       }
 
       const feed = await data.json();
-
-      setInstagramFeed999((prevFeed) => {
-        if (prevFeed && prevFeed.data.length > 0) {
-          return {
-            ...feed,
-            data: [...prevFeed.data, ...feed.data],
-          };
-        }
-        return feed;
-      });
-      setAfter(feed.paging?.cursors.after);
-      setError(null);
-      // const updatedFeed = {
-      //   ...instaData.feed,
-      //   ...(instaData.feed &&
-      //     instaData.feed.data.length > 0 && {
-      //       data: [...instaData.feed.data, ...feed.data],
-      //     }),
-      // };
-      // const updatedFeed = {
-      //   ...instaData.feed,
-      // ...(instaData.feed &&
-      //   instaData.feed.data.length > 0 && {
-      //     data: [...instaData.feed.data, ...feed.data],
-      //   }),
-      // };
-      // const updatedData =
-      //   instaData.feed && instaData.feed.data.length > 0
-      //     ? [instaData.feed.data, ...feed.data]
-      //     : feed.data;
-      // const feefee = {
-      //   ...instaData.feed,
-      //   data: updatedData,
-      // };
-      // console.log('instagramFeed', instagramFeed999);
-      // console.log('feed', feefee);
-      // console.log('updatedFeed', updatedFeed);
-
       dispatch({
         type: 'SET_INSTAGRAM_DATA',
         payload: {
@@ -105,8 +62,7 @@ export default function InstaFeed() {
         },
       });
     } catch (err) {
-      console.error('Error fetching Instagram feed:', err.message);
-      setError(err.message);
+      console.warn('Error fetching Instagram feed:', err.message);
       dispatch({
         type: 'SET_INSTAGRAM_ERROR',
         payload: {
@@ -117,25 +73,27 @@ export default function InstaFeed() {
   };
 
   const loadMore = () => {
-    fetchFeed(after);
+    fetchFeed(instaData.after);
   };
 
   // Fetch the initial feed
   useEffect(() => {
-    fetchFeed(null);
+    if (instaData.feed.data.length === 0) {
+      fetchFeed(null);
+    }
   }, []);
 
   return (
     <>
-      {error && (
-        <Alert status='error'>
+      {instaData.error && (
+        <Alert status="warning">
           <AlertIcon />
           <AlertTitle>Oopsies</AlertTitle>
           <AlertDescription>Can't get Instagram feed</AlertDescription>
         </Alert>
       )}
 
-      {instagramFeed999 && (
+      {instaData.feed && (
         <Box mb={4}>
           <Grid
             templateColumns={{
@@ -146,7 +104,7 @@ export default function InstaFeed() {
             gap={2}
             pb={4}
           >
-            {instagramFeed999.data.map((post) => (
+            {instaData.feed.data.map((post) => (
               <GridItem
                 key={post.id}
                 aspectRatio='1'
@@ -185,7 +143,7 @@ export default function InstaFeed() {
               </GridItem>
             ))}
           </Grid>
-          {after && <button onClick={loadMore}>Load More</button>}
+          {instaData.after && <button onClick={loadMore}>Load More</button>}
         </Box>
       )}
     </>
