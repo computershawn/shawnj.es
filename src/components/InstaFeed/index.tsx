@@ -1,15 +1,18 @@
 import React, { useContext, useEffect } from 'react';
 import Link from 'next/link';
+
 import {
   Alert,
   AlertDescription,
   AlertIcon,
   AlertTitle,
   Box,
+  Center,
   Grid,
   GridItem,
 } from '@chakra-ui/react';
 import { store } from '../../providers/store';
+import { PlayIcon } from '../CustomIcons';
 
 // type InstagramPost = {
 //   id: string;
@@ -86,7 +89,7 @@ export default function InstaFeed() {
   return (
     <>
       {instaData.error && (
-        <Alert status="warning">
+        <Alert status='warning'>
           <AlertIcon />
           <AlertTitle>Oopsies</AlertTitle>
           <AlertDescription>Can't get Instagram feed</AlertDescription>
@@ -120,12 +123,17 @@ export default function InstaFeed() {
                   className='relative'
                 >
                   {post.media_type === 'VIDEO' ? (
-                    <video
-                      src={post.media_url}
-                      controls={false}
-                      width='100%'
-                      height='100%'
-                    />
+                    <Box position='relative' w='100%' h='100%'>
+                      <Center position='absolute' w='100%' h='100%'>
+                        <PlayIcon color='whiteAlpha.900' boxSize={8} />
+                      </Center>
+                      <video
+                        src={post.media_url}
+                        controls={false}
+                        width='100%'
+                        height='100%'
+                      />
+                    </Box>
                   ) : (
                     <img
                       src={post.media_url}
