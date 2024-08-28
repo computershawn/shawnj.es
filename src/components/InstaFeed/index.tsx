@@ -7,6 +7,7 @@ import {
   AlertIcon,
   AlertTitle,
   Box,
+  Button,
   Center,
   Grid,
   GridItem,
@@ -151,7 +152,12 @@ export default function InstaFeed() {
               </GridItem>
             ))}
           </Grid>
-          {instaData.after && <button onClick={loadMore}>Load More</button>}
+
+          {instaData.after && (
+            <Button w="100%" variant='outline' onClick={loadMore}>
+              Load More
+            </Button>
+          )}
         </Box>
       )}
     </>

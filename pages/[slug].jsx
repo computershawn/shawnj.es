@@ -128,7 +128,6 @@ const ProjectById = () => {
       <Flex
         as='main'
         mt={headerHt}
-        pb={[null, '3rem']}
         direction={['column', 'row']}
         sx={{
           h4: {
