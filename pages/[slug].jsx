@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { createClient } from 'contentful';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS, INLINES } from '@contentful/rich-text-types';
+import { BLOCKS } from '@contentful/rich-text-types';
 import isEmpty from 'lodash/isEmpty';
 
 import Spinner from '../src/components/Spinner';
@@ -11,6 +11,7 @@ import { store } from '../src/providers/store';
 import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import VimeoVideo from '../src/components/VimeoVideo';
 import ImageCarousel from '../src/components/ImageCarousel';
+import InstaFeed from '../src/components/InstaFeed';
 
 const ProjectById = () => {
   const router = useRouter();
@@ -20,36 +21,38 @@ const ProjectById = () => {
     dispatch,
     state: { projectsData, projectsMetadata, projectLookup },
   } = globalState;
+  const headerHt = '7.5rem';
 
   useEffect(() => {
-    // Only proceed if projectLookup contains values; If it has values,
-    // we'll be able to look up this project's ID based on its slug
-    if (!isEmpty(projectLookup) && !!slug && !!projectLookup[slug].id) {
+    // Only proceed if projectLookup contains values and if app
+    // context does not already contain this project's data
+    // TODO: Maybe data fetching should be made into an external method
+    if (
+      !!slug &&
+      !isEmpty(projectLookup) &&
+      !!projectLookup[slug].id &&
+      !projectsData.hasOwnProperty(projectLookup[slug].id)
+    ) {
+      const client = createClient({
+        space: process.env.NEXT_PUBLIC_SPACE,
+        accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
+      });
       const { id } = projectLookup[slug];
-      // We only need to make a call to Contentful API if app context does
-      // not already contain this project's data
-      if (!projectsData.hasOwnProperty(id)) {
-        const client = createClient({
-          space: process.env.NEXT_PUBLIC_SPACE,
-          accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
-        });
-
-        client
-          .getEntry(id, {
-            content_type: 'work',
-            select: 'fields.projectContent',
-          })
-          .then((ent) => {
-            dispatch({
-              type: 'SET_PROJECTS_DATA',
-              payload: {
-                id,
-                content: ent.fields.projectContent,
-              },
-            });
-          })
-          .catch(console.error);
-      }
+      client
+        .getEntry(id, {
+          content_type: 'work',
+          select: 'fields.projectContent',
+        })
+        .then((ent) => {
+          dispatch({
+            type: 'SET_PROJECTS_DATA',
+            payload: {
+              id,
+              content: ent.fields.projectContent,
+            },
+          });
+        })
+        .catch(console.error);
     }
   }, [projectLookup]);
 
@@ -76,29 +79,52 @@ const ProjectById = () => {
           </Box>
         );
       },
+      [BLOCKS.PARAGRAPH]: (node, children) => {
+        if (children?.toString().trim() === '') return null;
+
+        return <p>{children}</p>;
+      },
       [BLOCKS.EMBEDDED_ENTRY]: (node) => {
+        const { target } = node.data;
         // Collection of images gets rendered as a carousel
-        if (node.data.target.sys.contentType.sys.id === 'imageCollection') {
+        if (target.sys.contentType.sys.id === 'imageCollection') {
           const carouselData = {
-            images: node.data.target.fields.images,
-            captionType: node.data.target.fields.captionType,
-            multipleCaptions: node.data.target.fields.multipleCaptions.text,
-            singleCaption: node.data.target.fields.singleCaption,
+            images: target.fields.images,
+            captionType: target.fields.captionType,
+            multipleCaptions: target.fields.multipleCaptions.text,
+            singleCaption: target.fields.singleCaption,
           };
 
           return <ImageCarousel data={carouselData} />;
         }
 
         // If the entry fields contain videoId and videoHash, render a Vimeo video
-        const { videoId, videoHash } = node.data.target.fields;
-        if (!videoId || !videoHash) return null;
+        if (
+          target.fields.hasOwnProperty('videoId') &&
+          target.fields.hasOwnProperty('videoHash')
+        ) {
+          return (
+            <VimeoVideo
+              videoId={target.fields.videoId}
+              videoHash={target.fields.videoHash}
+            />
+          );
+        }
 
-        return <VimeoVideo videoId={videoId} videoHash={videoHash} />;
+        // If the entry fields contain 'code', render the item specified
+        if (
+          target.fields.hasOwnProperty('code') &&
+          target.fields.code?.item === 'instagram_feed'
+        ) {
+          return (
+            <Box>
+              <InstaFeed />
+            </Box>
+          );
+        }
       },
     },
   };
-
-  const headerHt = '7.5rem';
 
   if (!isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
     const { id, summary, title } = projectLookup[slug];
@@ -106,9 +132,8 @@ const ProjectById = () => {
     return (
       <Flex
         as='main'
-        // maxW={[null, 960]}
         mt={headerHt}
-        pb={[null, '3rem']}
+        pb={[8, 12]}
         direction={['column', 'row']}
         sx={{
           h4: {
@@ -122,18 +147,24 @@ const ProjectById = () => {
       >
         <VStack
           w={['auto', '18.5rem']}
-          ml={['1.5rem', '3rem']}
-          mr={['1.5rem', '1.5rem']}
+          minW={[null, '18.5rem']}
+          ml={[6, 12]}
+          mr={[6, 6]}
+          mb={4}
           align='flex-start'
         >
-          <Heading fontWeight={200}>{title}</Heading>
-          <Text mt='0.5rem'>{summary}</Text>
+          <Heading fontWeight={200} letterSpacing='0.0625rem'>
+            {title}
+          </Heading>
+          <Text mt='0.5rem' fontSize={['lg', 'md']}>
+            {summary}
+          </Text>
         </VStack>
         <VStack
           my={0}
           ml={'1.5rem'}
           mr={['1.5rem', '3rem']}
-          spacing='1.5rem'
+          spacing={4}
           maxW='1000px'
           align='flex-start'
           sx={{ h3: { fontSize: '1.5rem', fontWeight: 300 } }}

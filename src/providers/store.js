@@ -4,6 +4,11 @@ const initialState = {
   projectsMetadata: [],
   projectsData: {},
   projectLookup: {},
+  instaData: {
+    after: null,
+    error: null,
+    feed: { data: [] },
+  },
 };
 
 const store = createContext(initialState);
@@ -43,7 +48,39 @@ const StateProvider = ({ children }) => {
         };
 
         return updatedState;
-  
+
+      case 'SET_INSTAGRAM_DATA':
+        const prevFeed = prevState.instaData.feed;
+        const { after, feed } = action.payload;
+        const temp = {
+          ...feed,
+          ...(prevFeed &&
+            prevFeed.data.length && { data: [...prevFeed.data, ...feed.data] }),
+        };
+
+        updatedState = {
+          ...prevState,
+          instaData: {
+            after,
+            error: null,
+            feed: temp,
+          },
+        };
+
+        return updatedState;
+
+      case 'SET_INSTAGRAM_ERROR':
+        updatedState = {
+          ...prevState,
+          instaData: {
+            ...prevState.instaData,
+            error: action.payload.error,
+          },
+        };
+
+        console.log('updatedState.instaData', updatedState.instaData);
+
+        return updatedState;
       case 'CLEAR_DATA':
         return initialState;
 
