@@ -1,14 +1,16 @@
 import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import { createClient } from 'contentful';
+import isEmpty from 'lodash/isEmpty';
+
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from '@contentful/rich-text-types';
-import isEmpty from 'lodash/isEmpty';
+import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 
 import Spinner from '../src/components/Spinner';
 // import FooterNav from '../src/components/FooterNav';
 import { store } from '../src/providers/store';
-import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import VimeoVideo from '../src/components/VimeoVideo';
 import ImageCarousel from '../src/components/ImageCarousel';
 import InstaFeed from '../src/components/InstaFeed';
@@ -126,60 +128,75 @@ const ProjectById = () => {
     },
   };
 
-  if (!isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
-    const { id, summary, title } = projectLookup[slug];
+  const { title } = projectLookup?.[slug] || '';
+  const pageTitlePrefix = '__S H A W N J A C K S O N__';
+  const pageTitle = title ? `${pageTitlePrefix} :: ${title}` : pageTitlePrefix;
 
+  const pageHead = (
+    <Head>
+      <title>{pageTitle}</title>
+    </Head>
+  );
+
+  if (!isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
+    const { id, summary } = projectLookup[slug];
     return (
-      <Flex
-        as='main'
-        mt={headerHt}
-        pb={[8, 12]}
-        direction={['column', 'row']}
-        sx={{
-          h4: {
-            fontSize: '1.25rem',
-          },
-          hr: {
-            borderTop: '1px solid #dbdbdb',
-            width: '100%',
-          },
-        }}
-      >
-        <VStack
-          w={['auto', '18.5rem']}
-          minW={[null, '18.5rem']}
-          ml={[6, 12]}
-          mr={[6, 6]}
-          mb={4}
-          align='flex-start'
+      <>
+        {pageHead}
+        <Flex
+          as='main'
+          mt={headerHt}
+          pb={[8, 12]}
+          direction={['column', 'row']}
+          sx={{
+            h4: {
+              fontSize: '1.25rem',
+            },
+            hr: {
+              borderTop: '1px solid #dbdbdb',
+              width: '100%',
+            },
+          }}
         >
-          <Heading fontWeight={200} letterSpacing='0.0625rem'>
-            {title}
-          </Heading>
-          <Text mt='0.5rem' fontSize={['lg', 'md']}>
-            {summary}
-          </Text>
-        </VStack>
-        <VStack
-          my={0}
-          ml={'1.5rem'}
-          mr={['1.5rem', '3rem']}
-          spacing={4}
-          maxW='1000px'
-          align='flex-start'
-          sx={{ h3: { fontSize: '1.5rem', fontWeight: 300 } }}
-        >
-          {documentToReactComponents(projectsData[id], renderOptions)}
-        </VStack>
-        {/* <FooterNav /> */}
-      </Flex>
+          <VStack
+            w={['auto', '18.5rem']}
+            minW={[null, '18.5rem']}
+            ml={[6, 12]}
+            mr={[6, 6]}
+            mb={4}
+            align='flex-start'
+          >
+            <Heading fontWeight={200} letterSpacing='0.0625rem'>
+              {title}
+            </Heading>
+            <Text mt='0.5rem' fontSize={['lg', 'md']}>
+              {summary}
+            </Text>
+          </VStack>
+          <VStack
+            my={0}
+            ml={'1.5rem'}
+            mr={['1.5rem', '3rem']}
+            spacing={4}
+            maxW='1000px'
+            align='flex-start'
+            sx={{ h3: { fontSize: '1.5rem', fontWeight: 300 } }}
+          >
+            {documentToReactComponents(projectsData[id], renderOptions)}
+          </VStack>
+          {/* <FooterNav /> */}
+        </Flex>
+      </>
     );
   }
 
   return (
-    <Center as='main' mt={headerHt} h={`calc(100vh - ${headerHt})`}>
-      <Spinner />
-    </Center>
+    <>
+      {pageHead}
+      <Center as='main' mt={headerHt} h={`calc(100vh - ${headerHt})`}>
+        <Spinner />
+      </Center>
+    </>
   );
 };
 
