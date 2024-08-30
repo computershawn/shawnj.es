@@ -105,15 +105,18 @@ const Nav = () => {
                 icon='linkedin'
                 href='https://www.linkedin.com/in/shawnjdesign'
                 newTab
+                ariaLabel='Find Shawn on LinkedIn'
               />
               <NavIcon
                 icon='github'
                 href='https://github.com/computershawn'
                 newTab
+                ariaLabel='View GitHub profile'
               />
               <NavIcon
                 icon='email'
                 href='mailto:hello@shawnj.es?Subject=Hello'
+                ariaLabel='Send email to hello@shawnj.es'
               />
             </Box>
             <Box display={['block', 'none']} className='mobile-menu-toggle'>
