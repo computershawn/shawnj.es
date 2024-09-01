@@ -17,11 +17,12 @@ const Segment = ({ delay }) => (
     w={16}
     h={16}
     margin={2}
-    border='8px solid #0366EE'
     borderRadius='50%'
-    animation={`${ringAround} 1.2s cubic-bezier(0.5, 0, 0.5, 1) ${delay} infinite`}
+    borderWidth={8}
+    borderStyle='solid'
     borderColor='transparent'
     borderTopColor='cyan.500'
+    animation={`${ringAround} 1.2s cubic-bezier(0.5, 0, 0.5, 1) ${delay} infinite`}
   />
 );
 
