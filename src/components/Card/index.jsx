@@ -1,5 +1,5 @@
 import React from 'react';
-import NextLink from 'next/link'
+import NextLink from 'next/link';
 
 import { Box, Flex, Link, Text } from '@chakra-ui/react';
 
@@ -9,9 +9,9 @@ const Card = ({ proj }) => {
   return (
     <Box
       bgImage={thumbnail}
-      bgPosition="center"
-      bgSize="cover"
-      bgRepeat="no-repeat"
+      bgPosition='center'
+      bgSize='cover'
+      bgRepeat='no-repeat'
     >
       <Link as={NextLink} href={slug}>
         <Flex
@@ -23,8 +23,8 @@ const Card = ({ proj }) => {
           position='absolute'
           top={0}
           left={0}
-          width='100%'
-          height='100%'
+          w='100%'
+          h='100%'
           zIndex={2}
           opacity={0}
           transition='opacity 300ms'
@@ -32,7 +32,9 @@ const Card = ({ proj }) => {
             opacity: 1,
           }}
         >
-          <Text m="0 1.5rem" fontSize="1.5rem" align="center">{title}</Text>
+          <Text mx={6} fontSize='2xl' align='center'>
+            {title}
+          </Text>
         </Flex>
       </Link>
     </Box>

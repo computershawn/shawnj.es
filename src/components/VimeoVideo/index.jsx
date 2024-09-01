@@ -15,10 +15,6 @@ export default function VimeoVideo({ videoId, videoHash }) {
     var videoPlayer = new Player(elemId, playerOptions);
 
     videoPlayer.setVolume(0);
-
-    videoPlayer.on('play', function () {
-      console.log('Played the first video');
-    });
   }, []);
 
   return (

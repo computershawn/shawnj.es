@@ -78,7 +78,7 @@ const Nav = () => {
     <>
       <Flex
         width='100%'
-        height='6rem'
+        height={24}
         position='fixed'
         top={0}
         left={0}
@@ -87,15 +87,16 @@ const Nav = () => {
         zIndex={100}
       >
         <Flex
-          fontSize='0.9rem'
-          margin={['1rem', '0 2rem']}
+          fontSize='sm'
+          my={[4, 0]}
+          mx={[4, 8]}
           justify='space-between'
           align='center'
           width='100%'
         >
-          <div>
-            <Box display={['none', 'block']}>
-              <NavTextLink text='WORK' href='/' className='current' />
+          <>
+            <Box gap={6} display={['none', 'flex']}>
+              <NavTextLink text='WORK' href='/' />
               <NavTextLink
                 text='SJ×MDP'
                 href='http://cargocollective.com/designcpu'
@@ -119,11 +120,11 @@ const Nav = () => {
                 ariaLabel='Send email to hello@shawnj.es'
               />
             </Box>
-            <Box display={['block', 'none']} className='mobile-menu-toggle'>
+            <Box display={['block', 'none']}>
               <MenuButton onClick={toggleMenu} />
             </Box>
-          </div>
-          <Box w='3.75rem' h='3.75rem'>
+          </>
+          <Box w={16} h={16}>
             <ShawnjLogo />
           </Box>
         </Flex>

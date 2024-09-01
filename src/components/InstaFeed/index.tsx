@@ -11,6 +11,7 @@ import {
   Center,
   Grid,
   GridItem,
+  Image,
 } from '@chakra-ui/react';
 import { store } from '../../providers/store';
 import { PlayIcon } from '../CustomIcons';
@@ -136,25 +137,20 @@ export default function InstaFeed() {
                       />
                     </Box>
                   ) : (
-                    <img
+                    <Image
                       src={post.media_url}
                       alt={post.caption ?? ''}
-                      width='100%'
-                      height='100%'
+                      w='100%'
+                      h='100%'
                     />
                   )}
-                  {/* <div className='absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 bg-black bg-opacity-50 flex items-center justify-center p-4 w-full h-[300px]'>
-                    <p className='text-white text-center text-xs truncate'>
-                      {post.caption}
-                    </p>
-                  </div> */}
                 </Link>
               </GridItem>
             ))}
           </Grid>
 
           {instaData.after && (
-            <Button w="100%" variant='outline' onClick={loadMore}>
+            <Button w='100%' variant='outline' onClick={loadMore}>
               Load More
             </Button>
           )}

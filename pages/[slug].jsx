@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from '@contentful/rich-text-types';
-import { Box, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Image, Text, VStack } from '@chakra-ui/react';
 
 import Spinner from '../src/components/Spinner';
 // import FooterNav from '../src/components/FooterNav';
@@ -64,17 +64,14 @@ const ProjectById = () => {
         // render the EMBEDDED_ASSET as you need
         const { file, description } = node.data.target.fields;
         return (
-          // TODO: Replace <img /> with a NextJS or Chakra Image
           <Box as='figure'>
-            <img
+            <Image
               src={`https:${file.url}`}
               width='100%'
-              // height={node.data.target.fields.file.details.image.height}
-              // width={node.data.target.fields.file.details.image.width}
               alt={description}
             />
             {description && (
-              <Text as='figcaption' fontSize='sm' mt='0.25rem'>
+              <Text as='figcaption' fontSize='sm' mt={1}>
                 {description}
               </Text>
             )}
@@ -84,7 +81,7 @@ const ProjectById = () => {
       [BLOCKS.PARAGRAPH]: (node, children) => {
         if (children?.toString().trim() === '') return null;
 
-        return <p>{children}</p>;
+        return <Text>{children}</Text>;
       },
       [BLOCKS.EMBEDDED_ENTRY]: (node) => {
         const { target } = node.data;
@@ -150,7 +147,7 @@ const ProjectById = () => {
           direction={['column', 'row']}
           sx={{
             h4: {
-              fontSize: '1.25rem',
+              fontSize: 'xl'
             },
             hr: {
               borderTop: '1px solid #dbdbdb',
@@ -169,18 +166,18 @@ const ProjectById = () => {
             <Heading fontWeight={200} letterSpacing='0.0625rem'>
               {title}
             </Heading>
-            <Text mt='0.5rem' fontSize={['lg', 'md']}>
+            <Text mt={2} fontSize={['lg', 'md']}>
               {summary}
             </Text>
           </VStack>
           <VStack
             my={0}
-            ml={'1.5rem'}
-            mr={['1.5rem', '3rem']}
+            ml={6}
+            mr={[6, 12]}
             spacing={4}
             maxW='1000px'
             align='flex-start'
-            sx={{ h3: { fontSize: '1.5rem', fontWeight: 300 } }}
+            sx={{ h3: { fontSize: '2xl', fontWeight: 300 } }}
           >
             {documentToReactComponents(projectsData[id], renderOptions)}
           </VStack>
