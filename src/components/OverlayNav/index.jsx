@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import React from 'react';
 
-import { Link, VStack } from '@chakra-ui/react';
+import { IconButton, Link, VStack } from '@chakra-ui/react';
 
 import DismissIcon from '../../assets/dismiss-icon.svg';
 import { Box, Button, Flex } from '@chakra-ui/react';
@@ -34,59 +34,59 @@ const OverlayNav = ({ toggle, isOpen }) => {
     p: 2,
     pl: 8,
     textDecor: 'none',
-    fontSize: '2.25rem',
-    color: '#f1f1f1',
+    fontSize: '4xl',
+    color: 'gray.50',
     display: 'block',
     transition: '0.3s',
     _hover: {
-      color: '#f1f1f1',
+      color: 'gray.50',
     },
     _focus: {
-      color: '#f1f1f1',
+      color: 'gray.50',
     },
   };
 
   return (
     <Flex
       width='100%'
-      // height="${props => props.isOpen ? '100%' ="'0%'}"
       h={isOpen ? '100%' : '0'}
       position='fixed'
       zIndex={100}
       top={0}
       left={0}
-      bgColor='rgba(0,0,0,0.9)'
+      bgColor='blackAlpha.900'
       overflowX='hidden'
       transition='height 0.36s cubic-bezier(0.25, 1, 0.5, 1)'
       flexDir='column'
     >
-      <div style={{ margin: '1rem' }}>
-        {/* Consider making this an IconButton? */}
-        <Button variant='ghost' onClick={handleToggle} aria-label='Dismiss mobile navigation'>
-          <Box
-            w='2rem'
-            h='2rem'
-            sx={{
-              svg: {
-                fill: '#ffffff',
-              },
-            }}
-          >
-            <DismissIcon />
-          </Box>
-        </Button>
-      </div>
+      <Box
+        mt={8}
+        mx={8}
+        sx={{
+          svg: {
+            fill: '#ffffff',
+          },
+        }}
+      >
+        <IconButton
+          variant='ghost'
+          onClick={handleToggle}
+          aria-label='Dismiss mobile navigation'
+        >
+          <DismissIcon />
+        </IconButton>
+      </Box>
 
       <Box
         position='relative'
         width='100%'
         text-align='center'
         margin='auto 0'
-        bottom='2rem'
+        bottom={8}
       >
-        <VStack mb='1rem' align='flex-start'>
+        <VStack mb={4} align='flex-start'>
           <Link as={NextLink} href='/' onClick={handleToggle} {...linkStyle}>
-            <span>WORK</span>
+            WORK
           </Link>
           {links.map((link) => {
             return (

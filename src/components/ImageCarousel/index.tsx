@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Flex, IconButton, Text } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Image, Text } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 const ImageCarousel = ({ data }) => {
@@ -18,6 +18,8 @@ const ImageCarousel = ({ data }) => {
     setCurrentFrame(val < 0 ? images.length - 1 : val);
   };
 
+  const buttonHt = 4;
+
   return (
     <Box>
       <Box>
@@ -33,28 +35,27 @@ const ImageCarousel = ({ data }) => {
             >
               <Flex
                 position='absolute'
-                top='calc(50% - 2rem)'
+                top={`calc(50% - ${buttonHt / 2}rem)`}
                 w='100%'
                 justify='space-between'
               >
                 <IconButton
-                  h='4rem'
+                  h={`${buttonHt}rem`}
                   aria-label='previous image'
                   icon={<ChevronLeftIcon />}
                   onClick={prevFrame}
                 />
                 <IconButton
-                  h='4rem'
+                  h={`${buttonHt}rem`}
                   aria-label='next image'
                   icon={<ChevronRightIcon />}
                   onClick={nextFrame}
                 />
               </Flex>
               <Box as='figure'>
-                <img src={imageUrl} alt={im.fields.description} />
-
+                <Image w="100%" src={imageUrl} alt={im.fields.description} />
                 {imageCaption && captionType === 'multiple' && (
-                  <Text as='figcaption' fontSize='sm' mt='0.25rem'>
+                  <Text as='figcaption' fontSize='sm' mt={1}>
                     {imageCaption}
                   </Text>
                 )}
@@ -64,7 +65,7 @@ const ImageCarousel = ({ data }) => {
         })}
       </Box>
       {singleCaption && captionType === 'single' && (
-        <Text as='figcaption' fontSize='sm' mt='0.25rem'>
+        <Text as='figcaption' fontSize='sm' mt={1}>
           {singleCaption}
         </Text>
       )}

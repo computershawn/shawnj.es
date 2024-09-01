@@ -11,10 +11,10 @@ import { Box } from '@chakra-ui/react';
 
 const iconColor = {
   svg: {
-    fill: '#8a8a8a',
+    fill: 'gray.500',
     transition: 'fill 200ms ease-in-out',
     _hover: {
-      fill: '#222',
+      fill: 'gray.700',
     }
   }
 };
@@ -44,10 +44,9 @@ const NavIcon = ({
 
   return (
     <Box
-      mr="2rem"
       display="inline-block"
-      width="0.9rem"
-      height="0.9rem"
+      width={4}
+      height={4}
       verticalAlign="-0.2rem"
     >
       <Link onClick={clickCallback} as={NextLink} href={href} isExternal={newTab} sx={iconColor} aria-label={ariaLabel}>

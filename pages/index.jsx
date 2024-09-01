@@ -22,7 +22,8 @@ const ProjectsIndexPage = () => {
         display='grid'
         gridTemplateColumns='repeat(auto-fill, minmax(320px, 1fr))'
         gridGap={0}
-        margin='6rem auto 0'
+        mt={24}
+        mx='auto'
         sx={{
           div: {
             position: 'relative',
