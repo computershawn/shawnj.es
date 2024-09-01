@@ -62,7 +62,7 @@ const OverlayNav = ({ toggle, isOpen }) => {
     >
       <div style={{ margin: '1rem' }}>
         {/* Consider making this an IconButton? */}
-        <Button variant='ghost' onClick={handleToggle}>
+        <Button variant='ghost' onClick={handleToggle} aria-label='Dismiss mobile navigation'>
           <Box
             w='2rem'
             h='2rem'

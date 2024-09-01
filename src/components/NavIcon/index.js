@@ -24,6 +24,7 @@ const NavIcon = ({
   href,
   newTab = false,
   clickCallback,
+  ariaLabel = '',
 }) => {
   let iconToRender;
 
@@ -49,7 +50,7 @@ const NavIcon = ({
       height="0.9rem"
       verticalAlign="-0.2rem"
     >
-      <Link onClick={clickCallback} as={NextLink} href={href} isExternal={newTab} sx={iconColor}>
+      <Link onClick={clickCallback} as={NextLink} href={href} isExternal={newTab} sx={iconColor} aria-label={ariaLabel}>
         {iconToRender}
       </Link>
     </Box>
