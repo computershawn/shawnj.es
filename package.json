@@ -25,5 +25,10 @@
     "dev": "next",
     "build": "next build",
     "start": "next start"
+  },
+  "devDependencies": {
+    "@types/node": "22.5.2",
+    "@types/react": "^18.3.5",
+    "typescript": "5.5.4"
   }
 }

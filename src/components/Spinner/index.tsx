@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Box, keyframes } from '@chakra-ui/react';
 
 const ringAround = keyframes({

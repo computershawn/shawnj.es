@@ -1,10 +1,10 @@
-import NextLink from 'next/link';
 import React from 'react';
+import NextLink from 'next/link';
 
 import { IconButton, Link, VStack } from '@chakra-ui/react';
 
 import DismissIcon from '../../assets/dismiss-icon.svg';
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 
 const OverlayNav = ({ toggle, isOpen }) => {
   const handleToggle = () => {

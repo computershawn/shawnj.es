@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { createIcon } from '@chakra-ui/icons';
 
 export const PlayIcon = createIcon({

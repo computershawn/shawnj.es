@@ -1,6 +1,7 @@
+import React, { useEffect } from 'react';
+
 import { Box } from '@chakra-ui/react';
 import Player from '@vimeo/player';
-import React, { useEffect } from 'react';
 
 export default function VimeoVideo({ videoId, videoHash }) {
   if (!videoId) return;
