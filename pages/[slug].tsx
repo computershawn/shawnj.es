@@ -17,25 +17,19 @@ import {
 } from '@chakra-ui/react';
 
 import Spinner from '../src/components/Spinner';
-// import FooterNav from '../src/components/FooterNav';
-// import { entriesContext } from '../src/providers/entriesContext';
-import { EntriesContext, ProviderContextType } from '../src/providers/entriesContext';
+import { EntriesContext } from '../src/providers/entriesContext';
 import VimeoVideo from '../src/components/VimeoVideo';
 import ImageCarousel from '../src/components/ImageCarousel';
 import InstaFeed from '../src/components/InstaFeed';
+import { Entry, ProviderContextType } from '../src/types';
 
 const ProjectById = () => {
   const router = useRouter();
-  const { slug } = router.query;
+  const slug = typeof router.query?.slug === 'string' ? router.query?.slug : '';
   const {
     dispatch,
     appState: { projectsData, projectsMetadata, projectLookup },
   } = useContext<ProviderContextType>(EntriesContext);
-  const blep = useContext(EntriesContext);
-  console.log('blep', blep);
-  // console.log('blep', blep);
-  console.log('wassup');
-  // return <div style={{marginTop:"120px"}}>hello</div>
 
   const headerHt = '7.5rem';
 
@@ -50,12 +44,12 @@ const ProjectById = () => {
       !projectsData.hasOwnProperty(projectLookup[slug].id)
     ) {
       const client = createClient({
-        space: process.env.NEXT_PUBLIC_SPACE,
-        accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
+        space: process.env.NEXT_PUBLIC_SPACE ?? '',
+        accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN ?? '',
       });
       const { id } = projectLookup[slug];
       client
-        .getEntry(id, {
+        .getEntry<Entry>(id, {
           content_type: 'work',
           select: 'fields.projectContent',
         })
@@ -64,13 +58,12 @@ const ProjectById = () => {
             type: 'SET_PROJECTS_DATA',
             payload: {
               id,
-              content: ent.fields.projectContent,
+              content: ent?.fields?.projectContent,
             },
           });
         })
         .catch(console.error);
     }
-  // }, [dispatch, projectLookup, projectsData, slug]);
   }, []);
 
   const renderOptions = {
@@ -192,7 +185,6 @@ const ProjectById = () => {
           >
             {documentToReactComponents(projectsData[id], renderOptions)}
           </VStack>
-          {/* <FooterNav /> */}
         </Flex>
       </>
     );

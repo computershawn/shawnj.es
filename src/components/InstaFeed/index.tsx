@@ -16,14 +16,6 @@ import {
 import { EntriesContext } from '../../providers/entriesContext';
 import { PlayIcon } from '../CustomIcons';
 
-// type InstagramPost = {
-//   id: string;
-//   caption: string;
-//   media_url: string;
-//   media_type: string;
-//   timestamp: string;
-//   permalink: string;
-// }
 
 // type InstagramPaging = {
 //   cursors: {

@@ -9,21 +9,19 @@ import NavIcon from '../NavIcon';
 import NavTextLink from '../NavTextLink';
 import MenuButton from '../MenuButton';
 import OverlayNav from '../OverlayNav';
+import { Entry } from '../../types';
 
 const Nav = () => {
-  const { dispatch } = useContext(EntriesContext);
-
-  
+  const { dispatch } = useContext(EntriesContext);  
   useEffect(() => {
     const client = createClient({
-      space: process.env.NEXT_PUBLIC_SPACE,
-      accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
+      space: process.env.NEXT_PUBLIC_SPACE || '',
+      accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN || '',
     });
 
-    // const fieldsToGet = 'fields.slug,fields.summary,fields.thumbnail,fields.title';
     const fieldsToGet = ['slug', 'summary', 'thumbnail', 'title', 'index'];
     client
-      .getEntries({
+      .getEntries<Entry>({
         content_type: 'work',
         select: fieldsToGet.map((f) => `fields.${f}`).join(','),
       })

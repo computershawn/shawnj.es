@@ -1,39 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-
-type FunAction =
-  | { type: 'SET_PROJECTS_METADATA'; payload: any }
-  | { type: 'SET_PROJECTS_DATA'; payload: any }
-  | { type: 'SET_SLUG_INFO'; payload: any }
-  | { type: 'SET_INSTAGRAM_DATA'; payload: any }
-  | { type: 'SET_INSTAGRAM_ERROR'; payload: any }
-  | { type: 'CLEAR_DATA'; payload: any };
-
-type AppContextType = {
-  projectsMetadata: [];
-  projectsData: {};
-  projectLookup: {};
-  instaData: {
-    after: null;
-    error: null;
-    feed: { data: [] };
-  };
-};
-
-// const initialState = {
-//   projectsMetadata: [],
-//   projectsData: {},
-//   projectLookup: {},
-//   instaData: {
-//     after: null,
-//     error: null,
-//     feed: { data: [] },
-//   },
-// };
-
-export interface ProviderContextType {
-  appState: AppContextType;
-  dispatch?: any;
-};
+import { AppContextType, FunAction, ProviderContextType } from '../types';
 
 const defaultState: AppContextType = {
   projectsMetadata: [],
@@ -46,7 +12,7 @@ const defaultState: AppContextType = {
   },
 };
 
-export const EntriesContext = React.createContext<ProviderContextType | null>(null);
+export const EntriesContext = createContext<ProviderContextType>({appState: defaultState});
 
 const entriesReducer = (prevState: AppContextType, action: FunAction): AppContextType => {
   let updatedState;
