@@ -6,23 +6,31 @@ import isEmpty from 'lodash/isEmpty';
 
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from '@contentful/rich-text-types';
-import { Box, Center, Flex, Heading, Image, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Flex,
+  Heading,
+  Image,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 
 import Spinner from '../src/components/Spinner';
-// import FooterNav from '../src/components/FooterNav';
-import { store } from '../src/providers/store';
+import { EntriesContext } from '../src/providers/entriesContext';
 import VimeoVideo from '../src/components/VimeoVideo';
 import ImageCarousel from '../src/components/ImageCarousel';
 import InstaFeed from '../src/components/InstaFeed';
+import { Entry, ProviderContextType } from '../src/types';
 
 const ProjectById = () => {
   const router = useRouter();
-  const { slug } = router.query;
-  const globalState = useContext(store);
+  const slug = typeof router.query?.slug === 'string' ? router.query?.slug : '';
   const {
     dispatch,
-    state: { projectsData, projectsMetadata, projectLookup },
-  } = globalState;
+    appState: { projectsData, projectsMetadata, projectLookup },
+  } = useContext<ProviderContextType>(EntriesContext);
+
   const headerHt = '7.5rem';
 
   useEffect(() => {
@@ -36,12 +44,12 @@ const ProjectById = () => {
       !projectsData.hasOwnProperty(projectLookup[slug].id)
     ) {
       const client = createClient({
-        space: process.env.NEXT_PUBLIC_SPACE,
-        accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
+        space: process.env.NEXT_PUBLIC_SPACE ?? '',
+        accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN ?? '',
       });
       const { id } = projectLookup[slug];
       client
-        .getEntry(id, {
+        .getEntry<Entry>(id, {
           content_type: 'work',
           select: 'fields.projectContent',
         })
@@ -50,13 +58,13 @@ const ProjectById = () => {
             type: 'SET_PROJECTS_DATA',
             payload: {
               id,
-              content: ent.fields.projectContent,
+              content: ent?.fields?.projectContent,
             },
           });
         })
         .catch(console.error);
     }
-  }, [projectLookup]);
+  }, []);
 
   const renderOptions = {
     renderNode: {
@@ -65,11 +73,7 @@ const ProjectById = () => {
         const { file, description } = node.data.target.fields;
         return (
           <Box as='figure'>
-            <Image
-              src={`https:${file.url}`}
-              width='100%'
-              alt={description}
-            />
+            <Image src={`https:${file.url}`} width='100%' alt={description} />
             {description && (
               <Text as='figcaption' fontSize='sm' mt={1}>
                 {description}
@@ -147,7 +151,7 @@ const ProjectById = () => {
           direction={['column', 'row']}
           sx={{
             h4: {
-              fontSize: 'xl'
+              fontSize: 'xl',
             },
             hr: {
               borderTop: '1px solid #dbdbdb',
@@ -181,7 +185,6 @@ const ProjectById = () => {
           >
             {documentToReactComponents(projectsData[id], renderOptions)}
           </VStack>
-          {/* <FooterNav /> */}
         </Flex>
       </>
     );

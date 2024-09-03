@@ -24,6 +24,12 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "devDependencies": {
+    "@types/node": "22.5.2",
+    "@types/react": "^18.3.5",
+    "typescript": "5.5.4"
   }
 }

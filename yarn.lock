@@ -1198,7 +1198,7 @@
 
 "@chakra-ui/icons@^2.1.1":
   version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@chakra-ui/icons/-/icons-2.1.1.tgz#58ff0f9e703f2f4f89debd600ce4e438f43f9c9a"
+  resolved "https://registry.npmjs.org/@chakra-ui/icons/-/icons-2.1.1.tgz"
   integrity sha512-3p30hdo4LlRZTT5CwoAJq3G9fHI0wDc0pBaMHj4SUn0yomO+RcDRlzhdXqdr5cVnzax44sqXJVnf3oQG0eI+4g==
   dependencies:
     "@chakra-ui/icon" "3.2.0"
@@ -2205,15 +2205,35 @@
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.17.7.tgz"
   integrity sha512-8wTvZawATi/lsmNu10/j2hk1KEP0IvjubqPE3cu1Xz7xfXXt5oCq3SNUz4fMIP4XGF9Ky+Ue2tBA3hcS7LSBlA==
 
+"@types/node@22.5.2":
+  version "22.5.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.5.2.tgz#e42344429702e69e28c839a7e16a8262a8086793"
+  integrity sha512-acJsPTEqYqulZS/Yp/S3GgeE6GZ0qYODUR8aVr/DkhHQ8l9nd4j5x1/ZJy9/gHrRlFMqkO6i0I3E27Alu4jjPg==
+  dependencies:
+    undici-types "~6.19.2"
+
 "@types/parse-json@^4.0.0":
   version "4.0.2"
   resolved "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.2.tgz"
   integrity sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==
 
+"@types/prop-types@*":
+  version "15.7.12"
+  resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.12.tgz"
+  integrity sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==
+
 "@types/q@^1.5.1":
   version "1.5.8"
   resolved "https://registry.npmjs.org/@types/q/-/q-1.5.8.tgz"
   integrity sha512-hroOstUScF6zhIi+5+x0dzqrHA1EJi+Irri6b1fxolMTqqHIV/Cg77EtnQcZqZCu8hR3mX2BzIxN4/GzI68Kfw==
+
+"@types/react@^18.3.5":
+  version "18.3.5"
+  resolved "https://registry.npmjs.org/@types/react/-/react-18.3.5.tgz"
+  integrity sha512-WeqMfGJLGuLCqHGYRGHxnKrXcTitc6L/nBUWfWPcTarG3t9PsquqUMuVeXZeca+mglY4Vo5GZjCi0A3Or2lnxA==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^3.0.2"
 
 "@typescript-eslint/parser@^5.4.2 || ^6.0.0 || 7.0.0 - 7.2.0":
   version "7.2.0"
@@ -4503,6 +4523,7 @@ streamsearch@^1.1.0:
   integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -4583,6 +4604,7 @@ string.prototype.trimstart@^1.0.8:
     es-object-atoms "^1.0.0"
 
 "strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  name strip-ansi-cjs
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -4745,6 +4767,11 @@ typed-array-length@^1.0.6:
     is-typed-array "^1.1.13"
     possible-typed-array-names "^1.0.0"
 
+typescript@5.5.4:
+  version "5.5.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.5.4.tgz#d9852d6c82bad2d2eda4fd74a5762a8f5909e9ba"
+  integrity sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==
+
 unbox-primitive@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/unbox-primitive/-/unbox-primitive-1.0.2.tgz"
@@ -4754,6 +4781,11 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
+
+undici-types@~6.19.2:
+  version "6.19.8"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.19.8.tgz#35111c9d1437ab83a7cdc0abae2f26d88eda0a02"
+  integrity sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"

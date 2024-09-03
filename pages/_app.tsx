@@ -2,13 +2,13 @@ import { ChakraProvider } from '@chakra-ui/react';
 import Head from 'next/head';
 
 import Nav from '../src/components/Nav';
-import { StateProvider } from '../src/providers/store';
+import EntriesProvider from '../src/providers/entriesContext';
 
 export default function App({ Component, pageProps }) {
   return (
     <>
       <ChakraProvider>
-        <StateProvider>
+        <EntriesProvider>
           <Head>
             <link rel='shawnj icon' href='/images/favicon.ico' />
             <link
@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }) {
           </Head>
           <Nav />
           <Component {...pageProps} />
-        </StateProvider>
+        </EntriesProvider>
       </ChakraProvider>
     </>
   );
