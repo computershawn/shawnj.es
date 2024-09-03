@@ -6,11 +6,20 @@ import isEmpty from 'lodash/isEmpty';
 
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from '@contentful/rich-text-types';
-import { Box, Center, Flex, Heading, Image, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Flex,
+  Heading,
+  Image,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 
 import Spinner from '../src/components/Spinner';
 // import FooterNav from '../src/components/FooterNav';
-import { store } from '../src/providers/store';
+// import { entriesContext } from '../src/providers/entriesContext';
+import { EntriesContext, ProviderContextType } from '../src/providers/entriesContext';
 import VimeoVideo from '../src/components/VimeoVideo';
 import ImageCarousel from '../src/components/ImageCarousel';
 import InstaFeed from '../src/components/InstaFeed';
@@ -18,11 +27,16 @@ import InstaFeed from '../src/components/InstaFeed';
 const ProjectById = () => {
   const router = useRouter();
   const { slug } = router.query;
-  const globalState = useContext(store);
   const {
     dispatch,
     appState: { projectsData, projectsMetadata, projectLookup },
-  } = globalState;
+  } = useContext<ProviderContextType>(EntriesContext);
+  const blep = useContext(EntriesContext);
+  console.log('blep', blep);
+  // console.log('blep', blep);
+  console.log('wassup');
+  // return <div style={{marginTop:"120px"}}>hello</div>
+
   const headerHt = '7.5rem';
 
   useEffect(() => {
@@ -56,7 +70,8 @@ const ProjectById = () => {
         })
         .catch(console.error);
     }
-  }, [dispatch, projectLookup, projectsData, slug]);
+  // }, [dispatch, projectLookup, projectsData, slug]);
+  }, []);
 
   const renderOptions = {
     renderNode: {
@@ -65,11 +80,7 @@ const ProjectById = () => {
         const { file, description } = node.data.target.fields;
         return (
           <Box as='figure'>
-            <Image
-              src={`https:${file.url}`}
-              width='100%'
-              alt={description}
-            />
+            <Image src={`https:${file.url}`} width='100%' alt={description} />
             {description && (
               <Text as='figcaption' fontSize='sm' mt={1}>
                 {description}
@@ -147,7 +158,7 @@ const ProjectById = () => {
           direction={['column', 'row']}
           sx={{
             h4: {
-              fontSize: 'xl'
+              fontSize: 'xl',
             },
             hr: {
               borderTop: '1px solid #dbdbdb',

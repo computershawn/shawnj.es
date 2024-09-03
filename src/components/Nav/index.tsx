@@ -4,22 +4,22 @@ import { createClient } from 'contentful';
 import { Box, Flex } from '@chakra-ui/react';
 
 import ShawnjLogo from '../../assets/shawnj-logo.svg';
-import { store } from '../../providers/store';
+import { EntriesContext } from '../../providers/entriesContext';
 import NavIcon from '../NavIcon';
 import NavTextLink from '../NavTextLink';
 import MenuButton from '../MenuButton';
 import OverlayNav from '../OverlayNav';
 
 const Nav = () => {
-  const globalState = useContext(store);
-  const { dispatch } = globalState;
+  const { dispatch } = useContext(EntriesContext);
 
-  const client = createClient({
-    space: process.env.NEXT_PUBLIC_SPACE,
-    accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
-  });
-
+  
   useEffect(() => {
+    const client = createClient({
+      space: process.env.NEXT_PUBLIC_SPACE,
+      accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
+    });
+
     // const fieldsToGet = 'fields.slug,fields.summary,fields.thumbnail,fields.title';
     const fieldsToGet = ['slug', 'summary', 'thumbnail', 'title', 'index'];
     client
@@ -62,7 +62,7 @@ const Nav = () => {
       .catch((e) => {
         console.error(e);
       });
-  }, [client, dispatch]);
+  }, [dispatch]);
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 

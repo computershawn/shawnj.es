@@ -4,13 +4,12 @@ import Head from 'next/head';
 import { Box } from '@chakra-ui/react';
 
 import Card from '../src/components/Card';
-import { store } from '../src/providers/store';
+import { EntriesContext } from '../src/providers/entriesContext';
 
 const ProjectsIndexPage = () => {
-  const globalState = useContext(store);
   const {
     appState: { projectsMetadata },
-  } = globalState;
+  } = useContext(EntriesContext);
 
   return (
     // Grid styling borrowed from https://css-tricks.com/a-grid-of-logos-in-squares/

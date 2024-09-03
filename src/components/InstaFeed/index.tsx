@@ -13,7 +13,7 @@ import {
   GridItem,
   Image,
 } from '@chakra-ui/react';
-import { store } from '../../providers/store';
+import { EntriesContext } from '../../providers/entriesContext';
 import { PlayIcon } from '../CustomIcons';
 
 // type InstagramPost = {
@@ -39,11 +39,10 @@ import { PlayIcon } from '../CustomIcons';
 
 // Instagram feed with the help of https://github.com/jrparente/nextjs-instagram
 export default function InstaFeed() {
-  const globalState = useContext(store);
   const {
     dispatch,
     appState: { instaData },
-  } = globalState;
+  } = useContext(EntriesContext);
 
   // const fetchFeed = async (aft) => {
   //   const limit = 12; // Number of Instagram posts to retrieve per fetch
@@ -76,37 +75,40 @@ export default function InstaFeed() {
   //     });
   //   }
   // };
-  const fetchFeed = useCallback(async (aft) => {
-    const limit = 12; // Number of Instagram posts to retrieve per fetch
-    try {
-      let url = `https://graph.instagram.com/me/media?limit=${limit}&fields=id,caption,media_url,media_type,timestamp,permalink&access_token=${process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN}`;
-      if (aft) {
-        url += `&after=${aft}`;
-      }
-      const data = await fetch(url);
+  const fetchFeed = useCallback(
+    async (aft) => {
+      const limit = 12; // Number of Instagram posts to retrieve per fetch
+      try {
+        let url = `https://graph.instagram.com/me/media?limit=${limit}&fields=id,caption,media_url,media_type,timestamp,permalink&access_token=${process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN}`;
+        if (aft) {
+          url += `&after=${aft}`;
+        }
+        const data = await fetch(url);
 
-      if (!data.ok) {
-        throw new Error('Failed to fetch Instagram feed');
-      }
+        if (!data.ok) {
+          throw new Error('Failed to fetch Instagram feed');
+        }
 
-      const feed = await data.json();
-      dispatch({
-        type: 'SET_INSTAGRAM_DATA',
-        payload: {
-          feed: feed,
-          after: feed.paging?.cursors.after,
-        },
-      });
-    } catch (err) {
-      console.warn('Error fetching Instagram feed:', err.message);
-      dispatch({
-        type: 'SET_INSTAGRAM_ERROR',
-        payload: {
-          error: err.message,
-        },
-      });
-    }
-  }, [dispatch]);
+        const feed = await data.json();
+        dispatch({
+          type: 'SET_INSTAGRAM_DATA',
+          payload: {
+            feed: feed,
+            after: feed.paging?.cursors.after,
+          },
+        });
+      } catch (err) {
+        console.warn('Error fetching Instagram feed:', err.message);
+        dispatch({
+          type: 'SET_INSTAGRAM_ERROR',
+          payload: {
+            error: err.message,
+          },
+        });
+      }
+    },
+    [dispatch]
+  );
 
   const loadMore = () => {
     fetchFeed(instaData.after);
