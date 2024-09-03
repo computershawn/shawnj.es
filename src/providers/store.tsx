@@ -1,4 +1,23 @@
-import { createContext, useReducer } from 'react';
+import React, { createContext, useReducer } from 'react';
+
+type FunAction =
+  | { type: 'SET_PROJECTS_METADATA'; payload: any }
+  | { type: 'SET_PROJECTS_DATA'; payload: any }
+  | { type: 'SET_SLUG_INFO'; payload: any }
+  | { type: 'SET_INSTAGRAM_DATA'; payload: any }
+  | { type: 'SET_INSTAGRAM_ERROR'; payload: any }
+  | { type: 'CLEAR_DATA'; payload: any };
+
+type AppContextType = {
+  projectsMetadata: [];
+  projectsData: {};
+  projectLookup: {};
+  instaData: {
+    after: null;
+    error: null;
+    feed: { data: [] };
+  };
+};
 
 const initialState = {
   projectsMetadata: [],
@@ -9,14 +28,20 @@ const initialState = {
     error: null,
     feed: { data: [] },
   },
+  // dispatch: React.Dispatch<FunAction>,
 };
 
-const store = createContext(initialState);
+// const store = createContext(initialState);
+
+const store = React.createContext<{
+  appState: AppContextType;
+  dispatch: React.Dispatch<FunAction>;
+} | null>(null);
 
 const { Provider } = store;
 
 const StateProvider = ({ children }) => {
-  const [state, dispatch] = useReducer((prevState, action) => {
+  const [appState, dispatch] = useReducer((prevState, action) => {
     let updatedState;
 
     switch (action.type) {
@@ -89,7 +114,8 @@ const StateProvider = ({ children }) => {
     }
   }, initialState);
 
-  return <Provider value={{ state, dispatch }}>{children}</Provider>;
+  return <Provider value={{ appState, dispatch }}>{children}</Provider>;
 };
 
 export { store, StateProvider };
+// export default StateProvider;

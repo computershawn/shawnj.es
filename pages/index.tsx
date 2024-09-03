@@ -9,7 +9,7 @@ import { store } from '../src/providers/store';
 const ProjectsIndexPage = () => {
   const globalState = useContext(store);
   const {
-    state: { projectsMetadata },
+    appState: { projectsMetadata },
   } = globalState;
 
   return (

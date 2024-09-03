@@ -4,19 +4,19 @@ import { Box } from '@chakra-ui/react';
 import Player from '@vimeo/player';
 
 export default function VimeoVideo({ videoId, videoHash }) {
-  if (!videoId) return;
-
   const elemId = `video-${videoId}`;
 
   useEffect(() => {
     var playerOptions = {
-      url: `https://player.vimeo.com/video/${videoId}?h=${videoHash}`
+      url: `https://player.vimeo.com/video/${videoId}?h=${videoHash}`,
     };
 
     var videoPlayer = new Player(elemId, playerOptions);
 
     videoPlayer.setVolume(0);
-  }, []);
+  });
+
+  if (!videoId) return;
 
   return (
     <Box

@@ -21,7 +21,7 @@ const ProjectById = () => {
   const globalState = useContext(store);
   const {
     dispatch,
-    state: { projectsData, projectsMetadata, projectLookup },
+    appState: { projectsData, projectsMetadata, projectLookup },
   } = globalState;
   const headerHt = '7.5rem';
 
@@ -56,7 +56,7 @@ const ProjectById = () => {
         })
         .catch(console.error);
     }
-  }, [projectLookup]);
+  }, [dispatch, projectLookup, projectsData, slug]);
 
   const renderOptions = {
     renderNode: {

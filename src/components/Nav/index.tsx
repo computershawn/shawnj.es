@@ -62,7 +62,7 @@ const Nav = () => {
       .catch((e) => {
         console.error(e);
       });
-  }, []);
+  }, [client, dispatch]);
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 

@@ -19,13 +19,16 @@ const iconColor = {
   }
 };
 
-const NavIcon = ({
-  icon = null,
-  href,
-  newTab = false,
-  clickCallback,
-  ariaLabel = '',
-}) => {
+type NavIconType = {
+  ariaLabel: string;
+  clickCallback?: () => void;
+  href: string;
+  icon?: string;
+  newTab?: boolean;
+};
+
+const NavIcon = (props: NavIconType) => {
+  const { ariaLabel, clickCallback, href, icon, newTab } = props;
   let iconToRender;
 
   switch (icon) {
