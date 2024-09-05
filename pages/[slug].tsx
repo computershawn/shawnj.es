@@ -64,7 +64,7 @@ const ProjectById = () => {
         })
         .catch(console.error);
     }
-  }, []);
+  }, [dispatch, projectLookup, projectsData, slug]);
 
   const renderOptions = {
     renderNode: {
