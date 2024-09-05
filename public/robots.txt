@@ -21,7 +21,7 @@ Disallow: /account/
 Disallow: /commerce/digital-download/
 Disallow: /api/
 Allow: /api/ui-extensions/
-# Disallow: /static/
+Allow: /static/
 Disallow:/*?author=*
 Disallow:/*&author=*
 Disallow:/*?tag=*
