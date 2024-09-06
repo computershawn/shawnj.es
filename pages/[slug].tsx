@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { createClient } from 'contentful';
@@ -22,6 +22,8 @@ import VimeoVideo from '../src/components/VimeoVideo';
 import ImageCarousel from '../src/components/ImageCarousel';
 import InstaFeed from '../src/components/InstaFeed';
 import { Entry, ProviderContextType } from '../src/types';
+import { headerHt, pageTitlePrefix } from '../src/constants';
+import NotFound from '../src/components/NotFound';
 
 const ProjectById = () => {
   const router = useRouter();
@@ -30,19 +32,18 @@ const ProjectById = () => {
     dispatch,
     appState: { projectsData, projectsMetadata, projectLookup },
   } = useContext<ProviderContextType>(EntriesContext);
-
-  const headerHt = '7.5rem';
+  const [projectNotFound, setProjectNotFound] = useState(false);
 
   useEffect(() => {
     // Only proceed if projectLookup contains values and if app
     // context does not already contain this project's data
     // TODO: Maybe data fetching should be made into an external method
-    if (
-      !!slug &&
-      !isEmpty(projectLookup) &&
-      !!projectLookup[slug].id &&
-      !projectsData.hasOwnProperty(projectLookup[slug].id)
-    ) {
+    const hasProjects = !isEmpty(projectLookup);
+    const entryIdExists = !!projectLookup?.[slug]?.id;
+    const notYetFetched =
+      entryIdExists && !projectsData.hasOwnProperty(projectLookup[slug].id);
+
+    if (!!slug && hasProjects && notYetFetched) {
       const client = createClient({
         space: process.env.NEXT_PUBLIC_SPACE ?? '',
         accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN ?? '',
@@ -64,7 +65,14 @@ const ProjectById = () => {
         })
         .catch(console.error);
     }
+    if (hasProjects && !entryIdExists) {
+      setProjectNotFound(true);
+    }
   }, [dispatch, projectLookup, projectsData, slug]);
+
+  if (projectNotFound) {
+    return <NotFound />;
+  }
 
   const renderOptions = {
     renderNode: {
@@ -130,7 +138,6 @@ const ProjectById = () => {
   };
 
   const { title } = projectLookup?.[slug] || '';
-  const pageTitlePrefix = '__S H A W N J A C K S O N__';
   const pageTitle = title ? `${pageTitlePrefix} :: ${title}` : pageTitlePrefix;
 
   const pageHead = (
