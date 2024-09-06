@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 
 import { Button, Center, Text, VStack } from '@chakra-ui/react';
 
-import { headerHt, pageTitlePrefix } from '../../constants';
+import { headerHt, pageTitlePrefix } from '../src/constants';
 
 export default function Custom404() {
   return (
