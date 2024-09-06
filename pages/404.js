@@ -16,7 +16,7 @@ export default function Custom404() {
           <Text as='h1' fontSize='2xl'>
             oh no!
           </Text>
-          <Text>There&apos;s nothing on this page…</Text>
+          <Text mb="6px">There&apos;s nothing on this page…</Text>
           <Button as={NextLink} href='/'>
             Go back home
           </Button>

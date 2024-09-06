@@ -16,7 +16,7 @@ const NotFound = () => {
       <Center as='main' mt={headerHt} h={`calc(100vh - ${headerHt})`}>
         <VStack spacing={2}>
           <Text as='h1' fontSize="2xl">oh no!</Text>
-          <Text>There&apos;s nothing on this page…</Text>
+          <Text mb="6px">There&apos;s nothing on this page…</Text>
           <Button as={NextLink} href="/">Go back home</Button>
         </VStack>
       </Center>
