@@ -23,23 +23,6 @@ const ProjectsIndexPage = () => {
         gridGap={0}
         mt={24}
         mx='auto'
-        sx={{
-          div: {
-            position: 'relative',
-            _before: {
-              content: '""',
-              display: 'block',
-              paddingBottom: '100%',
-            },
-            div: {
-              position: 'absolute',
-              maxWidth: '100%',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-            },
-          },
-        }}
       >
         {projectsMetadata.map((proj) => {
           return <Card key={proj.id} proj={proj} />;

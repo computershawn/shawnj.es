@@ -12,6 +12,12 @@ const Card = ({ proj }) => {
       bgPosition='center'
       bgSize='cover'
       bgRepeat='no-repeat'
+      position='relative'
+      _before={{
+        content: '""',
+        display: 'block',
+        paddingBottom: '100%',
+      }}
     >
       <Link as={NextLink} href={slug}>
         <Flex
@@ -21,12 +27,14 @@ const Card = ({ proj }) => {
           justify='center'
           align='center'
           position='absolute'
-          top={0}
-          left={0}
+          top={'50%'}
+          left='50%'
+          transform='translate(-50%, -50%)'
           w='100%'
+          maxW='100%'
           h='100%'
           zIndex={2}
-          opacity={0}
+          opacity={1}
           transition='opacity 300ms'
           _hover={{
             opacity: 1,
