@@ -1,13 +1,9 @@
-import React from 'react';
-import NextLink from 'next/link'
+import React, { ReactElement } from 'react';
+import NextLink from 'next/link';
 
-import { Link } from '@chakra-ui/react';
+import { IconButton } from '@chakra-ui/react';
 
-import Linkedin from '../../assets/linkedin-brands.svg';
-import GitHub from '../../assets/github-brands.svg';
-import Email from '../../assets/envelope-regular.svg';
-import Unlink from '../../assets/unlink-solid.svg';
-import { Box } from '@chakra-ui/react';
+import { UnlinkIcon } from '../CustomIcons';
 
 const iconColor = {
   svg: {
@@ -15,48 +11,37 @@ const iconColor = {
     transition: 'fill 200ms ease-in-out',
     _hover: {
       fill: 'gray.700',
-    }
-  }
+    },
+  },
 };
 
 type NavIconType = {
   ariaLabel: string;
   clickCallback?: () => void;
   href: string;
-  icon?: string;
   newTab?: boolean;
+  icon?: ReactElement;
 };
 
 const NavIcon = (props: NavIconType) => {
   const { ariaLabel, clickCallback, href, icon, newTab } = props;
-  let iconToRender;
-
-  switch (icon) {
-    case 'linkedin':
-      iconToRender = <Linkedin />;
-      break;
-    case 'github':
-      iconToRender = <GitHub />;
-      break;
-    case 'email':
-      iconToRender = <Email />;
-      break;
-    default:
-      iconToRender = <Unlink />;
-  }
+  const iconToRender = icon ?? <UnlinkIcon />;
 
   return (
-    <Box
-      display="inline-block"
-      width={4}
-      height={4}
-      verticalAlign="-0.2rem"
+    <IconButton
+      variant='unstyled'
+      aria-label={ariaLabel}
+      size='xs'
+      display='flex'
+      as={NextLink}
+      href={href}
+      target={newTab ? '_blank' : '_self'}
+      onClick={clickCallback}
+      sx={iconColor}
     >
-      <Link onClick={clickCallback} as={NextLink} href={href} isExternal={newTab} sx={iconColor} aria-label={ariaLabel}>
-        {iconToRender}
-      </Link>
-    </Box>
+      {iconToRender}
+    </IconButton>
   );
-}
+};
 
-export default NavIcon
+export default NavIcon;

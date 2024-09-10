@@ -3,8 +3,8 @@ import NextLink from 'next/link';
 
 import { IconButton, Link, VStack } from '@chakra-ui/react';
 
-import DismissIcon from '../../assets/dismiss-icon.svg';
 import { Box, Flex } from '@chakra-ui/react';
+import { CloseIcon } from '@chakra-ui/icons';
 
 const OverlayNav = ({ toggle, isOpen }) => {
   const handleToggle = () => {
@@ -59,21 +59,14 @@ const OverlayNav = ({ toggle, isOpen }) => {
       transition='height 0.36s cubic-bezier(0.25, 1, 0.5, 1)'
       flexDir='column'
     >
-      <Box
-        mt={8}
-        mx={8}
-        sx={{
-          svg: {
-            fill: '#ffffff',
-          },
-        }}
-      >
+      <Box mt={8} mx={8}>
         <IconButton
           variant='ghost'
           onClick={handleToggle}
           aria-label='Dismiss mobile navigation'
+          size='lg'
         >
-          <DismissIcon />
+          <CloseIcon color='#ffffff' boxSize={8} />
         </IconButton>
       </Box>
 
