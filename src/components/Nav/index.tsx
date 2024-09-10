@@ -5,14 +5,15 @@ import { Box, Flex } from '@chakra-ui/react';
 
 import ShawnjLogo from '../../assets/shawnj-logo.svg';
 import { EntriesContext } from '../../providers/entriesContext';
+import { Entry } from '../../types';
 import NavIcon from '../NavIcon';
 import NavTextLink from '../NavTextLink';
 import MenuButton from '../MenuButton';
 import OverlayNav from '../OverlayNav';
-import { Entry } from '../../types';
+import { EmailIcon, GitHubIcon, LinkedinIcon } from '../CustomIcons';
 
 const Nav = () => {
-  const { dispatch } = useContext(EntriesContext);  
+  const { dispatch } = useContext(EntriesContext);
   useEffect(() => {
     const client = createClient({
       space: process.env.NEXT_PUBLIC_SPACE || '',
@@ -75,8 +76,8 @@ const Nav = () => {
   return (
     <>
       <Flex
-        width='100%'
-        height={24}
+        w='100%'
+        h={24}
         position='fixed'
         top={0}
         left={0}
@@ -101,19 +102,19 @@ const Nav = () => {
                 newTab
               />
               <NavIcon
-                icon='linkedin'
+                icon={<LinkedinIcon boxSize={4} />}
                 href='https://www.linkedin.com/in/shawnjdesign'
                 newTab
                 ariaLabel='Find Shawn on LinkedIn'
               />
               <NavIcon
-                icon='github'
+                icon={<GitHubIcon boxSize={4} />}
                 href='https://github.com/computershawn'
                 newTab
                 ariaLabel='View GitHub profile'
               />
               <NavIcon
-                icon='email'
+                icon={<EmailIcon boxSize={4} />}
                 href='mailto:hello@shawnj.es?Subject=Hello'
                 ariaLabel='Send email to hello@shawnj.es'
               />
