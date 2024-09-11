@@ -21,26 +21,26 @@ const Card = ({ proj }) => {
     >
       <Link as={NextLink} href={slug}>
         <Flex
-          background='rgb(0, 0, 0, 0.8)'
+          background='blackAlpha.900'
           color='#fefefe'
           display='flex'
-          justify='center'
+          justify={['flex-start', 'center']}
           align='center'
           position='absolute'
-          top={'50%'}
-          left='50%'
-          transform='translate(-50%, -50%)'
-          w='100%'
-          maxW='100%'
-          h='100%'
+          top={[0, '50%']}
+          left={[1, '50%']}
+          transform={[null, 'translate(-50%, -50%)']}
+          w={[null, '100%']}
+          maxW={[null, '100%']}
+          h={[null, '100%']}
           zIndex={2}
-          opacity={1}
+          opacity={[1, 0]}
           transition='opacity 300ms'
           _hover={{
             opacity: 1,
           }}
         >
-          <Text mx={6} fontSize='2xl' align='center'>
+          <Text mx={6} fontSize='2xl'>
             {title}
           </Text>
         </Flex>
