@@ -7,19 +7,19 @@ const Card = ({ proj }) => {
   const { thumbnail, title, slug } = proj;
 
   return (
-    <Box
-      bgImage={thumbnail}
-      bgPosition='center'
-      bgSize='cover'
-      bgRepeat='no-repeat'
-      position='relative'
-      _before={{
-        content: '""',
-        display: 'block',
-        paddingBottom: '100%',
-      }}
-    >
-      <Link as={NextLink} href={slug}>
+    <Link as={NextLink} href={slug}>
+      <Box
+        bgImage={thumbnail}
+        bgPosition='center'
+        bgSize='cover'
+        bgRepeat='no-repeat'
+        position='relative'
+        _before={{
+          content: '""',
+          display: 'block',
+          paddingBottom: '100%',
+        }}
+      >
         <Flex
           background='blackAlpha.900'
           color='#fefefe'
@@ -44,8 +44,8 @@ const Card = ({ proj }) => {
             {title}
           </Text>
         </Flex>
-      </Link>
-    </Box>
+      </Box>
+    </Link>
   );
 };
 
