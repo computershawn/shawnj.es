@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import Head from 'next/head';
 
-import { Box } from '@chakra-ui/react';
+import { Grid } from '@chakra-ui/react';
 
 import Card from '../src/components/Card';
+import { pageTitlePrefix } from '../src/constants';
 import { EntriesContext } from '../src/providers/entriesContext';
 
 const ProjectsIndexPage = () => {
@@ -15,19 +16,18 @@ const ProjectsIndexPage = () => {
     // Grid styling borrowed from https://css-tricks.com/a-grid-of-logos-in-squares/
     <>
       <Head>
-        <title>__S H A W N J A C K S O N__</title>
+        <title>{pageTitlePrefix}</title>
       </Head>
-      <Box
-        display='grid'
-        gridTemplateColumns='repeat(auto-fill, minmax(320px, 1fr))'
-        gridGap={0}
+      <Grid
+        templateColumns='repeat(auto-fill, minmax(320px, 1fr))'
+        gap={0}
         mt={24}
         mx='auto'
       >
-        {projectsMetadata.map((proj) => {
-          return <Card key={proj.id} proj={proj} />;
-        })}
-      </Box>
+        {projectsMetadata.map((proj) => (
+          <Card key={proj.id} proj={proj} />
+        ))}
+      </Grid>
     </>
   );
 };
