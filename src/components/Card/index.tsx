@@ -21,20 +21,20 @@ const Card = ({ proj }) => {
         }}
       >
         <Flex
-          background='blackAlpha.900'
+          background={{ base: 'blackAlpha.900', md: 'blackAlpha.800' }}
           color='#fefefe'
           display='flex'
-          justify={['flex-start', 'center']}
+          justify={{ base: 'flex-start', md: 'center' }}
           align='center'
           position='absolute'
-          top={[0, '50%']}
-          left={[1, '50%']}
-          transform={[null, 'translate(-50%, -50%)']}
-          w={[null, '100%']}
-          maxW={[null, '100%']}
-          h={[null, '100%']}
+          top={{ base: 0, md: '50%' }}
+          left={{ base: 1, md: '50%' }}
+          transform={{ md: 'translate(-50%, -50%)' }}
+          w={{ md: '100%' }}
+          maxW={{ md: '100%' }}
+          h={{ md: '100%' }}
           zIndex={2}
-          opacity={[1, 0]}
+          opacity={{ base: 1, md: 0 }}
           transition='opacity 300ms'
           _hover={{
             opacity: 1,
