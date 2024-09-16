@@ -1,19 +1,21 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { createClient } from 'contentful';
 
-import { Box, Flex } from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons';
+import { Box, Flex, IconButton, useDisclosure } from '@chakra-ui/react';
 
 import ShawnjLogo from '../../assets/shawnj-logo.svg';
 import { EntriesContext } from '../../providers/entriesContext';
 import { Entry } from '../../types';
 import NavIcon from '../NavIcon';
 import NavTextLink from '../NavTextLink';
-import MenuButton from '../MenuButton';
 import OverlayNav from '../OverlayNav';
 import { EmailIcon, GitHubIcon, LinkedinIcon } from '../CustomIcons';
 
 const Nav = () => {
   const { dispatch } = useContext(EntriesContext);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   useEffect(() => {
     const client = createClient({
       space: process.env.NEXT_PUBLIC_SPACE || '',
@@ -65,14 +67,6 @@ const Nav = () => {
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  const toggleMenu = () => {
-    if (menuIsOpen) {
-      setMenuIsOpen(false);
-    } else {
-      setMenuIsOpen(true);
-    }
-  };
-
   return (
     <>
       <Flex
@@ -120,7 +114,14 @@ const Nav = () => {
               />
             </Box>
             <Box display={['block', 'none']}>
-              <MenuButton onClick={toggleMenu} />
+              <IconButton
+                variant='ghost'
+                onClick={onOpen}
+                aria-label='Menu button'
+                size='lg'
+              >
+                <HamburgerIcon boxSize={8} />
+              </IconButton>
             </Box>
           </>
           <Box w={16} h={16}>
@@ -128,9 +129,47 @@ const Nav = () => {
           </Box>
         </Flex>
       </Flex>
-      <OverlayNav toggle={toggleMenu} isOpen={menuIsOpen} />
+      <OverlayNav toggle={onClose} isOpen={isOpen} />
     </>
   );
 };
 
 export default Nav;
+
+function SizeExample() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const [size, setSize] = React.useState('md')
+
+  const handleSizeClick = () => {
+    // setSize(newSize)
+    onOpen();
+  };
+
+  // const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'full']
+
+  // return (
+  //   <>
+  //     {/* {sizes.map((size) => ( */}
+  //       <Button
+  //         onClick={onOpen}
+  //         // key={size}
+  //         m={4}
+  //       >{`Open full Modal`}</Button>
+  //     {/* ))} */}
+
+  //     <Modal onClose={onClose} size={size} isOpen={isOpen}>
+  //       <ModalOverlay />
+  //       <ModalContent>
+  //         <ModalHeader>Modal Title</ModalHeader>
+  //         <ModalCloseButton />
+  //         <ModalBody>
+  //           <Lorem count={2} />
+  //         </ModalBody>
+  //         <ModalFooter>
+  //           <Button onClick={onClose}>Close</Button>
+  //         </ModalFooter>
+  //       </ModalContent>
+  //     </Modal>
+  //   </>
+  // )
+}
