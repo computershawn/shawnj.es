@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import NextLink from 'next/link';
 
-import { Button, Center, Text, VStack } from '@chakra-ui/react';
+import { Button, Center, Text, useMediaQuery, VStack } from '@chakra-ui/react';
 
 import { headerHt, headerHtBig, pageTitlePrefix } from '../src/constants';
 
