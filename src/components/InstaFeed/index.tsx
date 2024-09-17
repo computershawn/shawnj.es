@@ -16,19 +16,6 @@ import {
 import { EntriesContext } from '../../providers/entriesContext';
 import { PlayIcon } from '../CustomIcons';
 
-
-// type InstagramPaging = {
-//   cursors: {
-//     before: string;
-//     after: string;
-//   }
-// }
-
-// type InstagramFeed = {
-//   data: InstagramPost[];
-//   paging?: InstagramPaging;
-// }
-
 // Instagram feed with the help of https://github.com/jrparente/nextjs-instagram
 export default function InstaFeed() {
   const {
@@ -36,39 +23,9 @@ export default function InstaFeed() {
     appState: { instaData },
   } = useContext(EntriesContext);
 
-  // const fetchFeed = async (aft) => {
-  //   const limit = 12; // Number of Instagram posts to retrieve per fetch
-  //   try {
-  //     let url = `https://graph.instagram.com/me/media?limit=${limit}&fields=id,caption,media_url,media_type,timestamp,permalink&access_token=${process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN}`;
-  //     if (aft) {
-  //       url += `&after=${aft}`;
-  //     }
-  //     const data = await fetch(url);
-
-  //     if (!data.ok) {
-  //       throw new Error('Failed to fetch Instagram feed');
-  //     }
-
-  //     const feed = await data.json();
-  //     dispatch({
-  //       type: 'SET_INSTAGRAM_DATA',
-  //       payload: {
-  //         feed: feed,
-  //         after: feed.paging?.cursors.after,
-  //       },
-  //     });
-  //   } catch (err) {
-  //     console.warn('Error fetching Instagram feed:', err.message);
-  //     dispatch({
-  //       type: 'SET_INSTAGRAM_ERROR',
-  //       payload: {
-  //         error: err.message,
-  //       },
-  //     });
-  //   }
-  // };
   const fetchFeed = useCallback(
-    async (aft) => {
+    async (aft: string | null) => {
+      console.log('aft', aft);
       const limit = 12; // Number of Instagram posts to retrieve per fetch
       try {
         let url = `https://graph.instagram.com/me/media?limit=${limit}&fields=id,caption,media_url,media_type,timestamp,permalink&access_token=${process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN}`;
@@ -89,7 +46,7 @@ export default function InstaFeed() {
             after: feed.paging?.cursors.after,
           },
         });
-      } catch (err) {
+      } catch (err: any) {
         console.warn('Error fetching Instagram feed:', err.message);
         dispatch({
           type: 'SET_INSTAGRAM_ERROR',

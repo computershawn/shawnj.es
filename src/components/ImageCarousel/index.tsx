@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+
 import { Box, Flex, IconButton, Image, Text } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
-const ImageCarousel = ({ data }) => {
+import { ImageCarouselData } from '../../types';
+
+const ImageCarousel = ({ data }: { data: ImageCarouselData}) => {
+  console.log('data', data);
   const { images, captionType, multipleCaptions, singleCaption } =
     data;
 

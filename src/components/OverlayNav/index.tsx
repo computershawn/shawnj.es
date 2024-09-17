@@ -11,11 +11,13 @@ import {
   VStack,
 } from '@chakra-ui/react';
 
-const OverlayNav = ({ toggle, isOpen }) => {
-  const handleToggle = () => {
-    toggle(isOpen);
-  };
-
+const OverlayNav = ({
+  toggle,
+  isOpen,
+}: {
+  toggle: VoidFunction;
+  isOpen: boolean;
+}) => {
   const links = [
     {
       url: 'http://cargocollective.com/designcpu',
@@ -58,7 +60,7 @@ const OverlayNav = ({ toggle, isOpen }) => {
         <ModalCloseButton size='lg' color='gray.50' top={3} left={5} />
         <ModalBody display='flex' alignItems='center'>
           <VStack align='flex-start'>
-            <Link as={NextLink} href='/' onClick={handleToggle} {...linkStyle}>
+            <Link as={NextLink} href='/' onClick={toggle} {...linkStyle}>
               WORK
             </Link>
             {links.map((link) => {
@@ -67,7 +69,7 @@ const OverlayNav = ({ toggle, isOpen }) => {
                   key={link.text}
                   as={NextLink}
                   href={link.url}
-                  onClick={handleToggle}
+                  onClick={toggle}
                   isExternal={link.newTab}
                   {...linkStyle}
                 >
