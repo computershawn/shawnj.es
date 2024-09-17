@@ -37,7 +37,7 @@ const OverlayNav = ({ toggle, isOpen }) => {
 
   const linkStyle = {
     p: 2,
-    pl: 8,
+    pl: 2,
     textDecor: 'none',
     fontSize: '4xl',
     color: 'gray.50',
@@ -54,8 +54,8 @@ const OverlayNav = ({ toggle, isOpen }) => {
   return (
     <Modal onClose={toggle} size='full' isOpen={isOpen}>
       <ModalOverlay />
-      <ModalContent bg='blackAlpha.800'>
-        <ModalCloseButton size='lg' color='gray.50' top={7} left={12} />
+      <ModalContent bg='blackAlpha.900'>
+        <ModalCloseButton size='lg' color='gray.50' top={3} left={5} />
         <ModalBody display='flex' alignItems='center'>
           <VStack align='flex-start'>
             <Link as={NextLink} href='/' onClick={handleToggle} {...linkStyle}>

@@ -1,10 +1,11 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { createClient } from 'contentful';
 
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton, useDisclosure } from '@chakra-ui/react';
 
 import ShawnjLogo from '../../assets/shawnj-logo.svg';
+import { headerHt, headerHtBig } from '../../constants';
 import { EntriesContext } from '../../providers/entriesContext';
 import { Entry } from '../../types';
 import NavIcon from '../NavIcon';
@@ -65,13 +66,11 @@ const Nav = () => {
       });
   }, [dispatch]);
 
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
-
   return (
     <>
       <Flex
         w='100%'
-        h={24}
+        h={{ base: headerHt, md: headerHtBig }}
         position='fixed'
         top={0}
         left={0}
@@ -124,7 +123,7 @@ const Nav = () => {
               </IconButton>
             </Box>
           </>
-          <Box w={16} h={16}>
+          <Box w={[10, 16]} h={[10, 16]}>
             <ShawnjLogo />
           </Box>
         </Flex>
@@ -135,41 +134,3 @@ const Nav = () => {
 };
 
 export default Nav;
-
-function SizeExample() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  // const [size, setSize] = React.useState('md')
-
-  const handleSizeClick = () => {
-    // setSize(newSize)
-    onOpen();
-  };
-
-  // const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'full']
-
-  // return (
-  //   <>
-  //     {/* {sizes.map((size) => ( */}
-  //       <Button
-  //         onClick={onOpen}
-  //         // key={size}
-  //         m={4}
-  //       >{`Open full Modal`}</Button>
-  //     {/* ))} */}
-
-  //     <Modal onClose={onClose} size={size} isOpen={isOpen}>
-  //       <ModalOverlay />
-  //       <ModalContent>
-  //         <ModalHeader>Modal Title</ModalHeader>
-  //         <ModalCloseButton />
-  //         <ModalBody>
-  //           <Lorem count={2} />
-  //         </ModalBody>
-  //         <ModalFooter>
-  //           <Button onClick={onClose}>Close</Button>
-  //         </ModalFooter>
-  //       </ModalContent>
-  //     </Modal>
-  //   </>
-  // )
-}
