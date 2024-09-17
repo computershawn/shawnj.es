@@ -87,7 +87,6 @@ const ProjectById = () => {
       [BLOCKS.EMBEDDED_ASSET]: (node: EmbeddedAssetBlockNode) => {
         // render the EMBEDDED_ASSET as you need
         const { file, description } = node.data.target.fields;
-        console.log('node.data.target.fields', node.data.target.fields);
         return (
           <Box as='figure'>
             <Image src={`https:${file.url}`} width='100%' alt={description} />

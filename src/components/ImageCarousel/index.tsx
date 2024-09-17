@@ -6,7 +6,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { ImageCarouselData } from '../../types';
 
 const ImageCarousel = ({ data }: { data: ImageCarouselData}) => {
-  console.log('data', data);
   const { images, captionType, multipleCaptions, singleCaption } =
     data;
 

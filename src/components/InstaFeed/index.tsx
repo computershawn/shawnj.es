@@ -25,7 +25,6 @@ export default function InstaFeed() {
 
   const fetchFeed = useCallback(
     async (aft: string | null) => {
-      console.log('aft', aft);
       const limit = 12; // Number of Instagram posts to retrieve per fetch
       try {
         let url = `https://graph.instagram.com/me/media?limit=${limit}&fields=id,caption,media_url,media_type,timestamp,permalink&access_token=${process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN}`;
