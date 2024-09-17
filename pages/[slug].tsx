@@ -13,6 +13,7 @@ import {
   Heading,
   Image,
   Text,
+  useMediaQuery,
   VStack,
 } from '@chakra-ui/react';
 
@@ -22,7 +23,13 @@ import VimeoVideo from '../src/components/VimeoVideo';
 import ImageCarousel from '../src/components/ImageCarousel';
 import InstaFeed from '../src/components/InstaFeed';
 import { Entry, ProviderContextType } from '../src/types';
-import { headerHt, pageTitlePrefix } from '../src/constants';
+import {
+  contentTopMargin,
+  contentTopMarginBig,
+  headerHt,
+  headerHtBig,
+  pageTitlePrefix,
+} from '../src/constants';
 import NotFound from '../src/components/NotFound';
 
 const ProjectById = () => {
@@ -33,6 +40,9 @@ const ProjectById = () => {
     appState: { projectsData, projectsMetadata, projectLookup },
   } = useContext<ProviderContextType>(EntriesContext);
   const [projectNotFound, setProjectNotFound] = useState(false);
+  const [isLargerThan30em] = useMediaQuery('(min-width: 30em)');
+  const mt = isLargerThan30em ? contentTopMarginBig : contentTopMargin;
+  const headerHeight = isLargerThan30em ? headerHtBig : headerHt;
 
   useEffect(() => {
     // Only proceed if projectLookup contains values and if app
@@ -153,7 +163,7 @@ const ProjectById = () => {
         {pageHead}
         <Flex
           as='main'
-          mt={headerHt}
+          mt={mt}
           pb={[8, 12]}
           direction={['column', 'row']}
           sx={{
@@ -200,7 +210,11 @@ const ProjectById = () => {
   return (
     <>
       {pageHead}
-      <Center as='main' mt={headerHt} h={`calc(100vh - ${headerHt})`}>
+      <Center
+        as='main'
+        mt={headerHeight}
+        h={`calc(100vh - ${headerHeight})`}
+      >
         <Spinner />
       </Center>
     </>
