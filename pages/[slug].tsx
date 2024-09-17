@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { createClient } from 'contentful';
@@ -22,7 +22,13 @@ import Spinner from '../src/components/Spinner';
 import VimeoVideo from '../src/components/VimeoVideo';
 import { useHeaderDims } from '../src/hooks/use-header-dims';
 import { EntriesContext } from '../src/providers/entriesContext';
-import { Entry, ProviderContextType } from '../src/types';
+import {
+  EmbeddedAssetBlockNode,
+  EmbeddedEntryBlockNode,
+  Entry,
+  ParagraphNode,
+  ProviderContextType,
+} from '../src/types';
 import { pageTitlePrefix } from '../src/constants';
 import NotFound from '../src/components/NotFound';
 
@@ -78,7 +84,7 @@ const ProjectById = () => {
 
   const renderOptions = {
     renderNode: {
-      [BLOCKS.EMBEDDED_ASSET]: (node, children) => {
+      [BLOCKS.EMBEDDED_ASSET]: (node: EmbeddedAssetBlockNode) => {
         // render the EMBEDDED_ASSET as you need
         const { file, description } = node.data.target.fields;
         return (
@@ -92,12 +98,12 @@ const ProjectById = () => {
           </Box>
         );
       },
-      [BLOCKS.PARAGRAPH]: (node, children) => {
+      [BLOCKS.PARAGRAPH]: (_node: ParagraphNode, children: ReactNode) => {
         if (children?.toString().trim() === '') return null;
 
         return <Text>{children}</Text>;
       },
-      [BLOCKS.EMBEDDED_ENTRY]: (node) => {
+      [BLOCKS.EMBEDDED_ENTRY]: (node: EmbeddedEntryBlockNode) => {
         const { target } = node.data;
         // Collection of images gets rendered as a carousel
         if (target.sys.contentType.sys.id === 'imageCollection') {

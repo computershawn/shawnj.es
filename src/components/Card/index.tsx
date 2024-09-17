@@ -3,7 +3,9 @@ import NextLink from 'next/link';
 
 import { Box, Flex, Link, Text } from '@chakra-ui/react';
 
-const Card = ({ proj }) => {
+import { Project } from '../../types';
+
+const Card = ({ proj }: { proj: Project }) => {
   const { thumbnail, title, slug } = proj;
 
   return (

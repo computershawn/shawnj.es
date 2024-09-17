@@ -7,7 +7,7 @@ import { Box, Flex, IconButton, useDisclosure } from '@chakra-ui/react';
 import ShawnjLogo from '../../assets/shawnj-logo.svg';
 import { headerHt, headerHtBig } from '../../constants';
 import { EntriesContext } from '../../providers/entriesContext';
-import { Entry } from '../../types';
+import { Entry, ProjectLookupType } from '../../types';
 import NavIcon from '../NavIcon';
 import NavTextLink from '../NavTextLink';
 import OverlayNav from '../OverlayNav';
@@ -47,7 +47,7 @@ const Nav = () => {
           payload: works,
         });
 
-        const projectLookup = {};
+        const projectLookup: ProjectLookupType = {};
         works.forEach((proj) => {
           projectLookup[proj.slug] = {
             id: proj.id,

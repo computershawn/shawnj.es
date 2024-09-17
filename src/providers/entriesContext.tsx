@@ -12,9 +12,14 @@ const defaultState: AppContextType = {
   },
 };
 
-export const EntriesContext = createContext<ProviderContextType>({appState: defaultState});
+export const EntriesContext = createContext<ProviderContextType>({
+  appState: defaultState,
+});
 
-const entriesReducer = (prevState: AppContextType, action: FunAction): AppContextType => {
+const entriesReducer = (
+  prevState: AppContextType,
+  action: FunAction
+): AppContextType => {
   let updatedState;
 
   switch (action.type) {
@@ -79,9 +84,11 @@ const entriesReducer = (prevState: AppContextType, action: FunAction): AppContex
     default:
       return defaultState;
   }
-}
+};
 
-const EntriesProvider = ({ children }) => {
+const EntriesProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [appState, dispatch] = useReducer(entriesReducer, defaultState);
 
   return (

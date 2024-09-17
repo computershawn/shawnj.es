@@ -1,3 +1,5 @@
+import { BLOCKS } from '@contentful/rich-text-types';
+
 export type FunAction =
   | { type: 'SET_PROJECTS_METADATA'; payload: any }
   | { type: 'SET_PROJECTS_DATA'; payload: any }
@@ -7,13 +9,33 @@ export type FunAction =
   | { type: 'CLEAR_DATA'; payload: any };
 
 export type Project = {
+  slug: string;
+  summary: string;
+  thumbnail: string;
+  description: string;
+  title: string;
   id: string;
+  index: number;
+};
+
+export type ProjectLookupType = {
+  [key: string]: {
+    id: string;
+    summary: string;
+    title: string;
+  };
 };
 
 export type AppContextType = {
   projectsMetadata: Project[];
-  projectsData: {};
-  projectLookup: {};
+  projectsData: {
+    [key: string]: {
+      content: [];
+      nodeType: BLOCKS.DOCUMENT;
+      data: any;
+    };
+  };
+  projectLookup: ProjectLookupType;
   instaData: {
     after: null;
     error: null;
@@ -50,3 +72,29 @@ export type Entry = {
   title: string;
   index: number;
 };
+
+export type ImageCarouselData = {
+  images: {
+    fields: {
+      file: {
+        url: string;
+      };
+      description: string;
+    };
+    sys: {
+      id: string;
+    };
+  }[];
+  captionType: string;
+  multipleCaptions: string[];
+  singleCaption: string;
+};
+
+// TODO: THESE TYPE DEFINITIONS ARE INCOMPLETE
+export type EmbeddedAssetBlockNode = {
+  data: any;
+};
+export type EmbeddedEntryBlockNode = {
+  data: any;
+};
+export type ParagraphNode = {};

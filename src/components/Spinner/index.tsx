@@ -11,7 +11,7 @@ const ringAround = keyframes({
   },
 });
 
-const Segment = ({ delay }) => (
+const Segment = ({ delay }: { delay: string }) => (
   <Box
     boxSizing='border-box'
     display='block'
