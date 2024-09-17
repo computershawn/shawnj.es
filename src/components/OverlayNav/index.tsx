@@ -1,10 +1,15 @@
 import React from 'react';
 import NextLink from 'next/link';
 
-import { IconButton, Link, VStack } from '@chakra-ui/react';
-
-import { Box, Flex } from '@chakra-ui/react';
-import { CloseIcon } from '@chakra-ui/icons';
+import {
+  Link,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  VStack,
+} from '@chakra-ui/react';
 
 const OverlayNav = ({ toggle, isOpen }) => {
   const handleToggle = () => {
@@ -47,57 +52,33 @@ const OverlayNav = ({ toggle, isOpen }) => {
   };
 
   return (
-    <Flex
-      width='100%'
-      h={isOpen ? '100%' : '0'}
-      position='fixed'
-      zIndex={100}
-      top={0}
-      left={0}
-      bgColor='blackAlpha.900'
-      overflowX='hidden'
-      transition='height 0.36s cubic-bezier(0.25, 1, 0.5, 1)'
-      flexDir='column'
-    >
-      <Box mt={8} mx={8}>
-        <IconButton
-          variant='ghost'
-          onClick={handleToggle}
-          aria-label='Dismiss mobile navigation'
-          size='lg'
-        >
-          <CloseIcon color='#ffffff' boxSize={8} />
-        </IconButton>
-      </Box>
-
-      <Box
-        position='relative'
-        width='100%'
-        text-align='center'
-        margin='auto 0'
-        bottom={8}
-      >
-        <VStack mb={4} align='flex-start'>
-          <Link as={NextLink} href='/' onClick={handleToggle} {...linkStyle}>
-            WORK
-          </Link>
-          {links.map((link) => {
-            return (
-              <Link
-                key={link.text}
-                as={NextLink}
-                href={link.url}
-                onClick={handleToggle}
-                isExternal={link.newTab}
-                {...linkStyle}
-              >
-                {link.text}
-              </Link>
-            );
-          })}
-        </VStack>
-      </Box>
-    </Flex>
+    <Modal onClose={toggle} size='full' isOpen={isOpen}>
+      <ModalOverlay />
+      <ModalContent bg='blackAlpha.800'>
+        <ModalCloseButton size='lg' color='gray.50' top={7} left={12} />
+        <ModalBody display='flex' alignItems='center'>
+          <VStack align='flex-start'>
+            <Link as={NextLink} href='/' onClick={handleToggle} {...linkStyle}>
+              WORK
+            </Link>
+            {links.map((link) => {
+              return (
+                <Link
+                  key={link.text}
+                  as={NextLink}
+                  href={link.url}
+                  onClick={handleToggle}
+                  isExternal={link.newTab}
+                  {...linkStyle}
+                >
+                  {link.text}
+                </Link>
+              );
+            })}
+          </VStack>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
   );
 };
 
