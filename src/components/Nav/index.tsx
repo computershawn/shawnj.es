@@ -70,7 +70,7 @@ const Nav = () => {
     <>
       <Flex
         w='100%'
-        h={{base: headerHt, md: headerHtBig}}
+        h={{ base: headerHt, md: headerHtBig }}
         position='fixed'
         top={0}
         left={0}
@@ -134,4 +134,3 @@ const Nav = () => {
 };
 
 export default Nav;
-
