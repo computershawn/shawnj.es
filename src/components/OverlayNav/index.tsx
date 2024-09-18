@@ -15,7 +15,7 @@ const OverlayNav = ({
   toggle,
   isOpen,
 }: {
-  toggle: VoidFunction;
+  toggle: () => void;
   isOpen: boolean;
 }) => {
   const links = [

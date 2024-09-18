@@ -24,7 +24,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint --fix"
   },
   "devDependencies": {
     "@types/node": "22.5.2",
@@ -32,6 +32,7 @@
     "@types/vimeo__player": "^2.18.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.11",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "typescript": "5.5.4"
   }
 }

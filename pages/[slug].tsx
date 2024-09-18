@@ -49,7 +49,7 @@ const ProjectById = () => {
     const hasProjects = !isEmpty(projectLookup);
     const entryIdExists = !!projectLookup?.[slug]?.id;
     const notYetFetched =
-      entryIdExists && !projectsData.hasOwnProperty(projectLookup[slug].id);
+      entryIdExists && !projectsData?.[projectLookup[slug].id];
 
     if (!!slug && hasProjects && notYetFetched) {
       const client = createClient({
@@ -118,10 +118,7 @@ const ProjectById = () => {
         }
 
         // If the entry fields contain videoId and videoHash, render a Vimeo video
-        if (
-          target.fields.hasOwnProperty('videoId') &&
-          target.fields.hasOwnProperty('videoHash')
-        ) {
+        if (target.fields?.videoId && target.fields?.videoHash) {
           return (
             <VimeoVideo
               videoId={target.fields.videoId}
@@ -132,7 +129,7 @@ const ProjectById = () => {
 
         // If the entry fields contain 'code', render the item specified
         if (
-          target.fields.hasOwnProperty('code') &&
+          target.fields?.code &&
           target.fields.code?.item === 'instagram_feed'
         ) {
           return (

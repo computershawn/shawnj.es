@@ -6,7 +6,6 @@ import { Box } from '@chakra-ui/react';
 
 const NavTextLink = ({ text, href, newTab }: { text: string; href: string; newTab?: boolean; }) => {
   const linkIsInternal = !href.startsWith('http');
-  const t = newTab ? '_blank' : null;
   const linkContent = linkIsInternal ? (
     <Link as={NextLink} href={href}>
       {text}
