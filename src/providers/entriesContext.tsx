@@ -31,14 +31,12 @@ const entriesReducer = (
       return updatedState;
 
     case 'SET_PROJECTS_DATA':
-      const updatedProjectsData = {
-        ...prevState.projectsData,
-        [String(action.payload.id)]: action.payload.content,
-      };
-
       updatedState = {
         ...prevState,
-        projectsData: updatedProjectsData,
+        projectsData: {
+          ...prevState.projectsData,
+          [String(action.payload.id)]: action.payload.content,
+        },
       };
       return updatedState;
 
@@ -50,22 +48,18 @@ const entriesReducer = (
       return updatedState;
 
     case 'SET_INSTAGRAM_DATA':
-      const prevFeed = prevState.instaData.feed;
-      const { after, feed } = action.payload;
-      const temp = {
-        ...feed,
-        ...(prevFeed &&
-          prevFeed.data.length && {
-            data: [...prevFeed.data, ...feed.data],
-          }),
-      };
-
       updatedState = {
         ...prevState,
         instaData: {
-          after,
+          after: action.payload.after,
           error: null,
-          feed: temp,
+          feed: {
+            ...action.payload.feed,
+            ...(prevState.instaData.feed &&
+              prevState.instaData.feed.data.length && {
+                data: [...prevState.instaData.feed.data, ...action.payload.feed.data],
+              }),
+          },
         },
       };
       return updatedState;

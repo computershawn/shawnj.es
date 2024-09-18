@@ -4,7 +4,5 @@
   "globals": {
     "JSX": "readonly"
   },
-  "rules": {
-    "no-case-declarations": "off"
-  }
+  "rules": {}
 }
