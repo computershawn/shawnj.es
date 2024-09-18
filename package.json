@@ -25,8 +25,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
-    "format": "prettier",
-    "format:all": "prettier --write .",
+    "format": "prettier --write \"{src,pages}/*\"",
+    "format:all": "prettier --write src/*",
     "format:staged": "prettier --write $(git diff --staged --name-only --diff-filter d | xargs)",
     "prepare": "husky"
   },
