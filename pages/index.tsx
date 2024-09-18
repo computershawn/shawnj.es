@@ -22,10 +22,10 @@ const ProjectsIndexPage = () => {
         <title>{pageTitlePrefix}</title>
       </Head>
       <Grid
-        templateColumns='repeat(auto-fill, minmax(320px, 1fr))'
+        templateColumns="repeat(auto-fill, minmax(320px, 1fr))"
         gap={0}
         mt={topMargin}
-        mx='auto'
+        mx="auto"
       >
         {projectsMetadata.map((proj) => (
           <Card key={proj.id} proj={proj} />

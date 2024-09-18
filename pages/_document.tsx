@@ -7,19 +7,19 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel='preconnect' href='https://fonts.googleapis.com' />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
-            rel='preconnect'
-            href='https://fonts.gstatic.com'
-            crossOrigin='anonymous'
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="anonymous"
           />
           <link
-            href='https://fonts.googleapis.com/css2?family=Inter&display=swap'
-            rel='stylesheet'
+            href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+            rel="stylesheet"
           />
-          <meta name='title' content={pageTitlePrefix} />
+          <meta name="title" content={pageTitlePrefix} />
           <meta
-            name='description'
+            name="description"
             content="Inquisitive web developer with a background in mechanical engineering and UX design. I've worked on websites and ethnographic research at the Kaiser Permanente Innovation Consultancy, designed data visualization software and prototyped interactive installations with JPL. Currently working as a software engineer at Vimeo."
           />
         </Head>

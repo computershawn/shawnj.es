@@ -88,10 +88,10 @@ const ProjectById = () => {
         // render the EMBEDDED_ASSET as you need
         const { file, description } = node.data.target.fields;
         return (
-          <Box as='figure'>
-            <Image src={`https:${file.url}`} width='100%' alt={description} />
+          <Box as="figure">
+            <Image src={`https:${file.url}`} width="100%" alt={description} />
             {description && (
-              <Text as='figcaption' fontSize='sm' mt={1}>
+              <Text as="figcaption" fontSize="sm" mt={1}>
                 {description}
               </Text>
             )}
@@ -157,7 +157,7 @@ const ProjectById = () => {
       <>
         {pageHead}
         <Flex
-          as='main'
+          as="main"
           mt={topMargin}
           pb={[8, 12]}
           direction={['column', 'row']}
@@ -177,9 +177,9 @@ const ProjectById = () => {
             ml={[6, 12]}
             mr={[6, 6]}
             mb={4}
-            align='flex-start'
+            align="flex-start"
           >
-            <Heading fontWeight={200} letterSpacing='0.0625rem'>
+            <Heading fontWeight={200} letterSpacing="0.0625rem">
               {title}
             </Heading>
             <Text mt={2} fontSize={['lg', 'md']}>
@@ -191,8 +191,8 @@ const ProjectById = () => {
             ml={6}
             mr={[6, 12]}
             spacing={4}
-            maxW='1000px'
-            align='flex-start'
+            maxW="1000px"
+            align="flex-start"
             sx={{ h3: { fontSize: '2xl', fontWeight: 300 } }}
           >
             {documentToReactComponents(projectsData[id], renderOptions)}
@@ -205,7 +205,7 @@ const ProjectById = () => {
   return (
     <>
       {pageHead}
-      <Center as='main' mt={headerHeight} h={`calc(100vh - ${headerHeight})`}>
+      <Center as="main" mt={headerHeight} h={`calc(100vh - ${headerHeight})`}>
         <Spinner />
       </Center>
     </>
