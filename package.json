@@ -28,7 +28,8 @@
     "format": "prettier --write \"{src,pages}/*\"",
     "format:all": "prettier --write src/*",
     "format:staged": "prettier --write $(git diff --staged --name-only --diff-filter d | xargs)",
-    "prepare": "husky"
+    "prepare": "husky",
+    "typecheck": "yarn tsc --incremental false"
   },
   "devDependencies": {
     "@types/node": "22.5.2",
