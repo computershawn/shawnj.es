@@ -1,0 +1,3 @@
+yarn format
+yarn lint
+yarn tsc --incremental false
