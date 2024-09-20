@@ -1,7 +1,6 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { createClient } from 'contentful';
 import isEmpty from 'lodash/isEmpty';
 
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -25,12 +24,12 @@ import { EntriesContext } from '../src/providers/entriesContext';
 import {
   EmbeddedAssetBlockNode,
   EmbeddedEntryBlockNode,
-  Entry,
   ParagraphNode,
   ProviderContextType,
 } from '../src/types';
 import { pageTitlePrefix } from '../src/constants';
 import NotFound from '../src/components/NotFound';
+import { getProjectData } from '../src/utils';
 
 const ProjectById = () => {
   const router = useRouter();
@@ -41,42 +40,37 @@ const ProjectById = () => {
   } = useContext<ProviderContextType>(EntriesContext);
   const [projectNotFound, setProjectNotFound] = useState(false);
   const { headerHeight, topMargin } = useHeaderDims(true);
-
-  useEffect(() => {
+  const initProjectData = () => {
     // Only proceed if projectLookup contains values and if app
     // context does not already contain this project's data
-    // TODO: Maybe data fetching should be made into an external method
     const hasProjects = !isEmpty(projectLookup);
-    const entryIdExists = !!projectLookup?.[slug]?.id;
-    const notYetFetched =
-      entryIdExists && !projectsData?.[projectLookup[slug].id];
+    // const entryIdExists = !!projectLookup?.[slug]?.id;
+    const space: string | undefined = process?.env?.NEXT_PUBLIC_SPACE;
+    const accessToken: string | undefined =
+      process.env.NEXT_PUBLIC_ACCESS_TOKEN;
 
-    if (!!slug && hasProjects && notYetFetched) {
-      const client = createClient({
-        space: process.env.NEXT_PUBLIC_SPACE ?? '',
-        accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN ?? '',
-      });
+    const shouldFetch = !!slug && hasProjects && !!projectLookup?.[slug]?.id && !projectsData?.[projectLookup[slug].id] && space && accessToken;
+
+    if (shouldFetch && !!space && !!accessToken) {
       const { id } = projectLookup[slug];
-      client
-        .getEntry<Entry>(id, {
-          content_type: 'work',
-          select: 'fields.projectContent',
-        })
-        .then((ent) => {
+      getProjectData(space, accessToken, id)
+        .then((entry) => {
           dispatch({
             type: 'SET_PROJECTS_DATA',
             payload: {
               id,
-              content: ent?.fields?.projectContent,
+              content: entry?.fields?.projectContent,
             },
           });
         })
         .catch(console.error);
     }
-    if (hasProjects && !entryIdExists) {
+    if (hasProjects && !!!projectLookup?.[slug]?.id) {
       setProjectNotFound(true);
     }
-  }, [dispatch, projectLookup, projectsData, slug]);
+  };
+
+  useEffect(initProjectData, [dispatch, projectLookup, projectsData, slug]);
 
   if (projectNotFound) {
     return <NotFound />;
