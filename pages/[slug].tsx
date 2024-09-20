@@ -49,9 +49,15 @@ const ProjectById = () => {
     const accessToken: string | undefined =
       process.env.NEXT_PUBLIC_ACCESS_TOKEN;
 
-    const shouldFetch = !!slug && hasProjects && !!projectLookup?.[slug]?.id && !projectsData?.[projectLookup[slug].id] && space && accessToken;
+    const shouldFetch =
+      !!slug &&
+      hasProjects &&
+      !!projectLookup?.[slug]?.id &&
+      !projectsData?.[projectLookup[slug].id] &&
+      !!space &&
+      !!accessToken;
 
-    if (shouldFetch && !!space && !!accessToken) {
+    if (shouldFetch) {
       const { id } = projectLookup[slug];
       getProjectData(space, accessToken, id)
         .then((entry) => {
@@ -65,7 +71,7 @@ const ProjectById = () => {
         })
         .catch(console.error);
     }
-    if (hasProjects && !!!projectLookup?.[slug]?.id) {
+    if (hasProjects && !projectLookup?.[slug]?.id) {
       setProjectNotFound(true);
     }
   };
