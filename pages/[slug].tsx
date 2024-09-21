@@ -36,29 +36,30 @@ const ProjectById = () => {
   const slug = typeof router.query?.slug === 'string' ? router.query?.slug : '';
   const {
     dispatch,
-    appState: { projectsData, projectsMetadata, projectLookup },
+    appState: { projectsData, projectsMetadata },
   } = useContext<ProviderContextType>(EntriesContext);
   const [projectNotFound, setProjectNotFound] = useState(false);
   const { headerHeight, topMargin } = useHeaderDims(true);
   const initProjectData = () => {
-    // Only proceed if projectLookup contains values and if app
-    // context does not already contain this project's data
-    const hasProjects = !isEmpty(projectLookup);
-    // const entryIdExists = !!projectLookup?.[slug]?.id;
+    // Only proceed if projectsMetadata contains values and if
+    // app context does not already contain this project's data
+    const hasProjects = !isEmpty(projectsMetadata);
     const space: string | undefined = process?.env?.NEXT_PUBLIC_SPACE;
     const accessToken: string | undefined =
       process.env.NEXT_PUBLIC_ACCESS_TOKEN;
 
+    const alreadyFetched = projectsMetadata.findIndex(
+      (item) => item.slug === slug,
+    );
+
     const shouldFetch =
       !!slug &&
       hasProjects &&
-      !!projectLookup?.[slug]?.id &&
-      !projectsData?.[projectLookup[slug].id] &&
+      !alreadyFetched &&
       !!space &&
       !!accessToken;
-
+    const id = projectsMetadata.find((item) => (item.slug = slug))?.id || '';
     if (shouldFetch) {
-      const { id } = projectLookup[slug];
       getProjectData(space, accessToken, id)
         .then((entry) => {
           dispatch({
@@ -71,12 +72,12 @@ const ProjectById = () => {
         })
         .catch(console.error);
     }
-    if (hasProjects && !projectLookup?.[slug]?.id) {
+    if (hasProjects && !id) {
       setProjectNotFound(true);
     }
   };
 
-  useEffect(initProjectData, [dispatch, projectLookup, projectsData, slug]);
+  useEffect(initProjectData, [dispatch, projectsData, projectsMetadata, slug]);
 
   if (projectNotFound) {
     return <NotFound />;
@@ -142,7 +143,8 @@ const ProjectById = () => {
     },
   };
 
-  const { title } = projectLookup?.[slug] || '';
+  const proj = projectsMetadata.find((item) => item.slug === slug);
+  const title = proj?.title;
   const pageTitle = title ? `${pageTitlePrefix} :: ${title}` : pageTitlePrefix;
 
   const pageHead = (
@@ -151,8 +153,8 @@ const ProjectById = () => {
     </Head>
   );
 
-  if (!isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
-    const { id, summary } = projectLookup[slug];
+  if (proj && !isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
+    const { id, summary } = proj;
     return (
       <>
         {pageHead}

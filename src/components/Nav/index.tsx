@@ -6,7 +6,6 @@ import { Box, Flex, IconButton, useDisclosure } from '@chakra-ui/react';
 import ShawnjLogo from '../../assets/shawnj-logo.svg';
 import { headerHt, headerHtBig } from '../../constants';
 import { EntriesContext } from '../../providers/entriesContext';
-import { ProjectLookupType } from '../../types';
 import NavIcon from '../NavIcon';
 import NavTextLink from '../NavTextLink';
 import OverlayNav from '../OverlayNav';
@@ -26,20 +25,6 @@ const Nav = () => {
         dispatch({
           type: 'SET_PROJECTS_METADATA',
           payload: works,
-        });
-
-        const projectLookup: ProjectLookupType = {};
-        works.forEach((proj) => {
-          projectLookup[proj.slug] = {
-            id: proj.id,
-            summary: proj.summary,
-            title: proj.title,
-          };
-        });
-
-        dispatch({
-          type: 'SET_SLUG_INFO',
-          payload: projectLookup,
         });
       });
     }

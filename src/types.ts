@@ -18,14 +18,6 @@ export type Project = {
   index: number;
 };
 
-export type ProjectLookupType = {
-  [key: string]: {
-    id: string;
-    summary: string;
-    title: string;
-  };
-};
-
 export type AppContextType = {
   projectsMetadata: Project[];
   projectsData: {
@@ -35,7 +27,6 @@ export type AppContextType = {
       data: any;
     };
   };
-  projectLookup: ProjectLookupType;
   instaData: {
     after: null;
     error: null;

@@ -4,7 +4,6 @@ import { AppContextType, FunAction, ProviderContextType } from '../types';
 const defaultState: AppContextType = {
   projectsMetadata: [],
   projectsData: {},
-  projectLookup: {},
   instaData: {
     after: null,
     error: null,
@@ -43,7 +42,6 @@ const entriesReducer = (
     case 'SET_SLUG_INFO':
       updatedState = {
         ...prevState,
-        projectLookup: action.payload,
       };
       return updatedState;
 
