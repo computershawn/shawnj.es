@@ -1,4 +1,4 @@
-import { BLOCKS } from '@contentful/rich-text-types';
+import { BLOCKS, NodeData, TopLevelBlock } from '@contentful/rich-text-types';
 
 export type FunAction =
   | { type: 'SET_PROJECTS_METADATA'; payload: any }
@@ -16,26 +16,14 @@ export type Project = {
   title: string;
   id: string;
   index: number;
-};
-
-export type ProjectLookupType = {
-  [key: string]: {
-    id: string;
-    summary: string;
-    title: string;
-  };
+  fetched: boolean;
+  content?: TopLevelBlock[];
+  nodeType: BLOCKS.DOCUMENT;
+  data?: NodeData;
 };
 
 export type AppContextType = {
-  projectsMetadata: Project[];
-  projectsData: {
-    [key: string]: {
-      content: [];
-      nodeType: BLOCKS.DOCUMENT;
-      data: any;
-    };
-  };
-  projectLookup: ProjectLookupType;
+  projectsData: Project[];
   instaData: {
     after: null;
     error: null;

@@ -1,7 +1,6 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { createClient } from 'contentful';
 import isEmpty from 'lodash/isEmpty';
 
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -25,58 +24,52 @@ import { EntriesContext } from '../src/providers/entriesContext';
 import {
   EmbeddedAssetBlockNode,
   EmbeddedEntryBlockNode,
-  Entry,
   ParagraphNode,
   ProviderContextType,
 } from '../src/types';
 import { pageTitlePrefix } from '../src/constants';
 import NotFound from '../src/components/NotFound';
+import { getProjectData } from '../src/utils';
 
 const ProjectById = () => {
   const router = useRouter();
   const slug = typeof router.query?.slug === 'string' ? router.query?.slug : '';
   const {
     dispatch,
-    appState: { projectsData, projectsMetadata, projectLookup },
+    appState: { projectsData },
   } = useContext<ProviderContextType>(EntriesContext);
   const [projectNotFound, setProjectNotFound] = useState(false);
   const { headerHeight, topMargin } = useHeaderDims(true);
-
-  useEffect(() => {
-    // Only proceed if projectLookup contains values and if app
-    // context does not already contain this project's data
-    // TODO: Maybe data fetching should be made into an external method
-    const hasProjects = !isEmpty(projectLookup);
-    const entryIdExists = !!projectLookup?.[slug]?.id;
-    const notYetFetched =
-      entryIdExists && !projectsData?.[projectLookup[slug].id];
-
-    if (!!slug && hasProjects && notYetFetched) {
-      const client = createClient({
-        space: process.env.NEXT_PUBLIC_SPACE ?? '',
-        accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN ?? '',
-      });
-      const { id } = projectLookup[slug];
-      client
-        .getEntry<Entry>(id, {
-          content_type: 'work',
-          select: 'fields.projectContent',
-        })
-        .then((ent) => {
+  const initProjectData = () => {
+    // Only proceed if projectsData contains values and if
+    // app context does not already contain this project's data
+    const hasProjects = !isEmpty(projectsData);
+    const space: string | undefined = process?.env?.NEXT_PUBLIC_SPACE;
+    const accessToken: string | undefined =
+      process.env.NEXT_PUBLIC_ACCESS_TOKEN;
+    const hasAccess = !!space && !!accessToken;
+    const shouldFetch = !projectsData.find((item) => item.slug === slug)
+      ?.fetched;
+    const id = projectsData.find((item) => item.slug === slug)?.id || '';
+    if (shouldFetch && hasAccess) {
+      getProjectData(space, accessToken, id)
+        .then((entry) => {
           dispatch({
             type: 'SET_PROJECTS_DATA',
             payload: {
               id,
-              content: ent?.fields?.projectContent,
+              projectContent: entry?.fields?.projectContent,
             },
           });
         })
         .catch(console.error);
     }
-    if (hasProjects && !entryIdExists) {
+    if (hasProjects && !id) {
       setProjectNotFound(true);
     }
-  }, [dispatch, projectLookup, projectsData, slug]);
+  };
+
+  useEffect(initProjectData, [dispatch, projectsData, slug]);
 
   if (projectNotFound) {
     return <NotFound />;
@@ -142,7 +135,8 @@ const ProjectById = () => {
     },
   };
 
-  const { title } = projectLookup?.[slug] || '';
+  const proj = projectsData.find((item) => item.slug === slug);
+  const title = proj?.title;
   const pageTitle = title ? `${pageTitlePrefix} :: ${title}` : pageTitlePrefix;
 
   const pageHead = (
@@ -151,8 +145,8 @@ const ProjectById = () => {
     </Head>
   );
 
-  if (!isEmpty(projectsData) && !isEmpty(projectsMetadata)) {
-    const { id, summary } = projectLookup[slug];
+  if (proj?.content && proj?.data) {
+    const { summary } = proj;
     return (
       <>
         {pageHead}
@@ -195,7 +189,14 @@ const ProjectById = () => {
             align="flex-start"
             sx={{ h3: { fontSize: '2xl', fontWeight: 300 } }}
           >
-            {documentToReactComponents(projectsData[id], renderOptions)}
+            {documentToReactComponents(
+              {
+                data: proj.data,
+                nodeType: proj.nodeType,
+                content: proj.content,
+              },
+              renderOptions,
+            )}
           </VStack>
         </Flex>
       </>
