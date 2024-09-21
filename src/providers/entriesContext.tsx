@@ -1,9 +1,8 @@
 import React, { createContext, useReducer } from 'react';
-import { AppContextType, FunAction, ProviderContextType } from '../types';
+import { AppContextType, FunAction, Project, ProviderContextType } from '../types';
 
 const defaultState: AppContextType = {
-  projectsMetadata: [],
-  projectsData: {},
+  projectsData: [],
   instaData: {
     after: null,
     error: null,
@@ -17,7 +16,7 @@ export const EntriesContext = createContext<ProviderContextType>({
 
 const entriesReducer = (
   prevState: AppContextType,
-  action: FunAction
+  action: FunAction,
 ): AppContextType => {
   let updatedState;
 
@@ -25,23 +24,24 @@ const entriesReducer = (
     case 'SET_PROJECTS_METADATA':
       updatedState = {
         ...prevState,
-        projectsMetadata: action.payload,
+        projectsData: action.payload.map((w: Project) => ({...w, fetched: false}))
       };
       return updatedState;
 
     case 'SET_PROJECTS_DATA':
       updatedState = {
         ...prevState,
-        projectsData: {
-          ...prevState.projectsData,
-          [String(action.payload.id)]: action.payload.content,
-        },
-      };
-      return updatedState;
-
-    case 'SET_SLUG_INFO':
-      updatedState = {
-        ...prevState,
+        projectsData: prevState.projectsData.map((item) =>
+          item.id !== action.payload.id
+            ? item
+            : {
+                ...item,
+                fetched: true,
+                content: action.payload.projectContent.content,
+                data: action.payload.projectContent.data,
+                nodeType: action.payload.projectContent.nodeType,
+              },
+        ),
       };
       return updatedState;
 
@@ -55,7 +55,10 @@ const entriesReducer = (
             ...action.payload.feed,
             ...(prevState.instaData.feed &&
               prevState.instaData.feed.data.length && {
-                data: [...prevState.instaData.feed.data, ...action.payload.feed.data],
+                data: [
+                  ...prevState.instaData.feed.data,
+                  ...action.payload.feed.data,
+                ],
               }),
           },
         },

@@ -10,7 +10,7 @@ import { EntriesContext } from '../src/providers/entriesContext';
 
 const ProjectsIndexPage = () => {
   const {
-    appState: { projectsMetadata },
+    appState: { projectsData },
   } = useContext(EntriesContext);
 
   const { topMargin } = useHeaderDims();
@@ -27,7 +27,7 @@ const ProjectsIndexPage = () => {
         mt={topMargin}
         mx="auto"
       >
-        {projectsMetadata.map((proj) => (
+        {projectsData.map((proj) => (
           <Card key={proj.id} proj={proj} />
         ))}
       </Grid>
