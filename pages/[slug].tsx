@@ -11,13 +11,13 @@ import {
   Flex,
   Heading,
   Image,
+  Spinner,
   Text,
   VStack,
 } from '@chakra-ui/react';
 
 import ImageCarousel from '../src/components/ImageCarousel';
 import InstaFeed from '../src/components/InstaFeed';
-import Spinner from '../src/components/Spinner';
 import VimeoVideo from '../src/components/VimeoVideo';
 import { useHeaderDims } from '../src/hooks/use-header-dims';
 import { EntriesContext } from '../src/providers/entriesContext';
@@ -127,7 +127,7 @@ const ProjectById = () => {
         ) {
           return (
             <Box>
-              <InstaFeed />
+              <InstaFeed fallbackUrl="https://instagram.com/computershawn" />
             </Box>
           );
         }

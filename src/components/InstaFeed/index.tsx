@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useEffect } from 'react';
-import Link from 'next/link';
+import NextLink from 'next/link';
+import { Link } from '@chakra-ui/react';
 
 import {
   Alert,
   AlertDescription,
   AlertIcon,
-  AlertTitle,
   Box,
   Button,
   Center,
@@ -17,7 +17,7 @@ import { EntriesContext } from '../../providers/entriesContext';
 import { PlayIcon } from '../CustomIcons';
 
 // Instagram feed with the help of https://github.com/jrparente/nextjs-instagram
-export default function InstaFeed() {
+export default function InstaFeed({ fallbackUrl }: { fallbackUrl: string }) {
   const {
     dispatch,
     appState: { instaData },
@@ -55,7 +55,7 @@ export default function InstaFeed() {
         });
       }
     },
-    [dispatch]
+    [dispatch],
   );
 
   const loadMore = () => {
@@ -72,10 +72,19 @@ export default function InstaFeed() {
   return (
     <>
       {instaData.error && (
-        <Alert status='warning'>
+        <Alert status="error" variant="subtle">
           <AlertIcon />
-          <AlertTitle>Oopsies</AlertTitle>
-          <AlertDescription>Can&apos;t get Instagram feed</AlertDescription>
+          <AlertDescription>
+            Can&apos;t get the Instagram feed.{' '}
+            <Link
+              as={NextLink}
+              href={fallbackUrl}
+              target="_blank"
+              textDecoration={'underline'}
+            >
+              Try viewing it here.
+            </Link>
+          </AlertDescription>
         </Alert>
       )}
 
@@ -93,36 +102,36 @@ export default function InstaFeed() {
             {instaData.feed.data.map((post) => (
               <GridItem
                 key={post.id}
-                aspectRatio='1'
-                overflow='hidden'
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
+                aspectRatio="1"
+                overflow="hidden"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
               >
                 <Link
                   href={post.permalink}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='relative'
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative"
                 >
                   {post.media_type === 'VIDEO' ? (
-                    <Box position='relative' w='100%' h='100%'>
-                      <Center position='absolute' w='100%' h='100%'>
-                        <PlayIcon color='whiteAlpha.900' boxSize={8} />
+                    <Box position="relative" w="100%" h="100%">
+                      <Center position="absolute" w="100%" h="100%">
+                        <PlayIcon color="whiteAlpha.900" boxSize={8} />
                       </Center>
                       <video
                         src={post.media_url}
                         controls={false}
-                        width='100%'
-                        height='100%'
+                        width="100%"
+                        height="100%"
                       />
                     </Box>
                   ) : (
                     <Image
                       src={post.media_url}
                       alt={post.caption ?? ''}
-                      w='100%'
-                      h='100%'
+                      w="100%"
+                      h="100%"
                     />
                   )}
                 </Link>
@@ -131,7 +140,7 @@ export default function InstaFeed() {
           </Grid>
 
           {instaData.after && (
-            <Button w='100%' variant='outline' onClick={loadMore}>
+            <Button w="100%" variant="outline" onClick={loadMore}>
               Load More
             </Button>
           )}
