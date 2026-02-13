@@ -13,6 +13,7 @@ import {
 
 const CURATOR_SCRIPT_URL =
   'https://cdn.curator.io/published/a462d66a-575a-415e-9a4b-1c2a06a41cab.js';
+const SCRIPT_LOAD_TIMEOUT = 8000;
 
 export default function InstaFeed({ fallbackUrl }: { fallbackUrl: string }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +30,7 @@ export default function InstaFeed({ fallbackUrl }: { fallbackUrl: string }) {
     timeoutIdRef.current = window.setTimeout(() => {
       setHasError(true);
       setIsLoading(false);
-    }, 5000); // 5 second timeout
+    }, SCRIPT_LOAD_TIMEOUT); // Timeout after N seconds
 
     // 3. Handle script load success
     script.onload = () => {
