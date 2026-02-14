@@ -1,151 +1,115 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import NextLink from 'next/link';
-import { Link } from '@chakra-ui/react';
 
 import {
   Alert,
   AlertDescription,
   AlertIcon,
   Box,
-  Button,
-  Center,
-  Grid,
-  GridItem,
-  Image,
+  Flex,
+  Link,
+  Spinner,
 } from '@chakra-ui/react';
-import { EntriesContext } from '../../providers/entriesContext';
-import { PlayIcon } from '../CustomIcons';
 
-// Instagram feed with the help of https://github.com/jrparente/nextjs-instagram
+const CURATOR_SCRIPT_URL =
+  'https://cdn.curator.io/published/a462d66a-575a-415e-9a4b-1c2a06a41cab.js';
+const SCRIPT_LOAD_TIMEOUT = 8000;
+
 export default function InstaFeed({ fallbackUrl }: { fallbackUrl: string }) {
-  const {
-    dispatch,
-    appState: { instaData },
-  } = useContext(EntriesContext);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const timeoutIdRef = useRef<number | null>(null);
 
-  const fetchFeed = useCallback(
-    async (aft: string | null) => {
-      const limit = 12; // Number of Instagram posts to retrieve per fetch
-      try {
-        let url = `https://graph.instagram.com/me/media?limit=${limit}&fields=id,caption,media_url,media_type,timestamp,permalink&access_token=${process.env.NEXT_PUBLIC_INSTAGRAM_TOKEN}`;
-        if (aft) {
-          url += `&after=${aft}`;
-        }
-        const data = await fetch(url);
-
-        if (!data.ok) {
-          throw new Error('Failed to fetch Instagram feed');
-        }
-
-        const feed = await data.json();
-        dispatch({
-          type: 'SET_INSTAGRAM_DATA',
-          payload: {
-            feed: feed,
-            after: feed.paging?.cursors.after,
-          },
-        });
-      } catch (err: any) {
-        console.warn('Error fetching Instagram feed:', err.message);
-        dispatch({
-          type: 'SET_INSTAGRAM_ERROR',
-          payload: {
-            error: err.message,
-          },
-        });
-      }
-    },
-    [dispatch],
-  );
-
-  const loadMore = () => {
-    fetchFeed(instaData.after);
-  };
-
-  // Fetch the initial feed
   useEffect(() => {
-    if (instaData.feed.data.length === 0) {
-      fetchFeed(null);
-    }
-  }, [fetchFeed, instaData.feed.data.length]);
+    // 1. Create the script element
+    const script = document.createElement('script');
+    script.src = CURATOR_SCRIPT_URL;
+    script.async = true;
+
+    // 2. Set a timeout as fallback in case the script loads but doesn't initialize
+    timeoutIdRef.current = window.setTimeout(() => {
+      setHasError(true);
+      setIsLoading(false);
+    }, SCRIPT_LOAD_TIMEOUT); // Timeout after N seconds
+
+    // 3. Handle script load success
+    script.onload = () => {
+      if (timeoutIdRef.current) {
+        clearTimeout(timeoutIdRef.current);
+      }
+      setIsLoading(false);
+    };
+
+    // 4. Handle script load error
+    script.onerror = () => {
+      if (timeoutIdRef.current) {
+        clearTimeout(timeoutIdRef.current);
+      }
+      setHasError(true);
+      setIsLoading(false);
+    };
+
+    // 5. Append it to the document body
+    document.body.appendChild(script);
+
+    // 6. Cleanup function: removes the script if the user leaves the page
+    return () => {
+      if (timeoutIdRef.current) {
+        clearTimeout(timeoutIdRef.current);
+      }
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  // Show error state with fallback content
+  if (hasError) {
+    return (
+      <Alert status="warning" variant="subtle">
+        <AlertIcon />
+        <AlertDescription>
+          Can&apos;t get the Instagram feed.{' '}
+          <Link
+            as={NextLink}
+            href={fallbackUrl}
+            target="_blank"
+            textDecoration={'underline'}
+          >
+            Try viewing it here.
+          </Link>
+        </AlertDescription>
+      </Alert>
+    );
+  }
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <Flex className="feed-container" justifyContent="center" w="full" my={8}>
+        <Spinner size="lg" />
+      </Flex>
+    );
+  }
 
   return (
-    <>
-      {instaData.error && (
-        <Alert status="error" variant="subtle">
-          <AlertIcon />
-          <AlertDescription>
-            Can&apos;t get the Instagram feed.{' '}
-            <Link
-              as={NextLink}
-              href={fallbackUrl}
-              target="_blank"
-              textDecoration={'underline'}
-            >
-              Try viewing it here.
-            </Link>
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {instaData.feed && (
-        <Box>
-          <Grid
-            templateColumns={{
-              base: 'repeat(1, 1fr)',
-              md: 'repeat(2, 1fr)',
-              lg: 'repeat(3, 1fr)',
-            }}
-            gap={2}
-            pb={4}
-          >
-            {instaData.feed.data.map((post) => (
-              <GridItem
-                key={post.id}
-                aspectRatio="1"
-                overflow="hidden"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Link
-                  href={post.permalink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative"
-                >
-                  {post.media_type === 'VIDEO' ? (
-                    <Box position="relative" w="100%" h="100%">
-                      <Center position="absolute" w="100%" h="100%">
-                        <PlayIcon color="whiteAlpha.900" boxSize={8} />
-                      </Center>
-                      <video
-                        src={post.media_url}
-                        controls={false}
-                        width="100%"
-                        height="100%"
-                      />
-                    </Box>
-                  ) : (
-                    <Image
-                      src={post.media_url}
-                      alt={post.caption ?? ''}
-                      w="100%"
-                      h="100%"
-                    />
-                  )}
-                </Link>
-              </GridItem>
-            ))}
-          </Grid>
-
-          {instaData.after && (
-            <Button w="100%" variant="outline" onClick={loadMore}>
-              Load More
-            </Button>
-          )}
-        </Box>
-      )}
-    </>
+    <Box className="feed-container" style={{ width: '100%', margin: 0 }}>
+      {/* This ID must match exactly what was in your snippet */}
+      <Box
+        id="curator-feed-default-feed-layout"
+        sx={{
+          '.crt-logo.crt-tag': {
+            visibility: 'hidden',
+          },
+        }}
+      >
+        <a
+          href="https://curator.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="crt-logo crt-tag"
+        >
+          Powered by Curator.io
+        </a>
+      </Box>
+    </Box>
   );
 }

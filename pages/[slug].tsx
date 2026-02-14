@@ -126,9 +126,7 @@ const ProjectById = () => {
           target.fields.code?.item === 'instagram_feed'
         ) {
           return (
-            <Box>
-              <InstaFeed fallbackUrl="https://instagram.com/computershawn" />
-            </Box>
+            <InstaFeed fallbackUrl="https://instagram.com/computershawn" />
           );
         }
       },
