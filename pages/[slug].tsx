@@ -4,13 +4,14 @@ import Head from 'next/head';
 import isEmpty from 'lodash/isEmpty';
 
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS } from '@contentful/rich-text-types';
+import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import {
   Box,
   Center,
   Flex,
   Heading,
   Image,
+  Link,
   Spinner,
   Text,
   VStack,
@@ -95,6 +96,22 @@ const ProjectById = () => {
         if (children?.toString().trim() === '') return null;
 
         return <Text>{children}</Text>;
+      },
+      [INLINES.HYPERLINK]: (node: any, children: ReactNode) => {
+        const { uri } = node.data;
+        const isExternal =
+          uri.startsWith('http://') || uri.startsWith('https://');
+
+        return (
+          <Link
+            href={uri}
+            target={isExternal ? '_blank' : '_self'}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+            textDecoration="underline"
+          >
+            {children}
+          </Link>
+        );
       },
       [BLOCKS.EMBEDDED_ENTRY]: (node: EmbeddedEntryBlockNode) => {
         const { target } = node.data;
