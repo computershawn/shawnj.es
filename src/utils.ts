@@ -23,7 +23,7 @@ export const getAllProjectsMeta = async (
       id: item.sys.id,
       index: item.fields?.index || 0,
     }))
-    .sort((a, b) => a.index - b.index);
+    .sort((a, b) => b.index - a.index);
 
   return temp;
 };
