@@ -9,7 +9,12 @@ import { EntriesContext } from '../../providers/entriesContext';
 import NavIcon from '../NavIcon';
 import NavTextLink from '../NavTextLink';
 import OverlayNav from '../OverlayNav';
-import { EmailIcon, GitHubIcon, LinkedinIcon } from '../CustomIcons';
+import {
+  EmailIcon,
+  GitHubIcon,
+  InstagramIcon,
+  LinkedinIcon,
+} from '../CustomIcons';
 import { getAllProjectsMeta } from '../../utils';
 
 const Nav = () => {
@@ -55,11 +60,6 @@ const Nav = () => {
           <>
             <Box gap={6} display={['none', 'flex']}>
               <NavTextLink text="WORK" href="/" />
-              <NavTextLink
-                text="SJ×MDP"
-                href="http://cargocollective.com/designcpu"
-                newTab
-              />
               <NavIcon
                 icon={<LinkedinIcon boxSize={4} />}
                 href="https://www.linkedin.com/in/shawnjdesign"
@@ -71,6 +71,12 @@ const Nav = () => {
                 href="https://github.com/computershawn"
                 newTab
                 ariaLabel="View GitHub profile"
+              />
+              <NavIcon
+                icon={<InstagramIcon boxSize={4} />}
+                href="https://www.instagram.com/computershawn"
+                newTab
+                ariaLabel="Find Shawn on Instagram"
               />
               <NavIcon
                 icon={<EmailIcon boxSize={4} />}

@@ -20,16 +20,16 @@ const OverlayNav = ({
 }) => {
   const links = [
     {
-      url: 'http://cargocollective.com/designcpu',
-      text: 'SJ×MDP',
-      newTab: true,
-    },
-    {
       url: 'https://www.linkedin.com/in/shawnjdesign',
       text: 'LINKEDIN',
       newTab: true,
     },
     { url: 'https://github.com/computershawn', text: 'GITHUB', newTab: true },
+    {
+      url: 'https://instagram.com/computershawn',
+      text: 'INSTAGRAM',
+      newTab: true,
+    },
     {
       url: 'mailto:hello@shawnj.es?Subject=Hello',
       text: 'CONTACT',
@@ -54,13 +54,13 @@ const OverlayNav = ({
   };
 
   return (
-    <Modal onClose={toggle} size='full' isOpen={isOpen}>
+    <Modal onClose={toggle} size="full" isOpen={isOpen}>
       <ModalOverlay />
-      <ModalContent bg='blackAlpha.900'>
-        <ModalCloseButton size='lg' color='gray.50' top={3} left={5} />
-        <ModalBody display='flex' alignItems='center'>
-          <VStack align='flex-start'>
-            <Link as={NextLink} href='/' onClick={toggle} {...linkStyle}>
+      <ModalContent bg="blackAlpha.900">
+        <ModalCloseButton size="lg" color="gray.50" top={3} left={5} />
+        <ModalBody display="flex" alignItems="center">
+          <VStack align="flex-start">
+            <Link as={NextLink} href="/" onClick={toggle} {...linkStyle}>
               WORK
             </Link>
             {links.map((link) => {
